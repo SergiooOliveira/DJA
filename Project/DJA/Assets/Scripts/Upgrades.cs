@@ -21,7 +21,7 @@ public class Upgrades
         // Code to set all upgrades in a list
         foreach (Upgrade u in upgradeList)
         {
-            Debug.Log(u.ToString(u));
+            //Debug.Log(u.ToString(u));
         }
     }
 
