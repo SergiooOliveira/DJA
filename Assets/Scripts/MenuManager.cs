@@ -9,6 +9,11 @@ public class MenuManager : MonoBehaviour
         
     }
 
+    public void StartMenu()
+    {
+        SceneManager.LoadScene("StartMenu");
+    }
+
     public void StartGame()
     {
         SceneManager.LoadScene("RoomTest");
