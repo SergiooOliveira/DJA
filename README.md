@@ -5,4 +5,4 @@ To get the full textures use: Universal Render Pipeline/Lit
 ![image](https://github.com/user-attachments/assets/c26af0b8-3ffc-4a3f-8da0-e6b341ec7b2f)
 
 
-https://youtu.be/gHU5RQWbmWE?t=553
+[https://youtu.be/gHU5RQWbmWE?t=553](https://www.youtube.com/watch?v=gI6G49t--RY)
