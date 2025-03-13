@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Player : Character
 {
@@ -15,6 +16,7 @@ public class Player : Character
     Vector3 velocity;
     bool isGrounded;
 
+    private string doorTag = "Door";
 
     private void Start()
     {        
@@ -26,6 +28,31 @@ public class Player : Character
         if (Input.GetMouseButtonDown(0))
         {
             Attack();
+        }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            print("E click");
+
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit, 10f))
+            {
+                print("Sending raycast");
+                if (hit.collider.CompareTag(doorTag))
+                {
+                    print("Hit door");
+                    print("Transforming now");
+                    hit.transform.Rotate(0, 90, 0);
+                }
+                else
+                {
+                    print("Missed");
+                    Debug.Log("Hited name: " + hit.collider.name);
+                    Debug.Log("Hited tag: " + hit.collider.tag);
+                }
+            }
         }
 
         // movement
