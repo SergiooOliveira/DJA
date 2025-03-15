@@ -150,7 +150,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   size: {x: 10, y: 10}
   startPos: 0
-  room: {fileID: 2976604055723733644, guid: 189e8ad0695e70e44b7632cc8167906b, type: 3}
+  rooms:
+  - room: {fileID: 2976604055723733644, guid: a0c67ca7e23fc7c4896d6bfc38ba7447, type: 3}
+    minPosition: {x: 0, y: 0}
+    maxPosition: {x: 5, y: 5}
+    obligatory: 0
+  - room: {fileID: 2976604055723733644, guid: 189e8ad0695e70e44b7632cc8167906b, type: 3}
+    minPosition: {x: 0, y: 0}
+    maxPosition: {x: 0, y: 0}
+    obligatory: 1
+  - room: {fileID: 2976604055723733644, guid: cca3924bc3cb30e4d844acc7ae07a7c8, type: 3}
+    minPosition: {x: 5, y: 5}
+    maxPosition: {x: 9, y: 9}
+    obligatory: 0
+  - room: {fileID: 2976604055723733644, guid: 8b570fba73187f04689cfd0dbcf9a85f, type: 3}
+    minPosition: {x: 9, y: 9}
+    maxPosition: {x: 9, y: 9}
+    obligatory: 1
+  - room: {fileID: 2976604055723733644, guid: c38ac0c293c6ee84681170c82d4269b1, type: 3}
+    minPosition: {x: 3, y: 3}
+    maxPosition: {x: 7, y: 7}
+    obligatory: 1
   offset: {x: 6, y: 6}
 --- !u!4 &56006883
 Transform:
@@ -182,7 +202,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 551411295261802576, guid: 740c62b9378b11d4c9c66864d86cbbca, type: 3}
       propertyPath: mouseSensitiviy
-      value: 250
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 2463913100292607963, guid: 740c62b9378b11d4c9c66864d86cbbca, type: 3}
       propertyPath: m_LocalScale.y
@@ -255,7 +275,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &1059383336
 Light:
   m_ObjectHideFlags: 0

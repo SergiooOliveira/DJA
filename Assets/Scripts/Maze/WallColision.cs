@@ -16,5 +16,7 @@ public class WallColision : MonoBehaviour
                 return;
             }
         }
+
+        GetComponent<Collider>().enabled = true;
     }
 }
