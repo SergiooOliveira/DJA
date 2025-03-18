@@ -44,14 +44,14 @@ public class Player : Character
                 {
                     print("Hit door");
                     print("Transforming now");
-                    //hit.transform.Rotate(0, 90, 0);
+                    hit.transform.Rotate(0, 90, 0);
 
                     /*
                      * Code for animator and moving the door
                      * For now just destroing collider
                      */
-                    hit.collider.gameObject.GetComponent<MeshRenderer>().material.SetColor("_Color", Color.black);
-                    Destroy(hit.collider);                    
+                    //hit.collider.gameObject.GetComponent<MeshRenderer>().material.SetColor("_Color", Color.black);
+                    //Destroy(hit.collider);                    
                 }
                 else
                 {
