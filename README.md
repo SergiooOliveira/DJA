@@ -1,8 +1,5 @@
-To get the full textures use: Universal Render Pipeline/Lit
+Swap input system and fix the raycast System.
 
-
-![image](https://github.com/user-attachments/assets/87fcd4d9-f8fc-4c70-a5c2-e2d1e322fa84)
-![image](https://github.com/user-attachments/assets/c26af0b8-3ffc-4a3f-8da0-e6b341ec7b2f)
-
-
-https://www.youtube.com/watch?v=gI6G49t--RY
+Too clunky and not hitting the door properly
+Needs an animation as well.
+Start creating a real room and some enemies spawn points.
