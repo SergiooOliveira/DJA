@@ -18,7 +18,7 @@ EditorBuildSettings:
     path: Assets/Scenes/OptionsMenu.unity
     guid: e54648a3fdd5f894d83c605c6de48399
   - enabled: 1
-    path: Assets/Scenes/RoomTest.unity
+    path: Assets/Scenes/Tests/RoomTest.unity
     guid: dda1e7c1b258ab04baa2527e8fdf3513
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
