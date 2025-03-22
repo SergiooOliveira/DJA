@@ -6,6 +6,7 @@ public class Player : Character
 {
     #region Variables
     public CharacterController controller;
+    public Animator animator;
 
     private string doorTag = "Door";
 
@@ -16,7 +17,10 @@ public class Player : Character
     #region MonoBehaviour
     private void Start()
     {        
-        Initialize(100, 10, 25);
+        // Game logic
+        //Initialize(100, 10, 25);
+
+        animator = GetComponent<Animator>();
     }
 
     private void Awake()
@@ -52,7 +56,7 @@ public class Player : Character
 
     #region Unity Events
     /// <summary>
-    /// 
+    /// Call this method to interact with an object
     /// </summary>
     /// <param name="callbackContext"></param>
     public void OnInteract (InputAction.CallbackContext callbackContext)
@@ -93,7 +97,7 @@ public class Player : Character
     }
 
     /// <summary>
-    /// 
+    /// Call this method to move
     /// </summary>
     /// <param name="callbackContext"></param>
     public void OnMove(InputAction.CallbackContext callbackContext)
@@ -101,15 +105,17 @@ public class Player : Character
         if (callbackContext.performed)
         {
             moveInput = callbackContext.ReadValue<Vector2>();
+            animator.SetBool("isMoving", true);
         }
         else if (callbackContext.canceled)
         {
             moveInput = Vector2.zero;
+            animator.SetBool("isMoving", false);
         }
     }
 
     /// <summary>
-    /// 
+    /// Call this method to attack
     /// </summary>
     /// <param name="callbackContext"></param>
     public void Attack(InputAction.CallbackContext callbackContext)
