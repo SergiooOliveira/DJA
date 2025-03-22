@@ -1,89 +1,129 @@
+using System.Threading;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class Player : Character
 {
+    #region Variables
     public CharacterController controller;
-
-    public float speed = 12f;
-    public float gravity = -9.81f;
-    public float jumpHeight = 3f;
-
-    public Transform groundCheck;
-    public float groundDistance = 0.4f;
-    public LayerMask groundMask;
-
-    Vector3 velocity;
-    bool isGrounded;
+    public Animator animator;
 
     private string doorTag = "Door";
 
+    private Vector2 moveInput;
+    public float speed = 5f;
+    #endregion
+
+    #region MonoBehaviour
     private void Start()
     {        
-        Initialize(100, 10, 25);
+        // Game logic
+        //Initialize(100, 10, 25);
+
+        animator = GetComponent<Animator>();
+    }
+
+    private void Awake()
+    {
+        SnapToGround();
     }
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+
+    }
+
+    private void FixedUpdate()
+    {
+        Vector3 movement = new Vector3(moveInput.x, 0, moveInput.y) * speed * Time.fixedDeltaTime;
+        controller.Move(movement);
+    }
+    #endregion
+
+    #region Methods
+    /// <summary>
+    /// Call the method to place the player in the ground
+    /// </summary>
+    private void SnapToGround()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, Vector3.down, out hit, Mathf.Infinity))
         {
-            Attack();
+            transform.position = hit.point; // Move player to the ground
         }
+    }
+    #endregion
 
-        if (Input.GetKeyDown(KeyCode.E))
+    #region Unity Events
+    /// <summary>
+    /// Call this method to interact with an object
+    /// </summary>
+    /// <param name="callbackContext"></param>
+    public void OnInteract (InputAction.CallbackContext callbackContext)
+    {
+        /*
+         * if (callbackContext.performed)
+         */
+
+
+        print("E click");
+
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, 10f))
         {
-            print("E click");
-
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-
-            if (Physics.Raycast(ray, out hit, 10f))
+            print("Sending raycast");
+            if (hit.collider.CompareTag(doorTag))
             {
-                print("Sending raycast");
-                if (hit.collider.CompareTag(doorTag))
-                {
-                    print("Hit door");
-                    print("Transforming now");
-                    hit.transform.Rotate(0, 90, 0);
+                print("Hit door");
+                print("Transforming now");
+                //hit.transform.Rotate(0, 90, 0);
 
-                    /*
-                     * Code for animator and moving the door
-                     * For now just destroing collider
-                     */
-                    //hit.collider.gameObject.GetComponent<MeshRenderer>().material.SetColor("_Color", Color.black);
-                    //Destroy(hit.collider);                    
-                }
-                else
-                {
-                    print("Missed");
-                    Debug.Log("Hited name: " + hit.collider.name);
-                    Debug.Log("Hited tag: " + hit.collider.tag);
-                }
+                /*
+                 * Code for animator and moving the door
+                 * For now just destroing collider
+                 */
+                hit.collider.gameObject.GetComponent<MeshRenderer>().material.SetColor("_Color", Color.black);
+                Destroy(hit.collider);
+            }
+            else
+            {
+                print("Missed");
+                Debug.Log("Hited name: " + hit.collider.name);
+                Debug.Log("Hited tag: " + hit.collider.tag);
             }
         }
-
-        // movement
-        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
-
-        if (isGrounded && velocity.y < 0)
-        {
-            velocity.y = -2f;
-        }
-
-        float x = Input.GetAxis("Horizontal");
-        float z = Input.GetAxis("Vertical");
-
-        Vector3 move = transform.right * x + transform.forward * z;
-
-        controller.Move(move * speed * Time.deltaTime);
-
-        if (Input.GetButtonDown("Jump") && isGrounded)
-        {
-            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-        }
-
-        velocity.y += gravity * Time.deltaTime;
-        controller.Move(velocity * Time.deltaTime);
     }
+
+    /// <summary>
+    /// Call this method to move
+    /// </summary>
+    /// <param name="callbackContext"></param>
+    public void OnMove(InputAction.CallbackContext callbackContext)
+    {
+        if (callbackContext.performed)
+        {
+            moveInput = callbackContext.ReadValue<Vector2>();
+            animator.SetBool("isMoving", true);
+        }
+        else if (callbackContext.canceled)
+        {
+            moveInput = Vector2.zero;
+            animator.SetBool("isMoving", false);
+        }
+    }
+
+    /// <summary>
+    /// Call this method to attack
+    /// </summary>
+    /// <param name="callbackContext"></param>
+    public void Attack(InputAction.CallbackContext callbackContext)
+    {
+        if (callbackContext.started)
+            Debug.Log("<color=red>Attacking</color>");
+
+    }
+    #endregion
 
 }
