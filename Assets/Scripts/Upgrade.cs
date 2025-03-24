@@ -2,17 +2,14 @@ using UnityEngine;
 
 public class Upgrade : Upgrades
 {
-    /// <summary>
-    /// Constructor to initialize a 
-    /// </summary>
-    /// <param name="upgradeName"></param>
-    /// <param name="upgradeDescription"></param>
-    /// <param name="upgradeCost"></param>
-    public Upgrade(string upgradeName, string upgradeDescription, int upgradeCost)
+
+    public Upgrade(string upgradeName, string upgradeDescription, int upgradeCost, Sprite icon, float weight)
     {
         this.UpgradeName = upgradeName;
         this.UpgradeDescription = upgradeDescription;
-        this.UpgradeCost = upgradeCost;
+        this.UpgradeCost = upgradeCost;     
+        this.Icon = icon;
+        this.weight = weight;
     }
 
     public string UpgradeName { get; set; }
@@ -20,4 +17,8 @@ public class Upgrade : Upgrades
     public string UpgradeDescription { get; set; }
 
     public int UpgradeCost { get; set; }
+
+    public Sprite Icon { get; set; }
+
+    public float weight { get; set; }
 }
