@@ -1,12 +1,11 @@
-using System.Threading;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class Player : Character
 {
     #region Variables
+    private StateMachine stateMachine;
     public CharacterController controller;
-    public Animator animator;
 
     private string doorTag = "Door";
 
@@ -16,25 +15,26 @@ public class Player : Character
 
     #region MonoBehaviour
     private void Start()
-    {        
+    {
         // Game logic
         //Initialize(100, 10, 25);
-
-        animator = GetComponent<Animator>();
     }
 
     private void Awake()
     {
+        stateMachine = new StateMachine();
+        stateMachine.SetState(new IdleState());
         SnapToGround();
     }
 
     private void Update()
     {
-
+        stateMachine.Update();
     }
 
     private void FixedUpdate()
     {
+        stateMachine.FixedUpdate();
         Vector3 movement = new Vector3(moveInput.x, 0, moveInput.y) * speed * Time.fixedDeltaTime;
         controller.Move(movement);
     }
@@ -104,13 +104,12 @@ public class Player : Character
     {
         if (callbackContext.performed)
         {
+            stateMachine.SetState(new MoveState());
             moveInput = callbackContext.ReadValue<Vector2>();
-            animator.SetBool("isMoving", true);
         }
         else if (callbackContext.canceled)
         {
             moveInput = Vector2.zero;
-            animator.SetBool("isMoving", false);
         }
     }
 
@@ -120,8 +119,10 @@ public class Player : Character
     /// <param name="callbackContext"></param>
     public void Attack(InputAction.CallbackContext callbackContext)
     {
-        if (callbackContext.started)
-            Debug.Log("<color=red>Attacking</color>");
+        if (callbackContext.started) {
+            // Debug.Log("<color=red>Attacking</color>");
+            stateMachine.SetState(new AttackState());
+        }
 
     }
     #endregion
