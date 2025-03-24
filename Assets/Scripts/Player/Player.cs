@@ -9,6 +9,7 @@ public class Player : Character
     public Animator animator;
 
     private string doorTag = "Door";
+    private string slotTag = "SlotMachine";
 
     private Vector2 moveInput;
     public float speed = 5f;
@@ -78,14 +79,14 @@ public class Player : Character
             {
                 print("Hit door");
                 print("Transforming now");
-                //hit.transform.Rotate(0, 90, 0);
-
-                /*
-                 * Code for animator and moving the door
-                 * For now just destroing collider
-                 */
+                hit.transform.Rotate(0, 90, 0);
                 hit.collider.gameObject.GetComponent<MeshRenderer>().material.SetColor("_Color", Color.black);
-                Destroy(hit.collider);
+            }
+            else if (hit.collider.CompareTag(slotTag))
+            {
+                // Activate gambling mechanics
+                // For now it only rolls 1 Upgrade
+                GamblingManager.Instance.SpinRoll();
             }
             else
             {

@@ -17,7 +17,7 @@ public class Upgrades
     /// </summary>
     public void SetAllUpgrades()
     {
-        CreateUpgrade();
+        CreateUpgrades();
         // Code to set all upgrades in a list
         foreach (Upgrade u in upgradeList)
         {
@@ -25,7 +25,7 @@ public class Upgrades
         }
     }
 
-    public void CreateUpgrade()
+    public void CreateUpgrades()
     {
         Upgrade upgrade1 = new Upgrade("Upgrade1", "Upgrade1-Description", 1);
         Upgrade upgrade2 = new Upgrade("Upgrade2", "Upgrade2-Description", 2);
