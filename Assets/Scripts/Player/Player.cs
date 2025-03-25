@@ -1,9 +1,13 @@
 using System.Threading;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class Player : Character
 {
+    private static Player Instance;
+
     #region Variables
     public CharacterController controller;
     public Animator animator;
@@ -13,25 +17,27 @@ public class Player : Character
 
     private Vector2 moveInput;
     public float speed = 5f;
+
+    [Header("Icons UI")]
+    public Transform icons;
+    public GameObject upgradeObject;
     #endregion
 
     #region MonoBehaviour
-    private void Start()
-    {        
-        // Game logic
-        //Initialize(100, 10, 25);
-
-        animator = GetComponent<Animator>();
-    }
-
     private void Awake()
     {
-        SnapToGround();
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(gameObject);
     }
 
-    private void Update()
+    private void Start()
     {
-
+        // Game logic
+        //Initialize(100, 10, 25);
+        SnapToGround();
+        animator = GetComponent<Animator>();
     }
 
     private void FixedUpdate()
@@ -53,6 +59,23 @@ public class Player : Character
             transform.position = hit.point; // Move player to the ground
         }
     }
+
+    private void ShowUpgradesUI()
+    {
+        //print("Showing upgrades");
+        foreach (Upgrade upgrade in Upgrades.Instance.playerUpgrades)
+        {
+            Upgrades.Instance.ToString(upgrade);
+
+            GameObject newIcon = Instantiate(upgradeObject, icons);
+
+            //TMP_Text textComponent = newIcon.GetComponentInChildren<TMP_Text>();
+            //if (textComponent != null) textComponent.text = upgrade.UpgradeName;
+
+            Image spriteComponent = newIcon.GetComponentInChildren<Image>();
+            if (spriteComponent != null) spriteComponent.sprite = upgrade.Icon;
+        }
+    }
     #endregion
 
     #region Unity Events
@@ -62,10 +85,10 @@ public class Player : Character
     /// <param name="callbackContext"></param>
     public void OnInteract(InputAction.CallbackContext callbackContext)
     {
-        print("E outside");
+        //print("E outside");
         if (callbackContext.started)
         {
-            print("E inside");
+            //print("E inside");
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
@@ -73,8 +96,8 @@ public class Player : Character
             {
                 if (hit.collider.CompareTag(doorTag))
                 {
-                    print("Hit door");
-                    print("Transforming now");
+                    //print("Hit door");
+                    //print("Transforming now");
                     hit.transform.Rotate(0, 90, 0);
                     hit.collider.gameObject.GetComponent<MeshRenderer>().material.SetColor("_Color", Color.black);
                 }
@@ -83,12 +106,13 @@ public class Player : Character
                     // Activate gambling mechanics
                     // For now it only rolls 1 Upgrade
                     GamblingManager.Instance.StartRolling();
+                    ShowUpgradesUI();
                 }
                 else
                 {
-                    print("Missed");
-                    Debug.Log("Hited name: " + hit.collider.name);
-                    Debug.Log("Hited tag: " + hit.collider.tag);
+                    //print("Missed");
+                    //Debug.Log("Hited name: " + hit.collider.name);
+                    //Debug.Log("Hited tag: " + hit.collider.tag);
                 }
             }
         }
