@@ -9,6 +9,7 @@ public class Player : Character
     public Animator animator;
 
     private string doorTag = "Door";
+    private string slotTag = "SlotMachine";
 
     private Vector2 moveInput;
     public float speed = 5f;
@@ -59,39 +60,36 @@ public class Player : Character
     /// Call this method to interact with an object
     /// </summary>
     /// <param name="callbackContext"></param>
-    public void OnInteract (InputAction.CallbackContext callbackContext)
+    public void OnInteract(InputAction.CallbackContext callbackContext)
     {
-        /*
-         * if (callbackContext.performed)
-         */
-
-
-        print("E click");
-
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit, 10f))
+        print("E outside");
+        if (callbackContext.started)
         {
-            print("Sending raycast");
-            if (hit.collider.CompareTag(doorTag))
-            {
-                print("Hit door");
-                print("Transforming now");
-                //hit.transform.Rotate(0, 90, 0);
+            print("E inside");
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
 
-                /*
-                 * Code for animator and moving the door
-                 * For now just destroing collider
-                 */
-                hit.collider.gameObject.GetComponent<MeshRenderer>().material.SetColor("_Color", Color.black);
-                Destroy(hit.collider);
-            }
-            else
+            if (Physics.Raycast(ray, out hit, 10f))
             {
-                print("Missed");
-                Debug.Log("Hited name: " + hit.collider.name);
-                Debug.Log("Hited tag: " + hit.collider.tag);
+                if (hit.collider.CompareTag(doorTag))
+                {
+                    print("Hit door");
+                    print("Transforming now");
+                    hit.transform.Rotate(0, 90, 0);
+                    hit.collider.gameObject.GetComponent<MeshRenderer>().material.SetColor("_Color", Color.black);
+                }
+                else if (hit.collider.CompareTag(slotTag))
+                {
+                    // Activate gambling mechanics
+                    // For now it only rolls 1 Upgrade
+                    GamblingManager.Instance.StartRolling();
+                }
+                else
+                {
+                    print("Missed");
+                    Debug.Log("Hited name: " + hit.collider.name);
+                    Debug.Log("Hited tag: " + hit.collider.tag);
+                }
             }
         }
     }
@@ -121,7 +119,10 @@ public class Player : Character
     public void Attack(InputAction.CallbackContext callbackContext)
     {
         if (callbackContext.started)
-            Debug.Log("<color=red>Attacking</color>");
+        {
+            // Debug.Log("<color=red>Attacking</color>");
+        }
+
 
     }
     #endregion
