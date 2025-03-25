@@ -60,8 +60,10 @@ public class Upgrades : MonoBehaviour
         };
     }
 
-    public string ToString(Upgrade u)
+    public void ToString(Upgrade u)
     {
-        return $"Name: {u.UpgradeName} Description: {u.UpgradeDescription} Cost: {u.UpgradeCost}\n";
+        Debug.Log($"<color=red>Name: </color><color=yellow>{u.UpgradeName}</color>\t" +
+                    $"<color=red>Description: </color><color=yellow>{u.UpgradeDescription}</color>\t" +
+                    $"<color=red>Cost: </color><color=yellow>{u.UpgradeCost}</color>");
     }
 }
