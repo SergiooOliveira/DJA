@@ -68,7 +68,6 @@ public class Upgrades : MonoBehaviour
         playerUpgrades.Add(upgradeList[2]);
     }
 
-
     #region Overrides
     /// <summary>
     /// Call this method get the Name, Description and Cost of a Upgrade
