@@ -1,12 +1,12 @@
+using System.Collections;
 using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GamblingManager : MonoBehaviour
 {
     public static GamblingManager Instance;
-
-    Upgrades upgrades = new Upgrades();
 
     private void Awake()
     {
@@ -17,20 +17,18 @@ public class GamblingManager : MonoBehaviour
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Start()
     {
-        // Get all possible gamble arrays
-        // Get upgrades list        
-        upgrades.SetAllUpgrades();
+        if (Upgrades.Instance == null)
+        {
+            Debug.LogError("Upgrades Manager is missing");
+            return;
+        }
     }
 
-    /// <summary>
-    /// Call this method to roll through a list of Upgrades
-    /// </summary>
-    public void SpinRoll()
+    public void StartRolling()
     {
-        int randomChoice = Random.Range(0, upgrades.upgradeList.Count);
-
-        Debug.Log($"Chosen Upgrade:\nName: {upgrades.upgradeList[randomChoice].UpgradeName.ToString() }");
+        Upgrade randomUpgrade = Upgrades.Instance.GetRandomUpgrade();
+        Debug.Log(Upgrades.Instance.ToString(randomUpgrade));
     }
 }

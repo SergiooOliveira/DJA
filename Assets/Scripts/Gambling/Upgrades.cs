@@ -1,57 +1,67 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Upgrades
+public class Upgrades : MonoBehaviour
 {
+    public static Upgrades Instance;
+
     // Variables
-    public List<Upgrade> upgradeList = new List<Upgrade>();
+    public List<Upgrade> upgradeList;
 
-    public Upgrades ()
+    private void Awake()
     {
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(gameObject);
 
+        upgradeList = new List<Upgrade>();
+        CreateUpgrades();
     }
 
     /// <summary>
-    /// Call this function at the start to set all upgrades
+    /// Get a random Upgrade
     /// </summary>
-    public void SetAllUpgrades()
+    public Upgrade GetRandomUpgrade()
     {
-        CreateUpgrades();
-        // Code to set all upgrades in a list
-        foreach (Upgrade u in upgradeList)
+        float totalWeight = 0f;
+
+        foreach (Upgrade upgrade in upgradeList)
         {
-            //Debug.Log(u.ToString(u));
+            //Debug.Log($"<color=yellow>{totalWeight}</color> += <color=lime>{upgrade.Weight}</color>");
+            totalWeight += upgrade.Weight;
         }
+
+        float randomValue = Random.Range(0, totalWeight);
+
+        //Debug.Log($"<color=yellow>{ randomValue }</color>");
+
+        float cumulativeWeight = 0f;
+
+        foreach (Upgrade upgrade in upgradeList)
+        {
+            cumulativeWeight += upgrade.Weight;
+            if (randomValue < cumulativeWeight)
+                return upgrade;
+        }
+
+        return upgradeList[0]; // Fallback
     }
 
     public void CreateUpgrades()
     {
-        //Upgrade upgrade1 = new Upgrade("Upgrade1", "Upgrade1-Description", 1);
-        //Upgrade upgrade2 = new Upgrade("Upgrade2", "Upgrade2-Description", 2);
-        //Upgrade upgrade3 = new Upgrade("Upgrade3", "Upgrade3-Description", 3);
-        //Upgrade upgrade4 = new Upgrade("Upgrade4", "Upgrade4-Description", 4);
-        //Upgrade upgrade5 = new Upgrade("Upgrade5", "Upgrade5-Description", 5);
-        //Upgrade upgrade6 = new Upgrade("Upgrade6", "Upgrade6-Description", 6);
-        //Upgrade upgrade7 = new Upgrade("Upgrade7", "Upgrade7-Description", 7);
-        //Upgrade upgrade8 = new Upgrade("Upgrade8", "Upgrade8-Description", 8);
-        //Upgrade upgrade9 = new Upgrade("Upgrade9", "Upgrade9-Description", 9);
-        //Upgrade upgrade10 = new Upgrade("Upgrade10", "Upgrade10-Description", 10);
-
-        //upgradeList.Add(upgrade1);
-        //upgradeList.Add(upgrade2);
-        //upgradeList.Add(upgrade3);
-        //upgradeList.Add(upgrade4);
-        //upgradeList.Add(upgrade5);
-        //upgradeList.Add(upgrade6);
-        //upgradeList.Add(upgrade7);
-        //upgradeList.Add(upgrade8);
-        //upgradeList.Add(upgrade9);
-        //upgradeList.Add(upgrade10);
+        upgradeList = new List<Upgrade>
+        {
+            new Upgrade("Common", "Common description", 10, null, 100),
+            new Upgrade("Rare", "Rare description", 10, null, 20),
+            new Upgrade("Epic", "Epic description", 10, null, 10),
+            new Upgrade("Legendary", "Legendary description", 10, null, 7),
+            new Upgrade("Mythic", "Mythic description", 10, null, 3)
+        };
     }
 
     public string ToString(Upgrade u)
     {
-        return $"Name: {u.UpgradeName}\tDescription: {u.UpgradeDescription}\tCost: {u.UpgradeCost}\n";
+        return $"Name: {u.UpgradeName} Description: {u.UpgradeDescription} Cost: {u.UpgradeCost}\n";
     }
 }
