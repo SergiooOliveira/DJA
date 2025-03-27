@@ -2,11 +2,11 @@ using System.Threading;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UI;
+
 
 public class Player : Character
 {
-    private static Player Instance;
+    public static Player Instance;
 
     #region Variables
     public CharacterController controller;
@@ -17,10 +17,6 @@ public class Player : Character
 
     private Vector2 moveInput;
     public float speed = 5f;
-
-    [Header("Icons UI")]
-    public Transform icons;
-    public GameObject upgradeObject;
     #endregion
 
     #region MonoBehaviour
@@ -60,22 +56,6 @@ public class Player : Character
         }
     }
 
-    private void ShowUpgradesUI()
-    {
-        //print("Showing upgrades");
-        foreach (Upgrade upgrade in Upgrades.Instance.playerUpgrades)
-        {
-            Upgrades.Instance.ToString(upgrade);
-
-            GameObject newIcon = Instantiate(upgradeObject, icons);
-
-            //TMP_Text textComponent = newIcon.GetComponentInChildren<TMP_Text>();
-            //if (textComponent != null) textComponent.text = upgrade.UpgradeName;
-
-            Image spriteComponent = newIcon.GetComponentInChildren<Image>();
-            if (spriteComponent != null) spriteComponent.sprite = upgrade.Icon;
-        }
-    }
     #endregion
 
     #region Unity Events
@@ -92,27 +72,22 @@ public class Player : Character
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
-            if (Physics.Raycast(ray, out hit, 10f))
+            if (Physics.Raycast(ray, out hit, 1f))
             {
                 if (hit.collider.CompareTag(doorTag))
                 {
-                    //print("Hit door");
-                    //print("Transforming now");
                     hit.transform.Rotate(0, 90, 0);
                     hit.collider.gameObject.GetComponent<MeshRenderer>().material.SetColor("_Color", Color.black);
                 }
                 else if (hit.collider.CompareTag(slotTag))
                 {
                     // Activate gambling mechanics
-                    // For now it only rolls 1 Upgrade
                     GamblingManager.Instance.StartRolling();
-                    ShowUpgradesUI();
+                    GameManager.Instance.UpdateUpgradesUI();
                 }
                 else
                 {
-                    //print("Missed");
-                    //Debug.Log("Hited name: " + hit.collider.name);
-                    //Debug.Log("Hited tag: " + hit.collider.tag);
+                    // Case we want to do something
                 }
             }
         }

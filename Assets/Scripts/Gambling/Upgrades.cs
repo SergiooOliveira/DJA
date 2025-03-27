@@ -18,11 +18,12 @@ public class Upgrades : MonoBehaviour
 
         upgradeList = new List<Upgrade>();
         CreateUpgrades();
-        ConcedeUpgrades();
     }
 
+
+    #region Methods
     /// <summary>
-    /// Get a random Upgrade
+    /// Call this method to get a random Upgrade
     /// </summary>
     public Upgrade GetRandomUpgrade()
     {
@@ -50,6 +51,9 @@ public class Upgrades : MonoBehaviour
         return upgradeList[0]; // Fallback
     }
 
+    /// <summary>
+    /// Use this method to create static Upgrades
+    /// </summary>
     public void CreateUpgrades()
     {
         upgradeList = new List<Upgrade>
@@ -67,6 +71,7 @@ public class Upgrades : MonoBehaviour
     {
         playerUpgrades.Add(upgradeList[2]);
     }
+    #endregion
 
     #region Overrides
     /// <summary>

@@ -29,6 +29,6 @@ public class GamblingManager : MonoBehaviour
     public void StartRolling()
     {
         Upgrade randomUpgrade = Upgrades.Instance.GetRandomUpgrade();
-        //Upgrades.Instance.ToString(randomUpgrade);
+        Upgrades.Instance.playerUpgrades.Add(randomUpgrade);
     }
 }

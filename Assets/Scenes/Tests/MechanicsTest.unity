@@ -1280,6 +1280,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a72cdd8218b96b4c953a0d79173990b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  icons: {fileID: 2064885102}
+  upgradeObject: {fileID: 8453266158104590310, guid: 5fde52521bf7e014f85c03aab6625d97, type: 3}
 --- !u!4 &1755762673
 Transform:
   m_ObjectHideFlags: 0
