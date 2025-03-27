@@ -6,8 +6,8 @@ public class Upgrades : MonoBehaviour
     public static Upgrades Instance;
 
     // Variables
-    public List<Upgrade> upgradeList;
-    public List<Upgrade> playerUpgrades;
+    [HideInInspector] public List<Upgrade> upgradeList;
+    [HideInInspector] public List<Upgrade> playerUpgrades;
 
     private void Awake()
     {
