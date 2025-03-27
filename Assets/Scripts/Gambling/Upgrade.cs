@@ -4,7 +4,7 @@ using UnityEngine.UI;
 [System.Serializable]
 public class Upgrade
 {
-    public Upgrade(string upgradeName, string upgradeDescription, string upgradeType, int upgradeCost, string iconPath, float weight)
+    public Upgrade(string upgradeName, string upgradeDescription, string upgradeType, int upgradeCost, string iconPath, float weight, (string buff, int power) buffPower)
     {
         this.UpgradeName = upgradeName;
         this.UpgradeDescription = upgradeDescription;
@@ -12,7 +12,7 @@ public class Upgrade
         this.UpgradeCost = upgradeCost;
         this.Icon = LoadSprite(iconPath);
         this.Weight = weight;
-
+        this.BuffPower = buffPower;
     }
 
     public string UpgradeName { get; set; }
@@ -21,6 +21,8 @@ public class Upgrade
     public int UpgradeCost { get; set; }
     public Sprite Icon { get; set; }
     public float Weight { get; set; }
+
+    public (string Buff, int Power) BuffPower { get; set; }
 
     #region Methods
     private Sprite LoadSprite(string path)

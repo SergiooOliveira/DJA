@@ -119,6 +119,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &353825548 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1226436071852395290, guid: 2ef6cf883eba703469ebba9f0e633782, type: 3}
+  m_PrefabInstance: {fileID: 1344957703}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &616707262
 GameObject:
   m_ObjectHideFlags: 0
@@ -436,6 +441,38 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -5035867873496001389, guid: 2ef6cf883eba703469ebba9f0e633782, type: 3}
+      propertyPath: m_ActionEvents.Array.size
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: -5035867873496001389, guid: 2ef6cf883eba703469ebba9f0e633782, type: 3}
+      propertyPath: m_ActionEvents.Array.data[19].m_ActionId
+      value: d55d5fc5-44ef-41b2-bb2f-ce2bd29096e5
+      objectReference: {fileID: 0}
+    - target: {fileID: -5035867873496001389, guid: 2ef6cf883eba703469ebba9f0e633782, type: 3}
+      propertyPath: m_ActionEvents.Array.data[19].m_ActionName
+      value: 'Player/Inventory[/Keyboard/i]'
+      objectReference: {fileID: 0}
+    - target: {fileID: -5035867873496001389, guid: 2ef6cf883eba703469ebba9f0e633782, type: 3}
+      propertyPath: m_ActionEvents.Array.data[19].m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -5035867873496001389, guid: 2ef6cf883eba703469ebba9f0e633782, type: 3}
+      propertyPath: m_ActionEvents.Array.data[19].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -5035867873496001389, guid: 2ef6cf883eba703469ebba9f0e633782, type: 3}
+      propertyPath: m_ActionEvents.Array.data[19].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 353825548}
+    - target: {fileID: -5035867873496001389, guid: 2ef6cf883eba703469ebba9f0e633782, type: 3}
+      propertyPath: m_ActionEvents.Array.data[19].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -5035867873496001389, guid: 2ef6cf883eba703469ebba9f0e633782, type: 3}
+      propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Character, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 320292168220150147, guid: 2ef6cf883eba703469ebba9f0e633782, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: -4.1801996
@@ -1321,7 +1358,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 393016098411617680, guid: 3033db79119a9e24f9e2b21987f4ecf4, type: 3}
       propertyPath: m_Name
-      value: RollingElement
+      value: Canvas
       objectReference: {fileID: 0}
     - target: {fileID: 5426555369374648319, guid: 3033db79119a9e24f9e2b21987f4ecf4, type: 3}
       propertyPath: m_Pivot.x

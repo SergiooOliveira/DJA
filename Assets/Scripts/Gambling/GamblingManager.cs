@@ -26,9 +26,20 @@ public class GamblingManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    ///  Call this method to Get a random Upgrade and apply it to Player
+    /// </summary>
     public void StartRolling()
     {
+        // Get a random Upgrade
         Upgrade randomUpgrade = Upgrades.Instance.GetRandomUpgrade();
+
+        // Add upgrade on playerUpgrades List (Only for visual purposes right now)
         Upgrades.Instance.playerUpgrades.Add(randomUpgrade);
+
+        // Add stats to the player
+        GameManager.Instance.AddStats(randomUpgrade);
+
+        //Upgrades.Instance.ToString(randomUpgrade);
     }
 }
