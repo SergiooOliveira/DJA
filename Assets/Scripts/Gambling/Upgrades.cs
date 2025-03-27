@@ -59,11 +59,11 @@ public class Upgrades : MonoBehaviour
         upgradeList = new List<Upgrade>
         {
             // Name - Description - Cost - Sprite - Weight
-            new Upgrade("Common Upgrade", "Common description", "Common", 10, "Sprites/Cyan", 100, ("Attack", 10)),
-            new Upgrade("Rare Upgrade", "Rare description", "Rare", 10, "Sprites/Blue", 20, ("Attack", 20)),
-            new Upgrade("Epic Upgrade", "Epic description", "Epic", 10, "Sprites/Pink", 10, ("Attack", 30)),
-            new Upgrade("Legendary Upgrade", "Legendary description", "Legendary", 10, "Sprites/Yellow", 7, ("Attack", 40)),
-            new Upgrade("Mythic Upgrade", "Mythic description", "Mythic", 10, "Sprites/Red", 3, ("Attack", 50))
+            new Upgrade("Common Upgrade", "Common description", "Common", 10, "Sprites/Cyan", 100, ("Strength", 10)),
+            new Upgrade("Rare Upgrade", "Rare description", "Rare", 10, "Sprites/Blue", 20, ("Health", 20)),
+            new Upgrade("Epic Upgrade", "Epic description", "Epic", 10, "Sprites/Pink", 10, ("Health", 30)),
+            new Upgrade("Legendary Upgrade", "Legendary description", "Legendary", 10, "Sprites/Yellow", 7, ("Strength", 40)),
+            new Upgrade("Mythic Upgrade", "Mythic description", "Mythic", 10, "Sprites/Red", 3, ("Armor", 50))
         };
     }
 

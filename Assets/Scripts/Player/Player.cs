@@ -31,7 +31,6 @@ public class Player : Character
     private void Start()
     {
         // Game logic
-        //Initialize(100, 10, 25);
         SnapToGround();
         animator = GetComponent<Animator>();
     }
@@ -112,18 +111,12 @@ public class Player : Character
         }
     }
 
-    /// <summary>
-    /// Call this method to attack
-    /// </summary>
-    /// <param name="callbackContext"></param>
-    public void Attack(InputAction.CallbackContext callbackContext)
+    public void OpenInventory(InputAction.CallbackContext callbackContext)
     {
         if (callbackContext.started)
         {
-            // Debug.Log("<color=red>Attacking</color>");
+
         }
-
-
     }
     #endregion
 

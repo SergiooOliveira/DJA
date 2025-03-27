@@ -1,35 +1,36 @@
 using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Character : MonoBehaviour
 {
     // Variables
-    public int life;
-    public int strenght;
-    public int armor;
+    public int Health;
+    public int Strenght;
+    public int Armor;
 
     /// <summary>
     /// Constructor
     /// </summary>
-    /// <param name="life">Character Life</param>
+    /// <param name="health">Character Health</param>
     /// <param name="strenght">Character Strenght</param>
     /// <param name="armor">Character Armor</param>
-    public void Initialize(int life, int strenght, int armor) {
-        this.life = Mathf.Max(0, life);
-        this.strenght = Mathf.Max(0, strenght);
-        this.armor = Mathf.Max(0, armor);
+    public void Initialize(int health = 100, int strenght = 5, int armor = 10) {
+        this.Health = Mathf.Max(0, health);
+        this.Strenght = Mathf.Max(0, strenght);
+        this.Armor = Mathf.Max(0, armor);
     }
 
-    public virtual void Attack()
+    /// <summary>
+    /// Call this method to attack
+    /// </summary>
+    /// <param name="callbackContext"></param>
+    public void Attack(InputAction.CallbackContext callbackContext)
     {
-        Debug.Log("Attacking");
-        // Variables        
-        int layerMask = LayerMask.GetMask("Enemy");        
-
-        // Attack animation
-        // animator.SetTrigger("Attack");
-
-        // Detect enemies in range
-        // Physics.OverlapSphere();
+        if (callbackContext.started)
+        {
+            // Debug.Log("<color=red>Attacking</color>");
+            Debug.Log("Attacking");
+        }
     }
 }

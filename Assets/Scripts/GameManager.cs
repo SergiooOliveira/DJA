@@ -18,10 +18,15 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
     }
 
+    private void Start()
+    {
+        Player.Instance.Initialize();
+    }
+
     public void UpdateUpgradesUI()
     {
         // Delete all previous icons
-        foreach(Transform i in icons)
+        foreach (Transform i in icons)
         {
             Destroy(i.gameObject);
         }
@@ -39,6 +44,26 @@ public class GameManager : MonoBehaviour
 
             Image spriteComponent = newIcon.GetComponentInChildren<Image>();
             if (spriteComponent != null) spriteComponent.sprite = upgrade.Icon;
+        }
+
+    }
+
+    public void AddStats(Upgrade upgrade)
+    {
+        switch (upgrade.BuffPower.Buff)
+        {
+            case "Health":
+                Player.Instance.Health += upgrade.BuffPower.Power;                
+                break;
+            case "Strength":
+                Player.Instance.Strenght += upgrade.BuffPower.Power;
+                break;
+            case "Armor":
+                Player.Instance.Armor += upgrade.BuffPower.Power;
+                break;
+            default:
+                Debug.LogError("Error applying buff");
+                break;
         }
     }
 }
