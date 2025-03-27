@@ -30,5 +30,6 @@ public class GamblingManager : MonoBehaviour
     {
         Upgrade randomUpgrade = Upgrades.Instance.GetRandomUpgrade();
         Upgrades.Instance.playerUpgrades.Add(randomUpgrade);
+        Upgrades.Instance.ToString(randomUpgrade);
     }
 }

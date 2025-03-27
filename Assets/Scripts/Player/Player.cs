@@ -65,14 +65,14 @@ public class Player : Character
     /// <param name="callbackContext"></param>
     public void OnInteract(InputAction.CallbackContext callbackContext)
     {
-        //print("E outside");
+        print("E outside");
         if (callbackContext.started)
         {
             //print("E inside");
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
-            if (Physics.Raycast(ray, out hit, 1f))
+            if (Physics.Raycast(ray, out hit, 10f))
             {
                 if (hit.collider.CompareTag(doorTag))
                 {
@@ -88,6 +88,7 @@ public class Player : Character
                 else
                 {
                     // Case we want to do something
+                    Debug.Log($"Hited {hit.collider.name}");
                 }
             }
         }
