@@ -1,24 +1,35 @@
 using JetBrains.Annotations;
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class Character : MonoBehaviour
 {
     // Variables
-    public int Health;
-    public int Strenght;
-    public int Armor;
+    public int Health { get; set; }
+    public int Strenght { get; set; }
+    public int Armor { get; set; }
+    public int Level { get; set; }
+    public int Xp { get; set; }
+    public int MaxXp { get; set; }
 
     /// <summary>
-    /// Constructor
+    /// Call this method to Initialize the player
     /// </summary>
     /// <param name="health">Character Health</param>
     /// <param name="strenght">Character Strenght</param>
     /// <param name="armor">Character Armor</param>
-    public void Initialize(int health = 100, int strenght = 5, int armor = 10) {
+    /// <param name="level">Character Level</param>
+    public void Initialize(int health = Player.baseHealth, int strenght = Player.baseStrenght, int armor = Player.baseArmor,
+                            int level = Player.baseLevel, int xp = Player.baseXp, int maxXp = Player.baseMaxXp)
+    {
         this.Health = Mathf.Max(0, health);
         this.Strenght = Mathf.Max(0, strenght);
         this.Armor = Mathf.Max(0, armor);
+        this.Level = level;
+        this.Xp = xp;
+        this.MaxXp = maxXp;
     }
 
     /// <summary>

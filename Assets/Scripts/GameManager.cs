@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +9,15 @@ public class GameManager : MonoBehaviour
     [Header("Icons UI")]
     public Transform icons;
     public GameObject upgradeObject;
+
+    [Header("Level UI")]
+    public TMP_Text level;
+    public TMP_Text xpMax;
+
+    [Header("Player UI")]
+    public TMP_Text PlayerHP;
+    public TMP_Text PlayerStrenght;
+    public TMP_Text PlayerArmor;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
@@ -21,6 +31,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         Player.Instance.Initialize();
+        UpdatePlayerStats();
     }
 
     public void UpdateUpgradesUI()
@@ -56,14 +67,29 @@ public class GameManager : MonoBehaviour
                 Player.Instance.Health += upgrade.BuffPower.Power;                
                 break;
             case "Strength":
-                Player.Instance.Strenght += upgrade.BuffPower.Power;
+                Player.Instance.Strenght += upgrade.BuffPower.Power;                
                 break;
             case "Armor":
-                Player.Instance.Armor += upgrade.BuffPower.Power;
+                Player.Instance.Armor += upgrade.BuffPower.Power;                
                 break;
             default:
                 Debug.LogError("Error applying buff");
                 break;
         }
+
+        UpdatePlayerStats();
+    }
+
+    public void UpdateLevelXP()
+    {
+        level.text = Player.Instance.Level.ToString();
+        xpMax.text = (Player.Instance.Xp + "/" + Player.Instance.MaxXp);
+    }
+
+    private void UpdatePlayerStats()
+    {
+        PlayerHP.text = Player.Instance.Health.ToString();
+        PlayerStrenght.text = Player.Instance.Strenght.ToString();
+        PlayerArmor.text = Player.Instance.Armor.ToString();
     }
 }
