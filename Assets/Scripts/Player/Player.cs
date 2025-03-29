@@ -1,20 +1,35 @@
-using System.Threading;
-using TMPro;
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 
 public class Player : Character
 {
+    // Singleton
     public static Player Instance;
 
+    #region Base Stats
+    // Fight Stats
+    public const int baseHealth = 100;
+    public const int baseStrenght = 5;
+    public const int baseArmor = 10;
+
+    // Level Stats
+    public const int baseLevel = 1;
+    public const int baseMaxXp = 0;
+    public const int baseXp = 0;
+    #endregion
+
     #region Variables
+    // Controllers
     public CharacterController controller;
     public Animator animator;
 
+    // Tags for interactions
     private string doorTag = "Door";
     private string slotTag = "SlotMachine";
 
+    // Movement
     private Vector2 moveInput;
     public float speed = 5f;
     #endregion
@@ -33,6 +48,8 @@ public class Player : Character
         // Game logic
         SnapToGround();
         animator = GetComponent<Animator>();
+        LevelUp();
+        GameManager.Instance.UpdateLevelXP();
     }
 
     private void FixedUpdate()
@@ -55,6 +72,46 @@ public class Player : Character
         }
     }
 
+    /// <summary>
+    /// Call this method to give xp to Player
+    /// </summary>
+    /// <param name="xp">xp to add</param>
+    private void GainXp (int xp)
+    {        
+        Xp += xp;         
+
+        while (Xp >= MaxXp)
+        {
+            Xp -= MaxXp;
+            LevelUp();
+
+            GamblingManager.Instance.StartRolling();
+        }
+
+        GameManager.Instance.UpdateLevelXP();
+    }
+
+    /// <summary>
+    /// Call this method to Level Up
+    /// </summary>
+    private void LevelUp()
+    {
+        Level++;
+        MaxXp = CalculateMaxXp(Level);
+
+        Debug.Log($"Player is Level = {Level} with a MaxXp of {MaxXp}");
+    }
+
+    /// <summary>
+    /// Calculates max xp exponentially
+    /// </summary>
+    /// <param name="level">Current Level of the Player</param>
+    /// <returns></returns>
+    private int CalculateMaxXp(int level)
+    {
+        return (int)(100 * Math.Pow(1.2, level - 1));
+    }
+
     #endregion
 
     #region Unity Events
@@ -64,7 +121,7 @@ public class Player : Character
     /// <param name="callbackContext"></param>
     public void OnInteract(InputAction.CallbackContext callbackContext)
     {
-        print("E outside");
+        // print("E outside");
         if (callbackContext.started)
         {
             //print("E inside");
@@ -81,8 +138,7 @@ public class Player : Character
                 else if (hit.collider.CompareTag(slotTag))
                 {
                     // Activate gambling mechanics
-                    GamblingManager.Instance.StartRolling();
-                    GameManager.Instance.UpdateUpgradesUI();
+                    GainXp(50); // Change 50 to the enemy xp                    
                 }
                 else
                 {
@@ -111,8 +167,13 @@ public class Player : Character
         }
     }
 
+    /// <summary>
+    /// Call this method to open and close the inventory
+    /// </summary>
+    /// <param name="callbackContext"></param>
     public void OpenInventory(InputAction.CallbackContext callbackContext)
     {
+        // Should have a bool to control if the inventory is open or closed. Toggle between those states
         if (callbackContext.started)
         {
 

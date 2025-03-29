@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +9,10 @@ public class GameManager : MonoBehaviour
     [Header("Icons UI")]
     public Transform icons;
     public GameObject upgradeObject;
+
+    [Header("Level UI")]
+    public TMP_Text level;
+    public TMP_Text xpMax;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
@@ -65,5 +70,11 @@ public class GameManager : MonoBehaviour
                 Debug.LogError("Error applying buff");
                 break;
         }
+    }
+
+    public void UpdateLevelXP()
+    {
+        level.text = Player.Instance.Level.ToString();
+        xpMax.text = (Player.Instance.Xp + "/" + Player.Instance.MaxXp);
     }
 }
