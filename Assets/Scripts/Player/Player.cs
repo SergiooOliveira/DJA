@@ -1,35 +1,42 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+
 public class Player : Character
 {
+    // Singleton
+    public static Player Instance;
+
+    #region Base Stats
+    // Fight Stats
+    public const int baseHealth = 100;
+    public const int baseStrenght = 5;
+    public const int baseArmor = 10;
+
+    // Level Stats
+    public const int baseLevel = 1;
+    public const int baseMaxXp = 0;
+    public const int baseXp = 0;
+    #endregion
+
     #region Variables
-    private StateMachine stateMachine;
     public CharacterController controller;
 
+    // Tags for interactions
     private string doorTag = "Door";
+    private string slotTag = "SlotMachine";
 
+    // Movement
     private Vector2 moveInput;
     public float speed = 5f;
     #endregion
 
     #region MonoBehaviour
+    }
+
     private void Start()
     {
-        // Game logic
-        //Initialize(100, 10, 25);
-    }
-
-    private void Awake()
-    {
-        stateMachine = new StateMachine();
-        stateMachine.SetState(new IdleState());
-        SnapToGround();
-    }
-
-    private void Update()
-    {
-        stateMachine.Update();
     }
 
     private void FixedUpdate()
@@ -52,6 +59,47 @@ public class Player : Character
             transform.position = hit.point; // Move player to the ground
         }
     }
+
+    /// <summary>
+    /// Call this method to give xp to Player
+    /// </summary>
+    /// <param name="xp">xp to add</param>
+    private void GainXp (int xp)
+    {        
+        Xp += xp;         
+
+        while (Xp >= MaxXp)
+        {
+            Xp -= MaxXp;
+            LevelUp();
+
+            GamblingManager.Instance.StartRolling();
+        }
+
+        GameManager.Instance.UpdateLevelXP();
+    }
+
+    /// <summary>
+    /// Call this method to Level Up
+    /// </summary>
+    private void LevelUp()
+    {
+        Level++;
+        MaxXp = CalculateMaxXp(Level);
+
+        Debug.Log($"Player is Level = {Level} with a MaxXp of {MaxXp}");
+    }
+
+    /// <summary>
+    /// Calculates max xp exponentially
+    /// </summary>
+    /// <param name="level">Current Level of the Player</param>
+    /// <returns></returns>
+    private int CalculateMaxXp(int level)
+    {
+        return (int)(100 * Math.Pow(1.2, level - 1));
+    }
+
     #endregion
 
     #region Unity Events
@@ -59,39 +107,32 @@ public class Player : Character
     /// Call this method to interact with an object
     /// </summary>
     /// <param name="callbackContext"></param>
-    public void OnInteract (InputAction.CallbackContext callbackContext)
+    public void OnInteract(InputAction.CallbackContext callbackContext)
     {
-        /*
-         * if (callbackContext.performed)
-         */
-
-
-        print("E click");
-
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit, 10f))
+        // print("E outside");
+        if (callbackContext.started)
         {
-            print("Sending raycast");
-            if (hit.collider.CompareTag(doorTag))
-            {
-                print("Hit door");
-                print("Transforming now");
-                //hit.transform.Rotate(0, 90, 0);
+            //print("E inside");
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
 
-                /*
-                 * Code for animator and moving the door
-                 * For now just destroing collider
-                 */
-                hit.collider.gameObject.GetComponent<MeshRenderer>().material.SetColor("_Color", Color.black);
-                Destroy(hit.collider);
-            }
-            else
+            if (Physics.Raycast(ray, out hit, 10f))
             {
-                print("Missed");
-                Debug.Log("Hited name: " + hit.collider.name);
-                Debug.Log("Hited tag: " + hit.collider.tag);
+                if (hit.collider.CompareTag(doorTag))
+                {
+                    hit.transform.Rotate(0, 90, 0);
+                    hit.collider.gameObject.GetComponent<MeshRenderer>().material.SetColor("_Color", Color.black);
+                }
+                else if (hit.collider.CompareTag(slotTag))
+                {
+                    // Activate gambling mechanics
+                    GainXp(50); // Change 50 to the enemy xp                    
+                }
+                else
+                {
+                    // Case we want to do something
+                    Debug.Log($"Hited {hit.collider.name}");
+                }
             }
         }
     }
@@ -114,16 +155,13 @@ public class Player : Character
     }
 
     /// <summary>
-    /// Call this method to attack
+    /// Call this method to open and close the inventory
     /// </summary>
     /// <param name="callbackContext"></param>
-    public void Attack(InputAction.CallbackContext callbackContext)
+    public void OpenInventory(InputAction.CallbackContext callbackContext)
     {
-        if (callbackContext.started) {
-            // Debug.Log("<color=red>Attacking</color>");
-            stateMachine.SetState(new AttackState());
-        }
 
+        }
     }
     #endregion
 
