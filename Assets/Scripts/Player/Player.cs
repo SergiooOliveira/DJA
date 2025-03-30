@@ -21,9 +21,7 @@ public class Player : Character
     #endregion
 
     #region Variables
-    // Controllers
     public CharacterController controller;
-    public Animator animator;
 
     // Tags for interactions
     private string doorTag = "Door";
@@ -35,25 +33,15 @@ public class Player : Character
     #endregion
 
     #region MonoBehaviour
-    private void Awake()
-    {
-        if (Instance == null)
-            Instance = this;
-        else
-            Destroy(gameObject);
     }
 
     private void Start()
     {
-        // Game logic
-        SnapToGround();
-        animator = GetComponent<Animator>();
-        LevelUp();
-        GameManager.Instance.UpdateLevelXP();
     }
 
     private void FixedUpdate()
     {
+        stateMachine.FixedUpdate();
         Vector3 movement = new Vector3(moveInput.x, 0, moveInput.y) * speed * Time.fixedDeltaTime;
         controller.Move(movement);
     }
@@ -157,13 +145,12 @@ public class Player : Character
     {
         if (callbackContext.performed)
         {
+            stateMachine.SetState(new MoveState());
             moveInput = callbackContext.ReadValue<Vector2>();
-            animator.SetBool("isMoving", true);
         }
         else if (callbackContext.canceled)
         {
             moveInput = Vector2.zero;
-            animator.SetBool("isMoving", false);
         }
     }
 
@@ -173,9 +160,6 @@ public class Player : Character
     /// <param name="callbackContext"></param>
     public void OpenInventory(InputAction.CallbackContext callbackContext)
     {
-        // Should have a bool to control if the inventory is open or closed. Toggle between those states
-        if (callbackContext.started)
-        {
 
         }
     }
