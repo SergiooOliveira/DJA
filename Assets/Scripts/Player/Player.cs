@@ -18,6 +18,9 @@ public class Player : Character
     public const int baseLevel = 1;
     public const int baseMaxXp = 0;
     public const int baseXp = 0;
+
+    public const int inventorySize = 10;
+    public InventoryClass inventoryClass = new InventoryClass(inventorySize);
     #endregion
 
     #region Variables
@@ -50,6 +53,10 @@ public class Player : Character
         animator = GetComponent<Animator>();
         LevelUp();
         GameManager.Instance.UpdateLevelXP();
+
+        inventoryClass.AddItem(ItemType.None);
+        inventoryClass.AddItem(ItemType.Sword); // Replace with an actual item from your enum
+        inventoryClass.AddItem(ItemType.Shield); // Replace with another item from your enum
     }
 
     private void FixedUpdate()
