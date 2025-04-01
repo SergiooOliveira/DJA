@@ -7,6 +7,7 @@ public class Player : Character
 {
     // Singleton
     public static Player Instance;
+    private StateMachine stateMachine;
 
     #region Base Stats
     // Fight Stats
@@ -33,10 +34,9 @@ public class Player : Character
     #endregion
 
     #region MonoBehaviour
-    }
-
     private void Start()
     {
+        // Your initialization code here
     }
 
     private void FixedUpdate()
@@ -160,9 +160,8 @@ public class Player : Character
     /// <param name="callbackContext"></param>
     public void OpenInventory(InputAction.CallbackContext callbackContext)
     {
-
-        }
+        // Your code for opening the inventory here
     }
     #endregion
-
 }
+
