@@ -56,10 +56,10 @@ public class Player : Character
 
         inventoryClass = new InventoryClass(3); // Create inventory with 3 slots, all set to None.
 
-        inventoryClass.AddItem(ItemType.Sword);  // Replaces first None (index 0)
-        inventoryClass.AddItem(ItemType.Shield); // Replaces first None (index 1)
-        inventoryClass.AddItem(ItemType.Sword);  // Replaces first None (index 2)
-        inventoryClass.AddItem(ItemType.Shield); // Inventory is full!
+        inventoryClass.AddItem(ItemId.Sword);  // Replaces first None (index 0)
+        inventoryClass.AddItem(ItemId.Shield); // Replaces first None (index 1)
+        inventoryClass.AddItem(ItemId.Sword);  // Replaces first None (index 2)
+        inventoryClass.AddItem(ItemId.Shield); // Inventory is full!
     }
 
     private void FixedUpdate()

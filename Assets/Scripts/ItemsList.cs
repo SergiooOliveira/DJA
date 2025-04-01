@@ -1,20 +1,26 @@
 using System.Collections.Generic;
 
-public enum ItemType
+public enum ItemId
 {
-    None = 0,
-    Sword = 1,
-    Shield = 2,
+    NoneWeapon = 0,
+    NoneArmory = 1,
+    NoneAmulet = 2,
+
+    Sword = 3,
+    Shield = 4,
 }
 
 public static class ItemsList
 {
-    private static readonly Dictionary<ItemType, Item> items = new()
+    private static readonly Dictionary<ItemId, Item> items = new()
     {
-        { ItemType.None, new Item(0, "Nothing", "Nothing", 0) },
-        { ItemType.Sword, new Item(1, "Sword", "Sword", 1) },
-        { ItemType.Shield, new Item(2, "Shield", "Shield", 1) }
+        { ItemId.NoneWeapon, new Item(0, Item.ItemType.NoneWeapon, "Nothing", "Nothing", 0) },
+        { ItemId.NoneArmory, new Item(0, Item.ItemType.NoneArmory, "Nothing", "Nothing", 0) },
+        { ItemId.NoneAmulet, new Item(0, Item.ItemType.NoneAmulet, "Nothing", "Nothing", 0) },
+
+        { ItemId.Sword, new Item(0, Item.ItemType.Weapon, "Sword", "Sword", 1) },
+        { ItemId.Shield, new Item(0, Item.ItemType.Armory, "Shield", "Shield", 1) },
     };
 
-    public static Item GetItem(ItemType type) => items.TryGetValue(type, out Item item) ? item : null;
+    public static Item GetItem(ItemId type) => items.TryGetValue(type, out Item item) ? item : null;
 }
