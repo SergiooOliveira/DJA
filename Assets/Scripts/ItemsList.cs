@@ -8,6 +8,7 @@ public enum ItemId
 
     Sword = 3,
     Shield = 4,
+    Amulet = 5,
 }
 
 public static class ItemsList
@@ -20,6 +21,7 @@ public static class ItemsList
 
         { ItemId.Sword, new Item(0, Item.ItemType.Weapon, "Sword", "Sword", 1) },
         { ItemId.Shield, new Item(0, Item.ItemType.Armory, "Shield", "Shield", 1) },
+        { ItemId.Amulet, new Item(0, Item.ItemType.Amulet, "Amulet", "Amulet", 1) },
     };
 
     public static Item GetItem(ItemId type) => items.TryGetValue(type, out Item item) ? item : null;

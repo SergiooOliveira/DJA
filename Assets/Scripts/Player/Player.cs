@@ -54,12 +54,15 @@ public class Player : Character
         LevelUp();
         GameManager.Instance.UpdateLevelXP();
 
-        inventoryClass = new InventoryClass(3); // Create inventory with 3 slots, all set to None.
+        inventoryClass = new InventoryClass(); // 4 slots (1 Weapon, 2 Armor, 1 Amulet)
 
-        inventoryClass.AddItem(ItemId.Sword);  // Replaces first None (index 0)
-        inventoryClass.AddItem(ItemId.Shield); // Replaces first None (index 1)
-        inventoryClass.AddItem(ItemId.Sword);  // Replaces first None (index 2)
-        inventoryClass.AddItem(ItemId.Shield); // Inventory is full!
+        inventoryClass.AddItem(ItemId.Sword);  // Goes into the weapon slot
+        inventoryClass.AddItem(ItemId.Shield); // Goes into the first armor slot
+        inventoryClass.AddItem(ItemId.Shield); // Goes into the second armor slot
+        inventoryClass.AddItem(ItemId.Sword);  // Cannot go into armor slots
+
+        inventoryClass.RemoveItem(1); // Removes Shield from slot 1
+        inventoryClass.AddItem(ItemId.Sword);  // Now Sword can go into freed-up slot 1
     }
 
     private void FixedUpdate()

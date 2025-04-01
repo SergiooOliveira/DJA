@@ -4,57 +4,59 @@ using UnityEngine;
 [System.Serializable]
 public class InventoryClass
 {
-    public int size;
-    public List<ItemId> Items;
+    public List<InventorySlot> slots;
 
-    public InventoryClass(int new_size)
+    public InventoryClass()
     {
-        size = new_size;
-        Items = new List<ItemId>(new_size);
-
-        // Fill inventory with "None" in every slot
-        for (int i = 0; i < size; i++)
+        slots = new List<InventorySlot>
         {
-            Items.Add((i == 0) ? ItemId.NoneWeapon : (i < 3) ? ItemId.NoneArmory : ItemId.NoneAmulet);
-        }
+            new InventorySlot(Item.ItemType.Weapon),  // Slot 0: Weapon
+            new InventorySlot(Item.ItemType.Armory),  // Slot 1: Armor
+            new InventorySlot(Item.ItemType.Armory),  // Slot 2: Armor
+            new InventorySlot(Item.ItemType.Amulet)   // Slot 3: Amulet
+        };
     }
 
     public void AddItem(ItemId itemId)
     {
-        Item item = ItemsList.GetItem(itemId);
-
-        if (item == null)
+        Item newItem = ItemsList.GetItem(itemId);
+        if (newItem == null)
         {
             Debug.LogError($"Invalid itemId: {itemId}");
             return;
         }
 
-        for (int i = 0; i < Items.Count; i++)
+        foreach (var slot in slots)
         {
-            if (Items[i] == ItemId.NoneWeapon && item.itemType == Item.ItemType.Weapon)
+            if (slot.IsEmpty() && slot.CanStoreItem(newItem))
             {
-                Items[i] = itemId;
-                Debug.Log($"Added {itemId} to inventory at slot {i}.");
-                return;
-            }
-            else if ((Items[i] == ItemId.NoneArmory || Items[i] == ItemId.NoneAmulet) &&
-                     item.itemType != Item.ItemType.Weapon)
-            {
-                Items[i] = itemId;
-                Debug.Log($"Added {itemId} to inventory at slot {i}.");
+                slot.StoreItem(itemId);
+                Debug.Log($"Added {newItem.itemName} to inventory.");
                 return;
             }
         }
 
-        Debug.Log("Inventory is full! Cannot add " + itemId);
+        Debug.Log("Inventory is full! Cannot add " + newItem.itemName);
     }
 
+    public void RemoveItem(int slotIndex)
+    {
+        if (slotIndex >= 0 && slotIndex < slots.Count && !slots[slotIndex].IsEmpty())
+        {
+            Debug.Log($"Removed {slots[slotIndex].storedItemId} from inventory.");
+            slots[slotIndex].ClearSlot();
+        }
+        else
+        {
+            Debug.Log("Slot is already empty or invalid.");
+        }
+    }
 
     public Item GetItem(int index)
     {
-        if (index >= 0 && index < Items.Count)
+        if (index >= 0 && index < slots.Count && !slots[index].IsEmpty())
         {
-            return ItemsList.GetItem(Items[index]);
+            return ItemsList.GetItem(slots[index].storedItemId.Value);
         }
         return null;
     }
