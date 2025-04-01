@@ -10,19 +10,29 @@ public class InventoryClass
     public InventoryClass(int new_size)
     {
         size = new_size;
-        Items = new List<ItemType>();
+        Items = new List<ItemType>(new_size); // Initialize with capacity
+
+        // Fill inventory with "None" in every slot
+        for (int i = 0; i < size; i++)
+        {
+            Items.Add(ItemType.None);
+        }
     }
 
     public void AddItem(ItemType itemType)
     {
-        if (Items.Count < size)
+        // Find the first empty (None) slot and replace it
+        for (int i = 0; i < Items.Count; i++)
         {
-            Items.Add(itemType);
+            if (Items[i] == ItemType.None)
+            {
+                Items[i] = itemType;
+                Debug.Log($"Added {itemType} to inventory at slot {i}.");
+                return;
+            }
         }
-        else
-        {
-            Debug.Log("Inventory is full!");
-        }
+
+        Debug.Log("Inventory is full! Cannot add " + itemType);
     }
 
     public Item GetItem(int index)

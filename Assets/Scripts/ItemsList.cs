@@ -9,9 +9,9 @@ public enum ItemType
 
 public static class ItemsList
 {
-    private static readonly Dictionary<ItemType, Item> items = new Dictionary<ItemType, Item>
+    private static readonly Dictionary<ItemType, Item> items = new()
     {
-        { ItemType.None, new Item(0, "Nothing", "Nothing", -1) },
+        { ItemType.None, new Item(0, "Nothing", "Nothing", 0) },
         { ItemType.Sword, new Item(1, "Sword", "Sword", 1) },
         { ItemType.Shield, new Item(2, "Shield", "Shield", 1) }
     };

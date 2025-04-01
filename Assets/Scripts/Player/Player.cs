@@ -19,8 +19,8 @@ public class Player : Character
     public const int baseMaxXp = 0;
     public const int baseXp = 0;
 
-    public const int inventorySize = 10;
-    public InventoryClass inventoryClass = new InventoryClass(inventorySize);
+    public const int inventorySize = 3;
+    public InventoryClass inventoryClass;
     #endregion
 
     #region Variables
@@ -29,8 +29,8 @@ public class Player : Character
     public Animator animator;
 
     // Tags for interactions
-    private string doorTag = "Door";
-    private string slotTag = "SlotMachine";
+    private readonly string doorTag = "Door";
+    private readonly string slotTag = "SlotMachine";
 
     // Movement
     private Vector2 moveInput;
@@ -54,14 +54,17 @@ public class Player : Character
         LevelUp();
         GameManager.Instance.UpdateLevelXP();
 
-        inventoryClass.AddItem(ItemType.None);
-        inventoryClass.AddItem(ItemType.Sword); // Replace with an actual item from your enum
-        inventoryClass.AddItem(ItemType.Shield); // Replace with another item from your enum
+        inventoryClass = new InventoryClass(3); // Create inventory with 3 slots, all set to None.
+
+        inventoryClass.AddItem(ItemType.Sword);  // Replaces first None (index 0)
+        inventoryClass.AddItem(ItemType.Shield); // Replaces first None (index 1)
+        inventoryClass.AddItem(ItemType.Sword);  // Replaces first None (index 2)
+        inventoryClass.AddItem(ItemType.Shield); // Inventory is full!
     }
 
     private void FixedUpdate()
     {
-        Vector3 movement = new Vector3(moveInput.x, 0, moveInput.y) * speed * Time.fixedDeltaTime;
+        Vector3 movement = speed * Time.fixedDeltaTime * new Vector3(moveInput.x, 0, moveInput.y);
         controller.Move(movement);
     }
     #endregion
@@ -72,8 +75,7 @@ public class Player : Character
     /// </summary>
     private void SnapToGround()
     {
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, Vector3.down, out hit, Mathf.Infinity))
+        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, Mathf.Infinity))
         {
             transform.position = hit.point; // Move player to the ground
         }
@@ -133,9 +135,8 @@ public class Player : Character
         {
             //print("E inside");
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
 
-            if (Physics.Raycast(ray, out hit, 10f))
+            if (Physics.Raycast(ray, out RaycastHit hit, 10f))
             {
                 if (hit.collider.CompareTag(doorTag))
                 {
