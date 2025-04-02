@@ -4,7 +4,7 @@ using UnityEngine;
 [System.Serializable]
 public class Item
 {
-    public int id;
+    public ItemId id;
 
     public enum ItemType
     {
@@ -23,12 +23,12 @@ public class Item
     public string description;
     public int maxStack = 1;
 
-    public Item(int new_id, ItemType new_itemType, string new_itemName, string new_description, int new_maxStack)
+    public Item(ItemId new_id, ItemType new_itemType, string new_itemName, string new_description, int new_maxStack)
     {
-        this.id = new_id;
-        this.itemType = new_itemType;
-        this.itemName = new_itemName;
-        this.description = new_description;
-        this.maxStack = new_maxStack;
+        id = new_id;
+        itemType = new_itemType;
+        itemName = new_itemName;
+        description = new_description;
+        maxStack = new_maxStack;
     }
 }

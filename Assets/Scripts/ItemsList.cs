@@ -15,13 +15,13 @@ public static class ItemsList
 {
     private static readonly Dictionary<ItemId, Item> items = new()
     {
-        { ItemId.NoneWeapon, new Item(0, Item.ItemType.NoneWeapon, "Nothing", "Nothing", 0) },
-        { ItemId.NoneArmory, new Item(0, Item.ItemType.NoneArmory, "Nothing", "Nothing", 0) },
-        { ItemId.NoneAmulet, new Item(0, Item.ItemType.NoneAmulet, "Nothing", "Nothing", 0) },
+        { ItemId.NoneWeapon, new(ItemId.NoneWeapon, Item.ItemType.NoneWeapon, "Nothing", "Nothing", 0) },
+        { ItemId.NoneArmory, new(ItemId.NoneArmory, Item.ItemType.NoneArmory, "Nothing", "Nothing", 0) },
+        { ItemId.NoneAmulet, new(ItemId.NoneAmulet, Item.ItemType.NoneAmulet, "Nothing", "Nothing", 0) },
 
-        { ItemId.Sword, new Item(0, Item.ItemType.Weapon, "Sword", "Sword", 1) },
-        { ItemId.Shield, new Item(0, Item.ItemType.Armory, "Shield", "Shield", 1) },
-        { ItemId.Amulet, new Item(0, Item.ItemType.Amulet, "Amulet", "Amulet", 1) },
+        { ItemId.Sword, new(ItemId.Sword, Item.ItemType.Weapon, "Sword", "Sword", 1) },
+        { ItemId.Shield, new(ItemId.Shield, Item.ItemType.Armory, "Shield", "Shield", 1) },
+        { ItemId.Amulet, new(ItemId.Amulet, Item.ItemType.Amulet, "Amulet", "Amulet", 1) },
     };
 
     public static Item GetItem(ItemId type) => items.TryGetValue(type, out Item item) ? item : null;

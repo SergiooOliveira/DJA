@@ -10,10 +10,10 @@ public class InventoryClass
     {
         slots = new List<InventorySlot>
         {
-            new InventorySlot(Item.ItemType.Weapon),  // Slot 0: Weapon
-            new InventorySlot(Item.ItemType.Armory),  // Slot 1: Armor
-            new InventorySlot(Item.ItemType.Armory),  // Slot 2: Armor
-            new InventorySlot(Item.ItemType.Amulet)   // Slot 3: Amulet
+            new(Item.ItemType.Weapon),  // Slot 0: Weapon
+            new(Item.ItemType.Armory),  // Slot 1: Armor
+            new(Item.ItemType.Armory),  // Slot 2: Armor
+            new(Item.ItemType.Amulet)   // Slot 3: Amulet
         };
     }
 
@@ -60,4 +60,18 @@ public class InventoryClass
         }
         return null;
     }
+
+    public string GetItems()
+    {
+        string s = "";
+
+        foreach(InventorySlot slot in slots)
+        {
+            s += "- id: " + slot.storedItemId.ToString();
+            s += "\n";
+        }
+
+        return s;
+    }
+
 }

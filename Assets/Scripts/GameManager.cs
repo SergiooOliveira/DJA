@@ -19,6 +19,10 @@ public class GameManager : MonoBehaviour
     public TMP_Text PlayerStrenght;
     public TMP_Text PlayerArmor;
 
+    [Header("Inventory")]
+    public GameObject inventory;
+    public TMP_Text inventoryText;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
     {
@@ -32,6 +36,7 @@ public class GameManager : MonoBehaviour
     {
         Player.Instance.Initialize();
         UpdatePlayerStats();
+        inventory.SetActive(false);
     }
 
     public void UpdateUpgradesUI()
@@ -91,5 +96,11 @@ public class GameManager : MonoBehaviour
         PlayerHP.text = Player.Instance.Health.ToString();
         PlayerStrenght.text = Player.Instance.Strenght.ToString();
         PlayerArmor.text = Player.Instance.Armor.ToString();
+    }
+
+    public void InventoryPanel(bool activity)
+    {
+        inventoryText.text = Player.Instance.inventoryClass.GetItems();
+        inventory.SetActive(activity);
     }
 }

@@ -19,8 +19,6 @@ public class Player : Character
     public const int baseMaxXp = 0;
     public const int baseXp = 0;
 
-    public const int inventorySize = 3;
-    public InventoryClass inventoryClass;
     #endregion
 
     #region Variables
@@ -31,10 +29,14 @@ public class Player : Character
     // Tags for interactions
     private readonly string doorTag = "Door";
     private readonly string slotTag = "SlotMachine";
+    private readonly string itemTag = "Item";
 
     // Movement
     private Vector2 moveInput;
     public float speed = 5f;
+
+    public const int inventorySize = 3;
+    public InventoryClass inventoryClass;
     #endregion
 
     #region MonoBehaviour
@@ -55,14 +57,6 @@ public class Player : Character
         GameManager.Instance.UpdateLevelXP();
 
         inventoryClass = new InventoryClass(); // 4 slots (1 Weapon, 2 Armor, 1 Amulet)
-
-        inventoryClass.AddItem(ItemId.Sword);  // Goes into the weapon slot
-        inventoryClass.AddItem(ItemId.Shield); // Goes into the first armor slot
-        inventoryClass.AddItem(ItemId.Shield); // Goes into the second armor slot
-        inventoryClass.AddItem(ItemId.Sword);  // Cannot go into armor slots
-
-        inventoryClass.RemoveItem(1); // Removes Shield from slot 1
-        inventoryClass.AddItem(ItemId.Sword);  // Now Sword can go into freed-up slot 1
     }
 
     private void FixedUpdate()
@@ -149,7 +143,13 @@ public class Player : Character
                 else if (hit.collider.CompareTag(slotTag))
                 {
                     // Activate gambling mechanics
-                    GainXp(50); // Change 50 to the enemy xp                    
+                    GainXp(50); // Change 50 to the enemy xp
+                }
+                else if (hit.collider.CompareTag(itemTag))
+                {
+                    inventoryClass.AddItem(itemId: hit.collider.gameObject.GetComponent<ItemObject>().id);
+                    hit.collider.gameObject.SetActive(false);
+                    
                 }
                 else
                 {
@@ -187,7 +187,7 @@ public class Player : Character
         // Should have a bool to control if the inventory is open or closed. Toggle between those states
         if (callbackContext.started)
         {
-
+            GameManager.Instance.InventoryPanel(GameManager.Instance.inventory.activeSelf == false);
         }
     }
     #endregion
