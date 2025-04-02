@@ -187,7 +187,7 @@ public class Player : Character
         // Should have a bool to control if the inventory is open or closed. Toggle between those states
         if (callbackContext.started)
         {
-            GameManager.Instance.InventoryPanel(GameManager.Instance.inventory.activeSelf == false);
+            GameManager.Instance.InventoryPanel(GameManager.Instance.inventoryPanel.activeSelf == false);
         }
     }
     #endregion

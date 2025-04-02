@@ -7,8 +7,9 @@ public enum ItemId
     NoneAmulet = 2,
 
     Sword = 3,
-    Shield = 4,
-    Amulet = 5,
+    Dagger = 4,
+    Shield = 5,
+    Amulet = 6,
 }
 
 public static class ItemsList
@@ -20,6 +21,7 @@ public static class ItemsList
         { ItemId.NoneAmulet, new(ItemId.NoneAmulet, Item.ItemType.NoneAmulet, "Nothing", "Nothing", 0) },
 
         { ItemId.Sword, new(ItemId.Sword, Item.ItemType.Weapon, "Sword", "Sword", 1) },
+        { ItemId.Dagger, new(ItemId.Dagger, Item.ItemType.Weapon, "Dagger", "Dagger", 1) },
         { ItemId.Shield, new(ItemId.Shield, Item.ItemType.Armory, "Shield", "Shield", 1) },
         { ItemId.Amulet, new(ItemId.Amulet, Item.ItemType.Amulet, "Amulet", "Amulet", 1) },
     };

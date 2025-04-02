@@ -36,7 +36,40 @@ public class InventoryClass
             }
         }
 
-        Debug.Log("Inventory is full! Cannot add " + newItem.itemName);
+        GameManager.Instance.ChangeItemPanel(GameManager.Instance.changeItemPanel.activeSelf == false);
+        if (GameManager.Instance.isNewItem)
+        {
+            foreach (var slot in slots)
+            {
+                switch(slot.allowedType)
+                {
+                    case Item.ItemType.NoneWeapon:
+                        if (Item.ItemType.Weapon == newItem.itemType)
+                        {
+                            slot.StoreItem(itemId);
+                            Debug.Log($"Added {newItem.itemName} to inventory.");
+                            return;
+                        }
+                        break;
+                    case Item.ItemType.NoneArmory:
+                        if (Item.ItemType.Armory == newItem.itemType)
+                        {
+                            slot.StoreItem(itemId);
+                            Debug.Log($"Added {newItem.itemName} to inventory.");
+                            return;
+                        }
+                        break;
+                    case Item.ItemType.NoneAmulet:
+                        if (Item.ItemType.Amulet == newItem.itemType)
+                        {
+                            slot.StoreItem(itemId);
+                            Debug.Log($"Added {newItem.itemName} to inventory.");
+                            return;
+                        }
+                        break;
+                }
+            }
+        }
     }
 
     public void RemoveItem(int slotIndex)

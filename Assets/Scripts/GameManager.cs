@@ -1,4 +1,5 @@
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,8 +21,13 @@ public class GameManager : MonoBehaviour
     public TMP_Text PlayerArmor;
 
     [Header("Inventory")]
-    public GameObject inventory;
+    public GameObject inventoryPanel;
     public TMP_Text inventoryText;
+
+    [Header("Change Item")]
+    public GameObject changeItemPanel;
+    public bool isNewItem;
+    public Item pendingItem; // Temporary storage for the new item
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
@@ -36,7 +42,8 @@ public class GameManager : MonoBehaviour
     {
         Player.Instance.Initialize();
         UpdatePlayerStats();
-        inventory.SetActive(false);
+        inventoryPanel.SetActive(false);
+        changeItemPanel.SetActive(false);
     }
 
     public void UpdateUpgradesUI()
@@ -101,6 +108,56 @@ public class GameManager : MonoBehaviour
     public void InventoryPanel(bool activity)
     {
         inventoryText.text = Player.Instance.inventoryClass.GetItems();
-        inventory.SetActive(activity);
+        inventoryPanel.SetActive(activity);
     }
+
+    public void ChangeItemPanel(bool activity)
+    {
+        changeItemPanel.SetActive(activity);
+        isNewItem = false;
+    }
+
+    public void OldItemButton()
+    {
+        changeItemPanel.SetActive(false);
+        isNewItem = false;
+    }
+
+    public void NewItemButton()
+    {
+        changeItemPanel.SetActive(false);
+        isNewItem = true;
+
+        InventoryClass inventory = Player.Instance.inventoryClass;
+
+        // Use the pending item
+        Item newItem = Instance.pendingItem;
+        if (newItem == null)
+        {
+            Debug.LogError("No new item selected.");
+            return;
+        }
+
+        // Find a replaceable slot
+        for (int i = 0; i < inventory.slots.Count; i++)
+        {
+            InventorySlot slot = inventory.slots[i];
+            if (!slot.IsEmpty() && slot.CanStoreItem(newItem))
+            {
+                // Remove old item and replace it
+                inventory.RemoveItem(i);
+                slot.StoreItem(newItem.id);
+                Debug.Log($"Replaced item with {newItem.itemName}.");
+                break;
+            }
+        }
+
+        // Clear pending item after replacement
+        GameManager.Instance.pendingItem = null;
+
+        // Update inventory display
+        inventoryText.text = inventory.GetItems();
+    }
+
+
 }
