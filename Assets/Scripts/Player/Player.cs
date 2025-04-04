@@ -2,7 +2,6 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-
 public class Player : Character
 {
     // Singleton
@@ -181,5 +180,4 @@ public class Player : Character
         }
     }
     #endregion
-
 }

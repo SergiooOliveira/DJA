@@ -14,7 +14,7 @@ public class Enemies : Character
     [SerializeField] private Character dragonPrefab;
 
     Character goblin;
-    Character orc;
+    Character orc;   
     Character dragon;
 
     int playerLevel;
@@ -109,6 +109,7 @@ public class Enemies : Character
             if (character == null)
                 Debug.LogWarning($"Null enemy in list");
             else
+
                 Debug.Log($"{character.Name}");
         }
     }
