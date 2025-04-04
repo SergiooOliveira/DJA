@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 public class Character : MonoBehaviour
 {
     // Variables
+    public string Name { get; set; }
     public int Health { get; set; }
     public int Strenght { get; set; }
     public int Armor { get; set; }
@@ -21,7 +22,7 @@ public class Character : MonoBehaviour
     /// <param name="strenght">Character Strenght</param>
     /// <param name="armor">Character Armor</param>
     /// <param name="level">Character Level</param>
-    public void Initialize(int health = Player.baseHealth, int strenght = Player.baseStrenght, int armor = Player.baseArmor,
+    public void Initialize(string name = Player.baseName,int health = Player.baseHealth, int strenght = Player.baseStrenght, int armor = Player.baseArmor,
                             int level = Player.baseLevel, int xp = Player.baseXp, int maxXp = Player.baseMaxXp)
     {
         this.Health = Mathf.Max(0, health);

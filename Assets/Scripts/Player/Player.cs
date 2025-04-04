@@ -10,6 +10,7 @@ public class Player : Character
 
     #region Base Stats
     // Fight Stats
+    public const string baseName = "Player";
     public const int baseHealth = 100;
     public const int baseStrenght = 5;
     public const int baseArmor = 10;
