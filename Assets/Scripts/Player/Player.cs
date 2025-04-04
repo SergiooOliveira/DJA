@@ -2,7 +2,6 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-
 public class Player : Character
 {
     // Singleton
@@ -10,17 +9,15 @@ public class Player : Character
 
     #region Base Stats
     // Fight Stats
-    public const int baseHealth = 100;
-    public const int baseStrenght = 5;
-    public const int baseArmor = 10;
+    public string baseName = "Player";
+    public int baseHealth = 100;
+    public int baseStrenght = 5;
+    public int baseArmor = 10;
 
     // Level Stats
-    public const int baseLevel = 1;
-    public const int baseMaxXp = 0;
-    public const int baseXp = 0;
-
-    public const int inventorySize = 3;
-    public InventoryClass inventoryClass;
+    public int baseLevel = 1;
+    public int baseMaxXp = 0;
+    public int baseXp = 0;
     #endregion
 
     #region Variables
@@ -29,8 +26,8 @@ public class Player : Character
     public Animator animator;
 
     // Tags for interactions
-    private readonly string doorTag = "Door";
-    private readonly string slotTag = "SlotMachine";
+    private string doorTag = "Door";
+    private string slotTag = "SlotMachine";
 
     // Movement
     private Vector2 moveInput;
@@ -53,21 +50,11 @@ public class Player : Character
         animator = GetComponent<Animator>();
         LevelUp();
         GameManager.Instance.UpdateLevelXP();
-
-        inventoryClass = new InventoryClass(); // 4 slots (1 Weapon, 2 Armor, 1 Amulet)
-
-        inventoryClass.AddItem(ItemId.Sword);  // Goes into the weapon slot
-        inventoryClass.AddItem(ItemId.Shield); // Goes into the first armor slot
-        inventoryClass.AddItem(ItemId.Shield); // Goes into the second armor slot
-        inventoryClass.AddItem(ItemId.Sword);  // Cannot go into armor slots
-
-        inventoryClass.RemoveItem(1); // Removes Shield from slot 1
-        inventoryClass.AddItem(ItemId.Sword);  // Now Sword can go into freed-up slot 1
     }
 
     private void FixedUpdate()
     {
-        Vector3 movement = speed * Time.fixedDeltaTime * new Vector3(moveInput.x, 0, moveInput.y);
+        Vector3 movement = new Vector3(moveInput.x, 0, moveInput.y) * speed * Time.fixedDeltaTime;
         controller.Move(movement);
     }
     #endregion
@@ -78,7 +65,8 @@ public class Player : Character
     /// </summary>
     private void SnapToGround()
     {
-        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, Mathf.Infinity))
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, Vector3.down, out hit, Mathf.Infinity))
         {
             transform.position = hit.point; // Move player to the ground
         }
@@ -138,8 +126,9 @@ public class Player : Character
         {
             //print("E inside");
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
 
-            if (Physics.Raycast(ray, out RaycastHit hit, 10f))
+            if (Physics.Raycast(ray, out hit, 10f))
             {
                 if (hit.collider.CompareTag(doorTag))
                 {
@@ -191,5 +180,4 @@ public class Player : Character
         }
     }
     #endregion
-
 }
