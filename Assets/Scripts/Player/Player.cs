@@ -10,15 +10,15 @@ public class Player : Character
 
     #region Base Stats
     // Fight Stats
-    public const string baseName = "Player";
-    public const int baseHealth = 100;
-    public const int baseStrenght = 5;
-    public const int baseArmor = 10;
+    public string baseName = "Player";
+    public int baseHealth = 100;
+    public int baseStrenght = 5;
+    public int baseArmor = 10;
 
     // Level Stats
-    public const int baseLevel = 1;
-    public const int baseMaxXp = 0;
-    public const int baseXp = 0;
+    public int baseLevel = 1;
+    public int baseMaxXp = 0;
+    public int baseXp = 0;
     #endregion
 
     #region Variables

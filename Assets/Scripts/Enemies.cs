@@ -3,20 +3,34 @@ using UnityEngine;
 
 public class Enemies : Character
 {
-    public List<Character> enemies;
+    public static Enemies Instance;
 
+    public List<Character> enemies = new List<Character>();
+
+    [Header("Enemies Prefabs")]
     // Create various prefabs for enemies
+    [SerializeField] private Character goblinPrefab;
+    [SerializeField] private Character orcPrefab;
+    [SerializeField] private Character dragonPrefab;
+
     Character goblin;
     Character orc;
     Character dragon;
 
-    int level = 0; // Player.Instance.Level;
-    int waveCounter = 0;
+    int playerLevel;
+    //int waveCounter = 0;
+
+    private void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(gameObject);
+    }
 
     private void Start()
-    {                
-        CreateEnemies();
-        enemies = new List<Character>();
+    {   
+                
     }
 
     /// <summary>
@@ -24,6 +38,8 @@ public class Enemies : Character
     /// </summary>
     public void StartWave()
     {
+        playerLevel = Player.Instance.Level;
+        CreateEnemies();
         CreateWave();
     }
 
@@ -35,21 +51,21 @@ public class Enemies : Character
         // Wave 1
         AddToWave(goblin, 3);
 
-        ViewAllWave();
-        ClearWave();
+        //ViewAllWave();
+        //ClearWave();
 
-        // Wave 2
+        // Wave 2        
         AddToWave(goblin, 3);
         AddToWave(orc, 2);
 
-        ViewAllWave();
-        ClearWave();
+        //ViewAllWave();
+        //ClearWave();
 
         // Wave 3
         AddToWave(dragon, 1);
 
-        ViewAllWave();
-        ClearWave();
+        //ViewAllWave();
+        //ClearWave();
     }
 
     /// <summary>
@@ -57,9 +73,13 @@ public class Enemies : Character
     /// </summary>
     private void CreateEnemies()
     {
-        goblin.Initialize("Goblin", 10 * level, 20 * level, 10 * level, level + 1, 10, 0);
-        orc.Initialize("Orc", 100 * level, 5 * level, 30 * level, level + 2, 30, 0);
-        dragon.Initialize("Dragon", 10 * level, 20 * level, 10 * level, level + 5, 500, 0);
+        goblin = Instantiate(goblinPrefab);
+        orc = Instantiate(orcPrefab);
+        dragon = Instantiate(dragonPrefab);
+
+        goblin.Initialize("Goblin", 10 * playerLevel, 20 * playerLevel, 10 * playerLevel, playerLevel + 1, 10, 0);
+        orc.Initialize("Orc", 100 * playerLevel, 5 * playerLevel, 30 * playerLevel, playerLevel + 2, 30, 0);
+        dragon.Initialize("Dragon", 10 * playerLevel, 20 * playerLevel, 10 * playerLevel, playerLevel + 5, 500, 0);
     }
 
     /// <summary>
@@ -71,8 +91,11 @@ public class Enemies : Character
     {
         for (int i = 0; i < amount; i++)
         {
-            enemies.Add(character);
+            Character newCharacter = Instantiate(character);
+            enemies.Add(newCharacter);
         }
+
+        Debug.Log($"Added {amount} x {character.Name} to the wave");
     }
 
     /// <summary>
@@ -80,9 +103,13 @@ public class Enemies : Character
     /// </summary>
     public void ViewAllWave()
     {
-        foreach(Character character in enemies)
+        Debug.Log($"Wave has {enemies.Count} enemies.");
+        foreach (Character character in enemies)
         {
-            Debug.Log($"{character.Name}");
+            if (character == null)
+                Debug.LogWarning($"Null enemy in list");
+            else
+                Debug.Log($"{character.Name}");
         }
     }
 

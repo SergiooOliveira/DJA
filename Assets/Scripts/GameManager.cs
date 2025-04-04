@@ -19,9 +19,6 @@ public class GameManager : MonoBehaviour
     public TMP_Text PlayerStrenght;
     public TMP_Text PlayerArmor;
 
-
-    Enemies enemies = new Enemies();
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
     {
@@ -33,9 +30,11 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        Player.Instance.Initialize();
+        Player.Instance.Initialize(Player.Instance.baseName, Player.Instance.baseHealth, Player.Instance.baseStrenght,
+                                    Player.Instance.baseArmor, Player.Instance.baseLevel, Player.Instance.baseXp, Player.Instance.baseMaxXp);
         UpdatePlayerStats();
-        enemies.StartWave();
+
+        Enemies.Instance.StartWave();
     }
 
     public void UpdateUpgradesUI()
