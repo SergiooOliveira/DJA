@@ -35,8 +35,7 @@ public class Player : Character
     private Vector2 moveInput;
     public float speed = 5f;
 
-    public const int inventorySize = 3;
-    public InventoryClass inventoryClass;
+    public Inventory inventory = new(10);
     #endregion
 
     #region MonoBehaviour
@@ -56,7 +55,9 @@ public class Player : Character
         LevelUp();
         GameManager.Instance.UpdateLevelXP();
 
-        inventoryClass = new InventoryClass();
+        inventory.AddItem(newItem: AllItems.GetItem(index: 0));
+        inventory.AddItem(newItem: AllItems.GetItem(index: 1));
+        Debug.Log(inventory.GetItems());
     }
 
     private void FixedUpdate()
@@ -147,20 +148,7 @@ public class Player : Character
                 }
                 else if (hit.collider.CompareTag(itemTag))
                 {
-                    if(
-                        hit.collider.gameObject.GetComponent<ItemObject>().id == ItemId.NoneWeapon ||
-                        hit.collider.gameObject.GetComponent<ItemObject>().id == ItemId.NoneArmory ||
-                        hit.collider.gameObject.GetComponent<ItemObject>().id == ItemId.NoneAmulet
-                        )
-                    {
-                        inventoryClass.AddItem(itemId: hit.collider.gameObject.GetComponent<ItemObject>().id);
-                    }
-                    else
-                    {
-                        GameManager.Instance.ChangeItemPanel(true, hit.collider.gameObject.GetComponent<ItemObject>());
-                    }
-                    hit.collider.gameObject.SetActive(false);
-                    
+
                 }
                 else
                 {
@@ -198,7 +186,7 @@ public class Player : Character
         // Should have a bool to control if the inventory is open or closed. Toggle between those states
         if (callbackContext.started)
         {
-            GameManager.Instance.InventoryPanel(GameManager.Instance.inventoryPanel.activeSelf == false);
+
         }
     }
     #endregion
