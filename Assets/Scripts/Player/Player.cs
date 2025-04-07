@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,6 +10,7 @@ public class Player : Character
     public static Player Instance;
 
     #region Base Stats
+    [Header("Base Stats")]
     // Fight Stats
     public const int baseHealth = 100;
     public const int baseStrenght = 5;
@@ -23,19 +25,24 @@ public class Player : Character
 
     #region Variables
     // Controllers
+    [Header("Controllers")]
     public CharacterController controller;
     public Animator animator;
 
     // Tags for interactions
+    [Header("Tags")]
     private readonly string doorTag = "Door";
     private readonly string slotTag = "SlotMachine";
     private readonly string itemTag = "Item";
 
     // Movement
-    private Vector2 moveInput;
+    [Header("Movement")]
     public float speed = 5f;
+    private Vector2 moveInput;
 
-    public Inventory inventory = new(10);
+    // Inventory
+    [Header("Inventory")]
+    public static Inventory inventory = new(10);
     #endregion
 
     #region MonoBehaviour
@@ -54,14 +61,28 @@ public class Player : Character
         animator = GetComponent<Animator>();
         LevelUp();
         GameManager.Instance.UpdateLevelXP();
-
-        inventory.AddItem(newItem: AllItems.GetItem(index: 0));
-        inventory.AddItem(newItem: AllItems.GetItem(index: 1));
-        Debug.Log(inventory.GetItems());
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
+        string s = "";
+
+        for (int i = 0; i < inventory.InventoryItems.Count; i++)
+        {
+            s += "Item " + i;
+            s += " | ";
+            s += "- Name: " + inventory.InventoryItems[i].GetComponent<ItemClass>().Name;
+            s += " | ";
+            s += "- Type: " + inventory.InventoryItems[i].GetComponent<ItemClass>().Type;
+            s += " | ";
+            s += "- Description: " + inventory.InventoryItems[i].GetComponent<ItemClass>().Description;
+            s += "\n";
+        }
+
+        Debug.Log(s);
+    }
+
+    private void FixedUpdate() {
         Vector3 movement = speed * Time.fixedDeltaTime * new Vector3(moveInput.x, 0, moveInput.y);
         controller.Move(movement);
     }
@@ -148,7 +169,8 @@ public class Player : Character
                 }
                 else if (hit.collider.CompareTag(itemTag))
                 {
-
+                    inventory.InventoryItems.Add(hit.collider.gameObject);
+                    hit.collider.gameObject.SetActive(false);
                 }
                 else
                 {
