@@ -56,7 +56,7 @@ public class Player : Character
         LevelUp();
         GameManager.Instance.UpdateLevelXP();
 
-        inventoryClass = new InventoryClass(); // 4 slots (1 Weapon, 2 Armor, 1 Amulet)
+        inventoryClass = new InventoryClass();
     }
 
     private void FixedUpdate()
@@ -147,7 +147,18 @@ public class Player : Character
                 }
                 else if (hit.collider.CompareTag(itemTag))
                 {
-                    inventoryClass.AddItem(itemId: hit.collider.gameObject.GetComponent<ItemObject>().id);
+                    if(
+                        hit.collider.gameObject.GetComponent<ItemObject>().id == ItemId.NoneWeapon ||
+                        hit.collider.gameObject.GetComponent<ItemObject>().id == ItemId.NoneArmory ||
+                        hit.collider.gameObject.GetComponent<ItemObject>().id == ItemId.NoneAmulet
+                        )
+                    {
+                        inventoryClass.AddItem(itemId: hit.collider.gameObject.GetComponent<ItemObject>().id);
+                    }
+                    else
+                    {
+                        GameManager.Instance.ChangeItemPanel(true, hit.collider.gameObject.GetComponent<ItemObject>());
+                    }
                     hit.collider.gameObject.SetActive(false);
                     
                 }
