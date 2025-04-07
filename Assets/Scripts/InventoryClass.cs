@@ -4,10 +4,13 @@ using UnityEngine;
 [System.Serializable]
 public class InventoryClass
 {
+    private Slots equipmentRenderer;
     public List<InventorySlot> slots;
 
-    public InventoryClass()
+    public InventoryClass(Slots renderer)
     {
+        equipmentRenderer = renderer;
+
         slots = new List<InventorySlot>
         {
             new InventorySlot(Item.ItemType.Weapon),  // Slot 0: Weapon
@@ -32,6 +35,7 @@ public class InventoryClass
             {
                 slot.StoreItem(itemId);
                 Debug.Log($"Added {newItem.itemName} to inventory.");
+                equipmentRenderer?.UpdateVisuals();
                 return;
             }
         }

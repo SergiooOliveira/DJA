@@ -6,6 +6,9 @@ public class Player : Character
 {
     // Singleton
     public static Player Instance;
+    public Slots equipmentRenderer;
+    public InventoryClass inventory;
+
 
     #region Base Stats
     // Fight Stats
@@ -45,6 +48,11 @@ public class Player : Character
 
     private void Start()
     {
+        inventory = new InventoryClass(equipmentRenderer);
+
+        inventory.AddItem(ItemId.Sword);
+        inventory.AddItem(ItemId.Shield);
+        
         // Game logic
         SnapToGround();
         animator = GetComponent<Animator>();

@@ -31,6 +31,68 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1895731428089172384}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2608368438709368085
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6703653161959075653}
+  m_Layer: 0
+  m_Name: RightSlot(Weapon)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6703653161959075653
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2608368438709368085}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.00000041574094, y: 0.00000005136823, z: -0.00000018873831, w: 1}
+  m_LocalPosition: {x: 0.022598196, y: -0.09108236, z: -0.005178384}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7845584339132756205}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8428931798199542801
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6824584488526080580}
+  m_Layer: 0
+  m_Name: LeftSlot(Shield)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6824584488526080580
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8428931798199542801}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5185930268339561352}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8506383556233083213
 GameObject:
   m_ObjectHideFlags: 0
@@ -242,6 +304,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 44fd605ef6df41e4687d8628b219609b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5991400307101165758}
+    - targetCorrespondingSourceObject: {fileID: 6502182839619065283, guid: 44fd605ef6df41e4687d8628b219609b, type: 3}
+      insertIndex: 0
+      addedObject: {fileID: 6824584488526080580}
+    - targetCorrespondingSourceObject: {fileID: -1070350730909333850, guid: 44fd605ef6df41e4687d8628b219609b, type: 3}
+      insertIndex: 0
+      addedObject: {fileID: 6703653161959075653}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 44fd605ef6df41e4687d8628b219609b, type: 3}
       insertIndex: -1
@@ -278,14 +346,7 @@ Animator:
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_AnimatePhysics: 0
-  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
-    are already bound by a Humanoid avatar. These transforms can only be changed
-    by Humanoid clips.\n\tTransform 'mixamorig:Hips'\n\tTransform 'mixamorig:LeftFoot'\n\tTransform
-    'mixamorig:LeftHandThumb2'\n\tTransform 'mixamorig:LeftHandIndex1'\n\tTransform
-    'mixamorig:LeftHandPinky2'\n\tTransform 'mixamorig:RightHandRing2'\n\tTransform
-    'mixamorig:Spine1'\n\tTransform 'mixamorig:LeftToeBase'\n\tTransform 'mixamorig:LeftHandThumb3'\n\tTransform
-    'mixamorig:RightArm'\n\tand more ...\n\tFrom animation clip 'Punching'\n\tFrom
-    animation clip 'Running'\n\tFrom animation clip 'Sword And Shield Slash'"
+  m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
@@ -427,6 +488,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 9caa3d8a-6b2f-4e8e-8bad-6ede561bd9be
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: d55d5fc5-44ef-41b2-bb2f-ce2bd29096e5
+    m_ActionName: 'Player/Inventory[/Keyboard/i]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -469,14 +534,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7562f92d64579284aa3667dc3037aff2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  life: 0
-  strenght: 0
+  characterName: 
+  health: 0
+  strength: 0
   armor: 0
+  level: 0
+  xp: 0
+  maxXp: 0
+  baseName: Player
+  baseHealth: 100
+  baseStrenght: 5
+  baseArmor: 10
+  baseLevel: 1
+  baseMaxXp: 0
+  baseXp: 0
   controller: {fileID: 4983096619118593243}
   animator: {fileID: 0}
   speed: 12
 --- !u!4 &1895731428089172384 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 44fd605ef6df41e4687d8628b219609b, type: 3}
+  m_PrefabInstance: {fileID: 2144914973660411467}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5185930268339561352 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6502182839619065283, guid: 44fd605ef6df41e4687d8628b219609b, type: 3}
+  m_PrefabInstance: {fileID: 2144914973660411467}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7845584339132756205 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -1070350730909333850, guid: 44fd605ef6df41e4687d8628b219609b, type: 3}
   m_PrefabInstance: {fileID: 2144914973660411467}
   m_PrefabAsset: {fileID: 0}
