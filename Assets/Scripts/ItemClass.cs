@@ -8,7 +8,8 @@ public enum ItemType {
     Helmet,
     ChestPlate,
     LegsPlate,
-    FootWear
+    FootWear,
+    Amulet,
 }
 
 public class ItemClass : MonoBehaviour {
@@ -18,10 +19,4 @@ public class ItemClass : MonoBehaviour {
     public string Name;
     public string Description;
     public Image Image;
-
-    public ItemClass(ItemType type, string name, string description)     {
-        Type = type;
-        Name = name;
-        Description = description;
-    }
 }

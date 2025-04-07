@@ -63,25 +63,6 @@ public class Player : Character
         GameManager.Instance.UpdateLevelXP();
     }
 
-    private void Update()
-    {
-        string s = "";
-
-        for (int i = 0; i < inventory.InventoryItems.Count; i++)
-        {
-            s += "Item " + i;
-            s += " | ";
-            s += "- Name: " + inventory.InventoryItems[i].GetComponent<ItemClass>().Name;
-            s += " | ";
-            s += "- Type: " + inventory.InventoryItems[i].GetComponent<ItemClass>().Type;
-            s += " | ";
-            s += "- Description: " + inventory.InventoryItems[i].GetComponent<ItemClass>().Description;
-            s += "\n";
-        }
-
-        Debug.Log(s);
-    }
-
     private void FixedUpdate() {
         Vector3 movement = speed * Time.fixedDeltaTime * new Vector3(moveInput.x, 0, moveInput.y);
         controller.Move(movement);
@@ -169,8 +150,7 @@ public class Player : Character
                 }
                 else if (hit.collider.CompareTag(itemTag))
                 {
-                    inventory.InventoryItems.Add(hit.collider.gameObject);
-                    hit.collider.gameObject.SetActive(false);
+                    inventory.AddInventoryItem(hit.collider.gameObject);
                 }
                 else
                 {
