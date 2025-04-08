@@ -171,38 +171,42 @@ public class Player : Character
                             new_item.transform.SetParent(mainHand.transform);
                             mainHand = inventory.InventorySlots[0].item;
                         }
-                        if (new_item.GetComponent<ItemClass>().Type == ItemType.OffHand)
+                        else if (new_item.GetComponent<ItemClass>().Type == ItemType.OffHand)
                         {
                             new_item.transform.SetParent(offHand.transform);
                             offHand = inventory.InventorySlots[1].item;
                         }
-                        if (new_item.GetComponent<ItemClass>().Type == ItemType.Helmet)
+                        else if (new_item.GetComponent<ItemClass>().Type == ItemType.Helmet)
                         {
                             new_item.transform.SetParent(helmet.transform);
                             helmet = inventory.InventorySlots[2].item;
                         }
-                        if (new_item.GetComponent<ItemClass>().Type == ItemType.ChestPlate)
+                        else if (new_item.GetComponent<ItemClass>().Type == ItemType.ChestPlate)
                         {
                             new_item.transform.SetParent(chestPlate.transform);
                             chestPlate = inventory.InventorySlots[3].item;
                         }
-                        if (new_item.GetComponent<ItemClass>().Type == ItemType.LegsPlate)
+                        else if (new_item.GetComponent<ItemClass>().Type == ItemType.LegsPlate)
                         {
-                            for (int i = 0; i < legPlate.Count; i++)
+                            for (int i = 0; i < legPlate.Capacity; i++)
                             {
-                                new_item.transform.SetParent(legPlate[i].transform);
+                                GameObject new_gameObject = Instantiate(new_item, legPlate[i].transform);
+                                new_gameObject.transform.localPosition = Vector3.zero;
                                 legPlate[i] = inventory.InventorySlots[4].item;
                             }
+                            Destroy(new_item);
                         }
-                        if (new_item.GetComponent<ItemClass>().Type == ItemType.FootWear)
+                        else if (new_item.GetComponent<ItemClass>().Type == ItemType.FootWear)
                         {
-                            for (int i = 0; i < legPlate.Count; i++)
+                            for (int i = 0; i < footWear.Capacity; i++)
                             {
-                                new_item.transform.SetParent(footWear[i].transform);
-                                footWear[i] = inventory.InventorySlots[4].item;
+                                GameObject new_gameObject = Instantiate(new_item, footWear[i].transform);
+                                new_gameObject.transform.localPosition = Vector3.zero;
+                                footWear[i] = inventory.InventorySlots[5].item;
                             }
+                            Destroy(new_item);
                         }
-                        if (new_item.GetComponent<ItemClass>().Type == ItemType.Amulet)
+                        else if (new_item.GetComponent<ItemClass>().Type == ItemType.Amulet)
                         {
                             new_item.transform.SetParent(amulet.transform);
                             amulet = inventory.InventorySlots[6].item;
