@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 
 public class Player : Character
@@ -42,7 +44,15 @@ public class Player : Character
 
     // Inventory
     [Header("Inventory")]
-    public static Inventory inventory = new(10);
+    public GameObject mainHand;
+    public GameObject offHand;
+    public GameObject helmet;
+    public GameObject chestPlate;
+    public List<GameObject> legPlate;
+    public List<GameObject> footWear;
+    public GameObject amulet;
+    // public List<GameObject> BodyList = new() { mainHand, offHand, helmet, chestPlate, chestPlate, legPlate, footWear, amulet };
+    public Inventory inventory = new(10);
     #endregion
 
     #region MonoBehaviour
@@ -150,7 +160,56 @@ public class Player : Character
                 }
                 else if (hit.collider.CompareTag(itemTag))
                 {
-                    inventory.AddInventoryItem(hit.collider.gameObject);
+                    GameObject new_item = hit.collider.gameObject;
+
+                    if(new_item != null)
+                    {
+                        inventory.AddInventoryItem(new_item);
+
+                        if (new_item.GetComponent<ItemClass>().Type == ItemType.MainHand)
+                        {
+                            new_item.transform.SetParent(mainHand.transform);
+                            mainHand = inventory.InventorySlots[0].item;
+                        }
+                        if (new_item.GetComponent<ItemClass>().Type == ItemType.OffHand)
+                        {
+                            new_item.transform.SetParent(offHand.transform);
+                            offHand = inventory.InventorySlots[1].item;
+                        }
+                        if (new_item.GetComponent<ItemClass>().Type == ItemType.Helmet)
+                        {
+                            new_item.transform.SetParent(helmet.transform);
+                            helmet = inventory.InventorySlots[2].item;
+                        }
+                        if (new_item.GetComponent<ItemClass>().Type == ItemType.ChestPlate)
+                        {
+                            new_item.transform.SetParent(chestPlate.transform);
+                            chestPlate = inventory.InventorySlots[3].item;
+                        }
+                        if (new_item.GetComponent<ItemClass>().Type == ItemType.LegsPlate)
+                        {
+                            for (int i = 0; i < legPlate.Count; i++)
+                            {
+                                new_item.transform.SetParent(legPlate[i].transform);
+                                legPlate[i] = inventory.InventorySlots[4].item;
+                            }
+                        }
+                        if (new_item.GetComponent<ItemClass>().Type == ItemType.FootWear)
+                        {
+                            for (int i = 0; i < legPlate.Count; i++)
+                            {
+                                new_item.transform.SetParent(footWear[i].transform);
+                                footWear[i] = inventory.InventorySlots[4].item;
+                            }
+                        }
+                        if (new_item.GetComponent<ItemClass>().Type == ItemType.Amulet)
+                        {
+                            new_item.transform.SetParent(amulet.transform);
+                            amulet = inventory.InventorySlots[6].item;
+                        }
+
+                        new_item.transform.localPosition = new Vector3(0, 0, 0);
+                    }
                 }
                 else
                 {

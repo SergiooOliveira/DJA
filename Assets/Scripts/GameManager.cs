@@ -102,4 +102,18 @@ public class GameManager : MonoBehaviour
         PlayerArmor.text = Player.Instance.Armor.ToString();
     }
 
+    public void ChangeItemPanel()
+    {
+        Time.timeScale = 0f;
+        changeItemPanel.SetActive(true);
+    }
+
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
+    }
+
 }

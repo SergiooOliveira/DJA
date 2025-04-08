@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 public class InventorySlot
 {
-    public ItemType Type;
-    public GameObject Item; // Can be null or reference a real item prefab
+    public ItemType type;
+    public GameObject item; // Can be null or reference a real item prefab
 }
 
 public class Inventory
@@ -21,7 +21,7 @@ public class Inventory
         {
             InventorySlots.Add(new InventorySlot
             {
-                Type = i switch
+                type = i switch
                 {
                     0 => ItemType.MainHand,
                     1 => ItemType.OffHand,
@@ -32,7 +32,7 @@ public class Inventory
                     6 => ItemType.Amulet,
                     _ => ItemType.Amulet,
                 },
-                Item = null
+                item = null
             });
         }
     }
@@ -43,10 +43,9 @@ public class Inventory
 
         foreach (var slot in InventorySlots)
         {
-            if (slot.Type == itemClass.Type && slot.Item == null)
+            if (slot.type == itemClass.Type && slot.item == null)
             {
-                slot.Item = itemObject;
-                itemObject.SetActive(false);
+                slot.item = itemObject;
                 return;
             }
         }
@@ -54,5 +53,9 @@ public class Inventory
         Debug.LogWarning("No empty slot for item: " + itemClass.Name);
     }
 
+    public List<InventorySlot> GetInventoryItem()
+    {
+        return InventorySlots;
+    }
 
 }
