@@ -3,14 +3,13 @@ using UnityEngine.InputSystem;
 
 public class Character : MonoBehaviour
 {
-
-    [SerializeField] private string characterName;
-    [SerializeField] private int health;
-    [SerializeField] private int strength;
-    [SerializeField] private int armor;
-    [SerializeField] private int level;
-    [SerializeField] private int xp;
-    [SerializeField] private int maxXp;
+    private string characterName;
+    private int health;
+    private int strength;
+    private int armor;
+    private int level;
+    private int xp;
+    private int maxXp;
 
     // Variables
     public string Name {

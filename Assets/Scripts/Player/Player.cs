@@ -1,6 +1,8 @@
 using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.Windows;
 
 public class Player : Character
 {
@@ -9,15 +11,15 @@ public class Player : Character
 
     #region Base Stats
     // Fight Stats
-    public string baseName = "Player";
-    public int baseHealth = 100;
-    public int baseStrenght = 5;
-    public int baseArmor = 10;
+    [HideInInspector] public string baseName = "Player";
+    [HideInInspector] public int baseHealth = 100;
+    [HideInInspector] public int baseStrenght = 5;
+    [HideInInspector] public int baseArmor = 10;
 
     // Level Stats
-    public int baseLevel = 1;
-    public int baseMaxXp = 0;
-    public int baseXp = 0;
+    [HideInInspector] public int baseLevel = 1;
+    [HideInInspector] public int baseMaxXp = 0;
+    [HideInInspector] public int baseXp = 0;
     #endregion
 
     #region Variables
@@ -31,7 +33,8 @@ public class Player : Character
 
     // Movement
     private Vector2 moveInput;
-    public float speed = 5f;
+    public float speed = 0.1f;
+    private float movementX, movementY;
     #endregion
 
     #region MonoBehaviour
@@ -54,8 +57,19 @@ public class Player : Character
 
     private void FixedUpdate()
     {
-        Vector3 movement = new Vector3(moveInput.x, 0, moveInput.y) * speed * Time.fixedDeltaTime;
-        controller.Move(movement);
+        Vector3 movement = new Vector3(movementX, 0.0f, movementY);
+        controller.Move(movement * speed);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log("Triggered Spawning");
+
+        GameObject triggerParent = other.transform.parent.gameObject;
+        foreach (Transform triggers in triggerParent.transform)
+        {
+            Destroy(triggers.gameObject);
+        }
     }
     #endregion
 
@@ -125,7 +139,7 @@ public class Player : Character
         if (callbackContext.started)
         {
             //print("E inside");
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Ray ray = Camera.main.ScreenPointToRay(UnityEngine.Input.mousePosition);
             RaycastHit hit;
 
             if (Physics.Raycast(ray, out hit, 10f))
@@ -158,7 +172,11 @@ public class Player : Character
         if (callbackContext.performed)
         {
             moveInput = callbackContext.ReadValue<Vector2>();
+            movementX = moveInput.x;
+            movementY = moveInput.y;
+
             animator.SetBool("isMoving", true);
+
         }
         else if (callbackContext.canceled)
         {
