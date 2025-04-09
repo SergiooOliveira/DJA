@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
-
 public class Player : Character
 {
     // Singleton
@@ -23,6 +22,8 @@ public class Player : Character
     public const int baseMaxXp = 0;
     public const int baseXp = 0;
 
+    // Optional player name (from main)
+    public string baseName = "Player";
     #endregion
 
     #region Variables
@@ -51,7 +52,6 @@ public class Player : Character
     public List<GameObject> legPlate;
     public List<GameObject> footWear;
     public GameObject amulet;
-    // public List<GameObject> BodyList = new() { mainHand, offHand, helmet, chestPlate, chestPlate, legPlate, footWear, amulet };
     public Inventory inventory = new(10);
     #endregion
 
@@ -66,7 +66,6 @@ public class Player : Character
 
     private void Start()
     {
-        // Game logic
         SnapToGround();
         animator = GetComponent<Animator>();
         LevelUp();
@@ -81,21 +80,14 @@ public class Player : Character
     #endregion
 
     #region Methods
-    /// <summary>
-    /// Call the method to place the player in the ground
-    /// </summary>
     private void SnapToGround()
     {
         if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, Mathf.Infinity))
         {
-            transform.position = hit.point; // Move player to the ground
+            transform.position = hit.point;
         }
     }
 
-    /// <summary>
-    /// Call this method to give xp to Player
-    /// </summary>
-    /// <param name="xp">xp to add</param>
     private void GainXp(int xp)
     {
         Xp += xp;
@@ -104,47 +96,30 @@ public class Player : Character
         {
             Xp -= MaxXp;
             LevelUp();
-
             GamblingManager.Instance.StartRolling();
         }
 
         GameManager.Instance.UpdateLevelXP();
     }
 
-    /// <summary>
-    /// Call this method to Level Up
-    /// </summary>
     private void LevelUp()
     {
         Level++;
         MaxXp = CalculateMaxXp(Level);
-
         Debug.Log($"Player is Level = {Level} with a MaxXp of {MaxXp}");
     }
 
-    /// <summary>
-    /// Calculates max xp exponentially
-    /// </summary>
-    /// <param name="level">Current Level of the Player</param>
-    /// <returns></returns>
     private int CalculateMaxXp(int level)
     {
         return (int)(100 * Math.Pow(1.2, level - 1));
     }
-
     #endregion
 
     #region Unity Events
-    /// <summary>
-    /// Call this method to interact with an object
-    /// </summary>
-    /// <param name="callbackContext"></param>
     public void OnInteract(InputAction.CallbackContext callbackContext)
     {
-        // print("E outside");
         if (callbackContext.started)
         {
-            //print("E inside");
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
             if (Physics.Raycast(ray, out RaycastHit hit, 10f))
@@ -156,18 +131,15 @@ public class Player : Character
                 }
                 else if (hit.collider.CompareTag(slotTag))
                 {
-                    // Activate gambling mechanics
-                    GainXp(50); // Change 50 to the enemy xp
+                    GainXp(50); // Dummy XP gain
                 }
                 else if (hit.collider.CompareTag(itemTag))
                 {
-
                     GameObject original = hit.collider.gameObject;
                     ItemClass itemClass = original.GetComponent<ItemClass>();
 
                     if (!itemClass.isCollected)
                     {
-
                         inventory.AddInventoryItem(original);
                         Transform originalParent = null;
 
@@ -181,34 +153,28 @@ public class Player : Character
                                 originalParent = mainHand.transform.parent;
                                 mainHand = inventory.InventorySlots[0].item;
                                 break;
-
                             case ItemType.OffHand:
                                 originalParent = offHand.transform.parent;
                                 offHand = inventory.InventorySlots[1].item;
                                 break;
-
                             case ItemType.Helmet:
                                 originalParent = helmet.transform.parent;
                                 helmet = inventory.InventorySlots[2].item;
                                 break;
-
                             case ItemType.ChestPlate:
                                 originalParent = chestPlate.transform.parent;
                                 chestPlate = inventory.InventorySlots[3].item;
                                 break;
-
                             case ItemType.LegsPlate:
                                 isArrayItem = true;
                                 targetArray = legPlate;
                                 inventoryIndex = 4;
                                 break;
-
                             case ItemType.FootWear:
                                 isArrayItem = true;
                                 targetArray = footWear;
                                 inventoryIndex = 5;
                                 break;
-
                             case ItemType.Amulet:
                                 originalParent = amulet.transform.parent;
                                 amulet = inventory.InventorySlots[6].item;
@@ -239,21 +205,15 @@ public class Player : Character
 
                         Destroy(original);
                     }
-
                 }
                 else
                 {
-                    // Case we want to do something
                     Debug.Log($"Hited {hit.collider.name}");
                 }
             }
         }
     }
 
-    /// <summary>
-    /// Call this method to move
-    /// </summary>
-    /// <param name="callbackContext"></param>
     public void OnMove(InputAction.CallbackContext callbackContext)
     {
         if (callbackContext.performed)
@@ -268,18 +228,12 @@ public class Player : Character
         }
     }
 
-    /// <summary>
-    /// Call this method to open and close the inventory
-    /// </summary>
-    /// <param name="callbackContext"></param>
     public void OpenInventory(InputAction.CallbackContext callbackContext)
     {
-        // Should have a bool to control if the inventory is open or closed. Toggle between those states
         if (callbackContext.started)
         {
-
+            // Toggle logic to be implemented
         }
     }
     #endregion
-
 }

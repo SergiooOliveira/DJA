@@ -37,10 +37,19 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        Player.Instance.Initialize();
+        Player.Instance.Initialize(Player.Instance.baseName, Player.Instance.baseHealth, Player.Instance.baseStrenght,
+                                    Player.Instance.baseArmor, Player.Instance.baseLevel, Player.Instance.baseXp, Player.Instance.baseMaxXp);
         UpdatePlayerStats();
-        inventoryPanel.SetActive(false);
-        changeItemPanel.SetActive(false);
+
+        Enemies.Instance.StartWave();
+    }
+    
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
     }
 
     public void UpdateUpgradesUI()
@@ -101,19 +110,4 @@ public class GameManager : MonoBehaviour
         PlayerStrenght.text = Player.Instance.Strenght.ToString();
         PlayerArmor.text = Player.Instance.Armor.ToString();
     }
-
-    public void ChangeItemPanel()
-    {
-        Time.timeScale = 0f;
-        changeItemPanel.SetActive(true);
-    }
-
-    public void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Application.Quit();
-        }
-    }
-
 }

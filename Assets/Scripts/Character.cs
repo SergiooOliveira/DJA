@@ -1,18 +1,46 @@
-using JetBrains.Annotations;
-using System;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class Character : MonoBehaviour
 {
+
+    [SerializeField] private string characterName;
+    [SerializeField] private int health;
+    [SerializeField] private int strength;
+    [SerializeField] private int armor;
+    [SerializeField] private int level;
+    [SerializeField] private int xp;
+    [SerializeField] private int maxXp;
+
     // Variables
-    public int Health { get; set; }
-    public int Strenght { get; set; }
-    public int Armor { get; set; }
-    public int Level { get; set; }
-    public int Xp { get; set; }
-    public int MaxXp { get; set; }
+    public string Name {
+        get => characterName; 
+        set => characterName = value; 
+    }
+    public int Health { 
+        get => health;
+        set => health = Mathf.Max(0, value);
+    }
+    public int Strenght {
+        get => strength;
+        set => strength = Mathf.Max(0, value);
+    }
+    public int Armor {
+        get => armor;
+        set => armor = Mathf.Max(0, value);
+    }
+    public int Level {
+        get => level;
+        set => level = value;
+    }
+    public int Xp {
+        get => xp;
+        set => xp = value;
+    }
+    public int MaxXp {
+        get => maxXp;
+        set => maxXp = value;
+    }
 
     /// <summary>
     /// Call this method to Initialize the player
@@ -21,12 +49,13 @@ public class Character : MonoBehaviour
     /// <param name="strenght">Character Strenght</param>
     /// <param name="armor">Character Armor</param>
     /// <param name="level">Character Level</param>
-    public void Initialize(int health = Player.baseHealth, int strenght = Player.baseStrenght, int armor = Player.baseArmor,
-                            int level = Player.baseLevel, int xp = Player.baseXp, int maxXp = Player.baseMaxXp)
+    public void Initialize(string name,int health, int strenght, int armor,
+                            int level, int xp, int maxXp)
     {
-        this.Health = Mathf.Max(0, health);
-        this.Strenght = Mathf.Max(0, strenght);
-        this.Armor = Mathf.Max(0, armor);
+        this.Name = name;
+        this.Health = health;
+        this.Strenght = strenght;
+        this.Armor = armor;
         this.Level = level;
         this.Xp = xp;
         this.MaxXp = maxXp;
