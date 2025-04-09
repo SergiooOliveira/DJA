@@ -25,7 +25,6 @@ public class GameManager : MonoBehaviour
 
     [Header("Change Item")]
     public GameObject changeItemPanel;
-    public ItemObject pendingItem; // Temporary storage for the new item
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
@@ -103,87 +102,18 @@ public class GameManager : MonoBehaviour
         PlayerArmor.text = Player.Instance.Armor.ToString();
     }
 
-    public void InventoryPanel(bool activity)
+    public void ChangeItemPanel()
     {
-        inventoryText.text = Player.Instance.inventoryClass.GetItems();
-        inventoryPanel.SetActive(activity);
-    }
-
-    public void ChangeItemPanel(bool activity, ItemObject itemObject)
-    {
-        pendingItem = itemObject;
-
         Time.timeScale = 0f;
-        changeItemPanel.SetActive(activity);
+        changeItemPanel.SetActive(true);
     }
 
-    public void OldItemButton()
+    public void Update()
     {
-        FinalizeChange();
-    }
-
-    private bool IsNoneItemFor(ItemId slotItemId, Item pending)
-    {
-        switch (pending.itemType)
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            case Item.ItemType.Weapon:
-                return slotItemId == ItemId.NoneWeapon;
-            case Item.ItemType.Armory:
-                return slotItemId == ItemId.NoneArmory;
-            case Item.ItemType.Amulet:
-                return slotItemId == ItemId.NoneAmulet;
-            default:
-                return false;
+            Application.Quit();
         }
     }
-
-    private void FinalizeChange()
-    {
-        Time.timeScale = 1f;
-        changeItemPanel.SetActive(false);
-    }
-
-    public void NewItemButton()
-    {
-        InventoryClass inventory = Player.Instance.inventoryClass;
-        Item pending = ItemsList.GetItem(pendingItem.id);
-
-        int fallbackSlotIndex = -1;
-
-        // Step 1: Scan all slots to find the best one to replace
-        for (int i = 0; i < inventory.slots.Count; i++)
-        {
-            var slot = inventory.slots[i];
-
-            // Only process slots that can store the pending item
-            if (!slot.CanStoreItem(pending))
-                continue;
-
-            // Check if the slot holds a default/None item that matches the pending item's type
-            if (slot.storedItemId.HasValue && IsNoneItemFor(slot.storedItemId.Value, pending))
-            {
-                // This is an ideal empty slot; use it immediately
-                inventory.RemoveItem(i); // or fallbackSlotIndex
-                inventory.SetItemInSlot(i, pendingItem.id);
-                FinalizeChange();
-                return;
-            }
-            // If we haven't saved a fallback yet, record this slot as a candidate
-            else if (fallbackSlotIndex == -1)
-            {
-                fallbackSlotIndex = i;
-            }
-        }
-
-        // Step 2: No matching "None" slot found, use fallback slot if available
-        if (fallbackSlotIndex != -1)
-        {
-            inventory.RemoveItem(fallbackSlotIndex);
-            inventory.AddItem(pendingItem.id);
-        }
-
-        FinalizeChange();
-    }
-
 
 }

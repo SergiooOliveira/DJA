@@ -1,6 +1,9 @@
 using System;
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 
 public class Player : Character
@@ -9,6 +12,7 @@ public class Player : Character
     public static Player Instance;
 
     #region Base Stats
+    [Header("Base Stats")]
     // Fight Stats
     public const int baseHealth = 100;
     public const int baseStrenght = 5;
@@ -23,20 +27,32 @@ public class Player : Character
 
     #region Variables
     // Controllers
+    [Header("Controllers")]
     public CharacterController controller;
     public Animator animator;
 
     // Tags for interactions
+    [Header("Tags")]
     private readonly string doorTag = "Door";
     private readonly string slotTag = "SlotMachine";
     private readonly string itemTag = "Item";
 
     // Movement
-    private Vector2 moveInput;
+    [Header("Movement")]
     public float speed = 5f;
+    private Vector2 moveInput;
 
-    public const int inventorySize = 3;
-    public InventoryClass inventoryClass;
+    // Inventory
+    [Header("Inventory")]
+    public GameObject mainHand;
+    public GameObject offHand;
+    public GameObject helmet;
+    public GameObject chestPlate;
+    public List<GameObject> legPlate;
+    public List<GameObject> footWear;
+    public GameObject amulet;
+    // public List<GameObject> BodyList = new() { mainHand, offHand, helmet, chestPlate, chestPlate, legPlate, footWear, amulet };
+    public Inventory inventory = new(10);
     #endregion
 
     #region MonoBehaviour
@@ -55,8 +71,6 @@ public class Player : Character
         animator = GetComponent<Animator>();
         LevelUp();
         GameManager.Instance.UpdateLevelXP();
-
-        inventoryClass = new InventoryClass();
     }
 
     private void FixedUpdate()
@@ -82,9 +96,9 @@ public class Player : Character
     /// Call this method to give xp to Player
     /// </summary>
     /// <param name="xp">xp to add</param>
-    private void GainXp (int xp)
-    {        
-        Xp += xp;         
+    private void GainXp(int xp)
+    {
+        Xp += xp;
 
         while (Xp >= MaxXp)
         {
@@ -147,20 +161,85 @@ public class Player : Character
                 }
                 else if (hit.collider.CompareTag(itemTag))
                 {
-                    if(
-                        hit.collider.gameObject.GetComponent<ItemObject>().id == ItemId.NoneWeapon ||
-                        hit.collider.gameObject.GetComponent<ItemObject>().id == ItemId.NoneArmory ||
-                        hit.collider.gameObject.GetComponent<ItemObject>().id == ItemId.NoneAmulet
-                        )
+
+                    GameObject original = hit.collider.gameObject;
+                    ItemClass itemClass = original.GetComponent<ItemClass>();
+
+                    if (!itemClass.isCollected)
                     {
-                        inventoryClass.AddItem(itemId: hit.collider.gameObject.GetComponent<ItemObject>().id);
+
+                        inventory.AddInventoryItem(original);
+                        Transform originalParent = null;
+
+                        bool isArrayItem = false;
+                        List<GameObject> targetArray = null;
+                        int inventoryIndex = -1;
+
+                        switch (itemClass.Type)
+                        {
+                            case ItemType.MainHand:
+                                originalParent = mainHand.transform.parent;
+                                mainHand = inventory.InventorySlots[0].item;
+                                break;
+
+                            case ItemType.OffHand:
+                                originalParent = offHand.transform.parent;
+                                offHand = inventory.InventorySlots[1].item;
+                                break;
+
+                            case ItemType.Helmet:
+                                originalParent = helmet.transform.parent;
+                                helmet = inventory.InventorySlots[2].item;
+                                break;
+
+                            case ItemType.ChestPlate:
+                                originalParent = chestPlate.transform.parent;
+                                chestPlate = inventory.InventorySlots[3].item;
+                                break;
+
+                            case ItemType.LegsPlate:
+                                isArrayItem = true;
+                                targetArray = legPlate;
+                                inventoryIndex = 4;
+                                break;
+
+                            case ItemType.FootWear:
+                                isArrayItem = true;
+                                targetArray = footWear;
+                                inventoryIndex = 5;
+                                break;
+
+                            case ItemType.Amulet:
+                                originalParent = amulet.transform.parent;
+                                amulet = inventory.InventorySlots[6].item;
+                                break;
+                        }
+
+                        GameObject new_item;
+                        if (isArrayItem && targetArray != null && inventoryIndex != -1)
+                        {
+                            for (int i = 0; i < targetArray.Count; i++)
+                            {
+                                Transform parent = targetArray[i]?.transform?.parent;
+                                new_item = Instantiate(inventory.InventorySlots[inventoryIndex].item, parent);
+                                targetArray[i] = new_item;
+
+                                new_item.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+                                new_item.transform.localScale = Vector3.one;
+                                new_item.GetComponent<ItemClass>().isCollected = true;
+                            }
+                        }
+                        else if (originalParent != null)
+                        {
+                            new_item = Instantiate(original, originalParent);
+                            new_item.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+                            new_item.transform.localScale = Vector3.one;
+                            new_item.GetComponent<ItemClass>().isCollected = true;
+                        }
+
+                        Destroy(original);
                     }
-                    else
-                    {
-                        GameManager.Instance.ChangeItemPanel(true, hit.collider.gameObject.GetComponent<ItemObject>());
-                    }
-                    hit.collider.gameObject.SetActive(false);
-                    
+
                 }
                 else
                 {
@@ -198,7 +277,7 @@ public class Player : Character
         // Should have a bool to control if the inventory is open or closed. Toggle between those states
         if (callbackContext.started)
         {
-            GameManager.Instance.InventoryPanel(GameManager.Instance.inventoryPanel.activeSelf == false);
+
         }
     }
     #endregion
