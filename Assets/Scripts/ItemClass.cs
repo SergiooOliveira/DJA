@@ -16,6 +16,7 @@ public class ItemClass : MonoBehaviour {
 
     [Header("Item Variables")]
     public ItemType Type;
+    public bool isCollected;
     public string Name;
     public string Description;
     public Image Image;
