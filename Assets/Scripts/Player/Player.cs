@@ -73,7 +73,8 @@ public class Player : Character
         GameManager.Instance.UpdateLevelXP();
     }
 
-    private void FixedUpdate() {
+    private void FixedUpdate()
+    {
         Vector3 movement = speed * Time.fixedDeltaTime * new Vector3(moveInput.x, 0, moveInput.y);
         controller.Move(movement);
     }
@@ -95,9 +96,9 @@ public class Player : Character
     /// Call this method to give xp to Player
     /// </summary>
     /// <param name="xp">xp to add</param>
-    private void GainXp (int xp)
-    {        
-        Xp += xp;         
+    private void GainXp(int xp)
+    {
+        Xp += xp;
 
         while (Xp >= MaxXp)
         {
@@ -160,60 +161,79 @@ public class Player : Character
                 }
                 else if (hit.collider.CompareTag(itemTag))
                 {
-                    GameObject new_item = hit.collider.gameObject;
 
-                    if(new_item != null)
+                    GameObject original = hit.collider.gameObject;
+                    ItemClass itemClass = original.GetComponent<ItemClass>();
+
+                    inventory.AddInventoryItem(original);
+                    Destroy(original);
+
+                    GameObject new_item = null;
+                    Transform originalParent = null;
+
+                    bool isArrayItem = false;
+                    List<GameObject> targetArray = null;
+                    int inventoryIndex = -1;
+
+                    switch (itemClass.Type)
                     {
-                        inventory.AddInventoryItem(new_item);
-
-                        if (new_item.GetComponent<ItemClass>().Type == ItemType.MainHand)
-                        {
-                            new_item.transform.SetParent(mainHand.transform);
+                        case ItemType.MainHand:
+                            originalParent = mainHand.transform.parent;
                             mainHand = inventory.InventorySlots[0].item;
-                        }
-                        else if (new_item.GetComponent<ItemClass>().Type == ItemType.OffHand)
-                        {
-                            new_item.transform.SetParent(offHand.transform);
-                            offHand = inventory.InventorySlots[1].item;
-                        }
-                        else if (new_item.GetComponent<ItemClass>().Type == ItemType.Helmet)
-                        {
-                            new_item.transform.SetParent(helmet.transform);
-                            helmet = inventory.InventorySlots[2].item;
-                        }
-                        else if (new_item.GetComponent<ItemClass>().Type == ItemType.ChestPlate)
-                        {
-                            new_item.transform.SetParent(chestPlate.transform);
-                            chestPlate = inventory.InventorySlots[3].item;
-                        }
-                        else if (new_item.GetComponent<ItemClass>().Type == ItemType.LegsPlate)
-                        {
-                            for (int i = 0; i < legPlate.Capacity; i++)
-                            {
-                                GameObject new_gameObject = Instantiate(new_item, legPlate[i].transform);
-                                new_gameObject.transform.localPosition = Vector3.zero;
-                                legPlate[i] = inventory.InventorySlots[4].item;
-                            }
-                            Destroy(new_item);
-                        }
-                        else if (new_item.GetComponent<ItemClass>().Type == ItemType.FootWear)
-                        {
-                            for (int i = 0; i < footWear.Capacity; i++)
-                            {
-                                GameObject new_gameObject = Instantiate(new_item, footWear[i].transform);
-                                new_gameObject.transform.localPosition = Vector3.zero;
-                                footWear[i] = inventory.InventorySlots[5].item;
-                            }
-                            Destroy(new_item);
-                        }
-                        else if (new_item.GetComponent<ItemClass>().Type == ItemType.Amulet)
-                        {
-                            new_item.transform.SetParent(amulet.transform);
-                            amulet = inventory.InventorySlots[6].item;
-                        }
+                            break;
 
-                        new_item.transform.localPosition = new Vector3(0, 0, 0);
+                        case ItemType.OffHand:
+                            originalParent = offHand.transform.parent;
+                            offHand = inventory.InventorySlots[1].item;
+                            break;
+
+                        case ItemType.Helmet:
+                            originalParent = helmet.transform.parent;
+                            helmet = inventory.InventorySlots[2].item;
+                            break;
+
+                        case ItemType.ChestPlate:
+                            originalParent = chestPlate.transform.parent;
+                            chestPlate = inventory.InventorySlots[3].item;
+                            break;
+
+                        case ItemType.LegsPlate:
+                            isArrayItem = true;
+                            targetArray = legPlate;
+                            inventoryIndex = 4;
+                            break;
+
+                        case ItemType.FootWear:
+                            isArrayItem = true;
+                            targetArray = footWear;
+                            inventoryIndex = 5;
+                            break;
+
+                        case ItemType.Amulet:
+                            originalParent = amulet.transform.parent;
+                            amulet = inventory.InventorySlots[6].item;
+                            break;
                     }
+
+                    if (isArrayItem && targetArray != null && inventoryIndex != -1)
+                    {
+                        for (int i = 0; i < targetArray.Capacity; i++)
+                        {
+                            Transform parent = targetArray[i]?.transform?.parent;
+                            new_item = Instantiate(inventory.InventorySlots[inventoryIndex].item, parent);
+                            targetArray[i] = new_item;
+
+                            new_item.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+                            new_item.transform.localScale = Vector3.one;
+                        }
+                    }
+                    else if (originalParent != null)
+                    {
+                        new_item = Instantiate(original, originalParent);
+                        new_item.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+                        new_item.transform.localScale = Vector3.one;
+                    }
+
                 }
                 else
                 {
