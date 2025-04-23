@@ -11,20 +11,12 @@ public class Player : Character
 
     #region Base Stats
     // Fight Stats
-    public int baseHealth = 100;
-    public int baseStrenght = 5;
-    public int baseArmor = 10;
     [HideInInspector] public string baseName = "Player";
     [HideInInspector] public int baseHealth = 100;
     [HideInInspector] public int baseStrenght = 5;
     [HideInInspector] public int baseArmor = 10;
 
     // Level Stats
-    public int baseLevel = 1;
-    public int baseMaxXp = 0;
-    public int baseXp = 0;
-
-    public string baseName = "Player";
     [HideInInspector] public int baseLevel = 1;
     [HideInInspector] public int baseMaxXp = 0;
     [HideInInspector] public int baseXp = 0;
@@ -40,20 +32,7 @@ public class Player : Character
     private readonly string slotTag = "SlotMachine";
 
     // Movement
-    [Header("Movement")]
-    public float speed = 5f;
     private Vector2 moveInput;
-
-    // Inventory
-    [Header("Inventory")]
-    public GameObject mainHand;
-    public GameObject offHand;
-    public GameObject helmet;
-    public GameObject chestPlate;
-    public List<GameObject> legPlate;
-    public List<GameObject> footWear;
-    public GameObject amulet;
-    public Inventory inventory = new(10);
     public float speed = 12f;
     private float movementX, movementY;
     #endregion
@@ -69,6 +48,7 @@ public class Player : Character
 
     private void Start()
     {
+        // Game logic
         SnapToGround();
         animator = GetComponent<Animator>();
         LevelUp();
@@ -77,8 +57,6 @@ public class Player : Character
 
     private void FixedUpdate()
     {
-        Vector3 movement = speed * Time.fixedDeltaTime * new Vector3(moveInput.x, 0, moveInput.y);
-        controller.Move(movement);
         float angleRad = transform.rotation.eulerAngles.y * Mathf.Deg2Rad;
         float rotationX = Mathf.Cos(angleRad);
         float rotationZ = Mathf.Sin(angleRad);
@@ -107,14 +85,10 @@ public class Player : Character
     {
         if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, Mathf.Infinity))
         {
-            transform.position = hit.point;
             transform.position = hit.point; // Move player to the ground
         }
     }
 
-    private void GainXp(int xp)
-    {
-        Xp += xp;
     /// <summary>
     /// Call this method to give xp to Player
     /// </summary>
@@ -179,6 +153,8 @@ public class Player : Character
                 }
                 else if (hit.collider.CompareTag(slotTag))
                 {
+                    // Activate gambling mechanics
+                    GainXp(50); // Change 50 to the enemy xp                    
                 }
                 else
                 {
@@ -221,6 +197,7 @@ public class Player : Character
         // Should have a bool to control if the inventory is open or closed. Toggle between those states
         if (callbackContext.started)
         {
+
         }
     }
     #endregion
