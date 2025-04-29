@@ -9,6 +9,7 @@ public class Player : Character
 {
 	// Singleton
 	public static Player Instance;
+	public static StatesMachine statesMachine = new();
 
 	#region Base Stats
 	// Fight Stats
@@ -61,54 +62,29 @@ public class Player : Character
 			Destroy(gameObject);
 	}
 
-	private void Start()
-	{
+	private void Start() {
+
 		// Game logic
 		SnapToGround();
 		animator = GetComponent<Animator>();
 		LevelUp();
 		GameManager.Instance.UpdateLevelXP();
-	}
+
+        State movementState = new PlayerMovementState(statesMachine, this);
+        statesMachine.ChangeState(movementState);
+
+    }
+
+    private void Update() {
+
+        statesMachine.Update();
+    }
 
     private Vector3 velocity = Vector3.zero;
 
-    private void FixedUpdate()
-    {
-        float angleRad = transform.rotation.eulerAngles.y * Mathf.Deg2Rad;
-        float rotationX = Mathf.Cos(angleRad);
-        float rotationZ = Mathf.Sin(angleRad);
+    private void FixedUpdate() {
 
-        Vector3 inputDirection = new Vector3(
-            movementX * rotationX + movementY * rotationZ,
-            0.0f,
-            movementY * rotationX - movementX * rotationZ
-        ).normalized;
-
-        bool hasInput = (movementX != 0 || movementY != 0);
-
-        if (hasInput)
-        {
-            // Accelerate in the input direction
-            velocity += accelerationSpeed * Time.fixedDeltaTime * inputDirection;
-
-            // Clamp velocity to maxSpeed
-            if (velocity.magnitude > maxSpeed)
-                velocity = velocity.normalized * maxSpeed;
-        }
-        else
-        {
-            // Decelerate naturally
-            if (velocity.magnitude > 0)
-            {
-                Vector3 decel = decelerationSpeed * Time.fixedDeltaTime * velocity.normalized;
-                if (decel.magnitude > velocity.magnitude)
-                    velocity = Vector3.zero;
-                else
-                    velocity -= decel;
-            }
-        }
-
-        controller.Move(velocity * Time.fixedDeltaTime);
+		statesMachine.FixedUpdate();
     }
 
 	private void OnTriggerEnter(Collider other)
@@ -139,9 +115,8 @@ public class Player : Character
 	/// Call this method to give xp to Player
 	/// </summary>
 	/// <param name="xp">xp to add</param>
-	private void GainXp (int xp)
-	{        
-		Xp += xp;         
+	private void GainXp (int xp) {
+		Xp += xp;
 
 		while (Xp >= MaxXp)
 		{
@@ -175,14 +150,71 @@ public class Player : Character
 		return (int)(100 * Math.Pow(1.2, level - 1));
 	}
 
-	#endregion
+    public class PlayerMovementState : State
+    {
+        private readonly Player player;
 
-	#region Unity Events
-	/// <summary>
-	/// Call this method to interact with an object
-	/// </summary>
-	/// <param name="callbackContext"></param>
-	public void OnInteract(InputAction.CallbackContext callbackContext)
+        public PlayerMovementState(StatesMachine fsm, Player player) : base(fsm)
+        {
+            this.player = player;
+        }
+
+        public override void Enter()
+        {
+            Debug.Log("Entered Movement State");
+        }
+
+        public override void Exit() { }
+        public override void Animator() { }
+        public override void Update() { }
+        public override void FixedUpdate() {
+            float angleRad = player.transform.rotation.eulerAngles.y * Mathf.Deg2Rad;
+            float rotationX = Mathf.Cos(angleRad);
+            float rotationZ = Mathf.Sin(angleRad);
+
+            Vector3 inputDirection = new Vector3(
+                player.movementX * rotationX + player.movementY * rotationZ,
+                0.0f,
+                player.movementY * rotationX - player.movementX * rotationZ
+            ).normalized;
+
+            bool hasInput = (player.movementX != 0 || player.movementY != 0);
+
+            if (hasInput)
+            {
+                // Accelerate in the input direction
+                player.velocity += accelerationSpeed * Time.fixedDeltaTime * inputDirection;
+
+                // Clamp velocity to maxSpeed
+                if (player.velocity.magnitude > maxSpeed)
+                    player.velocity = player.velocity.normalized * maxSpeed;
+            }
+            else
+            {
+                // Decelerate naturally
+                if (player.velocity.magnitude > 0)
+                {
+                    Vector3 decel = decelerationSpeed * Time.fixedDeltaTime * player.velocity.normalized;
+                    if (decel.magnitude > player.velocity.magnitude)
+                        player.velocity = Vector3.zero;
+                    else
+                        player.velocity -= decel;
+                }
+            }
+
+            player.controller.Move(player.velocity * Time.fixedDeltaTime);
+        }
+    }
+
+
+    #endregion
+
+    #region Unity Events
+    /// <summary>
+    /// Call this method to interact with an object
+    /// </summary>
+    /// <param name="callbackContext"></param>
+    public void OnInteract(InputAction.CallbackContext callbackContext)
 	{
 		// print("E outside");
 		if (callbackContext.started)
