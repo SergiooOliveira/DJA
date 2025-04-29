@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class MouseMovement : MonoBehaviour
 {
-    private float mouseSensitiviy = 400f;
+    private readonly float mouseSensitiviy = 3f;
 
     public float topClamp = -90f;
     public float bottomClamp = 90f;
@@ -20,8 +20,8 @@ public class MouseMovement : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
-        float mouseX = Input.GetAxis("Mouse X") * mouseSensitiviy * Time.deltaTime;
-        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitiviy * Time.deltaTime;
+        float mouseX = Input.GetAxisRaw("Mouse X") * mouseSensitiviy;
+        float mouseY = Input.GetAxisRaw("Mouse Y") * mouseSensitiviy;
 
         xRotation -= mouseY;
         xRotation = Mathf.Clamp(xRotation, topClamp, bottomClamp);

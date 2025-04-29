@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -10,6 +12,8 @@ public class Player : Character
 	// Singleton
 	public static Player Instance;
 	public static StatesMachine statesMachine = new();
+	State idleState;
+	State movementState;
 
 	#region Base Stats
 	// Fight Stats
@@ -27,7 +31,7 @@ public class Player : Character
 	#region Variables
 	// Controllers
 	public CharacterController controller;
-	public Animator animator;
+	public static Animator animator;
 
 	// Tags for interactions
 	private readonly string doorTag = "Door";
@@ -38,7 +42,7 @@ public class Player : Character
 	private Vector2 moveInput;
 	private const float maxSpeed = 6f;
 	private const float accelerationSpeed = maxSpeed * 4;
-    private const float decelerationSpeed = accelerationSpeed * 1.5f;
+	private const float decelerationSpeed = accelerationSpeed * 1.5f;
 	private float movementX, movementY;
 
 	// Inventory
@@ -68,33 +72,39 @@ public class Player : Character
 		SnapToGround();
 		animator = GetComponent<Animator>();
 		LevelUp();
-		GameManager.Instance.UpdateLevelXP();
+		GameManager.Instance?.UpdateLevelXP();
 
-        State movementState = new PlayerMovementState(statesMachine, this);
-        statesMachine.ChangeState(movementState);
+		idleState = new PlayerIdleState(fsm: statesMachine, player: this);
+		movementState = new PlayerMovementState(fsm: statesMachine, player: this);
+		statesMachine?.ChangeState(idleState);
 
-    }
+	}
 
-    private void Update() {
+	private void Update() {
 
-        statesMachine.Update();
-    }
+		statesMachine?.Update();
+	}
 
-    private Vector3 velocity = Vector3.zero;
+	private Vector3 velocity = Vector3.zero;
 
-    private void FixedUpdate() {
+	private void FixedUpdate() {
 
-		statesMachine.FixedUpdate();
-    }
+		statesMachine?.FixedUpdate();
+	}
+
+	private void LateUpdate()
+	{
+		statesMachine?.Animator();
+	}
 
 	private void OnTriggerEnter(Collider other)
 	{
-		Debug.Log("Triggered Spawning");
+		Debug.Log(message: "Triggered Spawning");
 
 		GameObject triggerParent = other.transform.parent.gameObject;
 		foreach (Transform triggers in triggerParent.transform)
 		{
-			Destroy(triggers.gameObject);
+			Destroy(obj: triggers.gameObject);
 		}
 	}
 	#endregion
@@ -105,7 +115,13 @@ public class Player : Character
 	/// </summary>
 	private void SnapToGround()
 	{
-		if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, Mathf.Infinity))
+		if (Physics.Raycast(
+			origin: transform.position, 
+			direction: Vector3.down, 
+			hitInfo: out RaycastHit hit, 
+			maxDistance: Mathf.Infinity
+			)
+			)
 		{
 			transform.position = hit.point; // Move player to the ground
 		}
@@ -135,7 +151,7 @@ public class Player : Character
 	private void LevelUp()
 	{
 		Level++;
-		MaxXp = CalculateMaxXp(Level);
+		MaxXp = CalculateMaxXp(level: Level);
 
 		Debug.Log($"Player is Level = {Level} with a MaxXp of {MaxXp}");
 	}
@@ -147,101 +163,141 @@ public class Player : Character
 	/// <returns></returns>
 	private int CalculateMaxXp(int level)
 	{
-		return (int)(100 * Math.Pow(1.2, level - 1));
+		return (int)(100 * Math.Pow(x: 1.2, y: level - 1));
 	}
 
-    public class PlayerMovementState : State
-    {
-        private readonly Player player;
-
-        public PlayerMovementState(StatesMachine fsm, Player player) : base(fsm)
-        {
-            this.player = player;
-        }
-
-        public override void Enter()
-        {
-            Debug.Log("Entered Movement State");
-        }
-
-        public override void Exit() { }
-        public override void Animator() { }
-        public override void Update() { }
-        public override void FixedUpdate() {
-            float angleRad = player.transform.rotation.eulerAngles.y * Mathf.Deg2Rad;
-            float rotationX = Mathf.Cos(angleRad);
-            float rotationZ = Mathf.Sin(angleRad);
-
-            Vector3 inputDirection = new Vector3(
-                player.movementX * rotationX + player.movementY * rotationZ,
-                0.0f,
-                player.movementY * rotationX - player.movementX * rotationZ
-            ).normalized;
-
-            bool hasInput = (player.movementX != 0 || player.movementY != 0);
-
-            if (hasInput)
-            {
-                // Accelerate in the input direction
-                player.velocity += accelerationSpeed * Time.fixedDeltaTime * inputDirection;
-
-                // Clamp velocity to maxSpeed
-                if (player.velocity.magnitude > maxSpeed)
-                    player.velocity = player.velocity.normalized * maxSpeed;
-            }
-            else
-            {
-                // Decelerate naturally
-                if (player.velocity.magnitude > 0)
-                {
-                    Vector3 decel = decelerationSpeed * Time.fixedDeltaTime * player.velocity.normalized;
-                    if (decel.magnitude > player.velocity.magnitude)
-                        player.velocity = Vector3.zero;
-                    else
-                        player.velocity -= decel;
-                }
-            }
-
-            player.controller.Move(player.velocity * Time.fixedDeltaTime);
-        }
-    }
+	public class PlayerIdleState : State
+	{
+		private readonly Player player;
 
 
-    #endregion
+		public PlayerIdleState(StatesMachine fsm, Player player) : base(fsm) {
 
-    #region Unity Events
-    /// <summary>
-    /// Call this method to interact with an object
-    /// </summary>
-    /// <param name="callbackContext"></param>
-    public void OnInteract(InputAction.CallbackContext callbackContext)
+			this.player = player;
+
+		}
+
+		public override void Enter() {
+
+			Debug.Log(message: "PlayerIdleState State");
+		}
+
+		public override void Animator()
+		{
+			animator.Play("Idle");
+		}
+
+		public override void Update() {
+			if (player.moveInput.magnitude > 0) {
+				fsm.ChangeState(newState: player.movementState);
+			}
+		}
+	}
+
+	public class PlayerMovementState : State
+	{
+		private readonly Player player;
+
+		public PlayerMovementState(StatesMachine fsm, Player player) : base(fsm)
+		{
+			this.player = player;
+		}
+
+		public override void Enter()
+		{
+			Debug.Log(message: "PlayerMovementState State");
+		}
+
+		public override void Animator()
+		{
+			animator.Play("Running");
+		}
+
+		public override void Update()
+		{
+			if (player.velocity == Vector3.zero)
+			{
+				fsm.ChangeState(newState: player.idleState);
+			}
+		}
+		public override void FixedUpdate()
+		{
+			float angleRad = player.transform.rotation.eulerAngles.y * Mathf.Deg2Rad;
+			float rotationX = Mathf.Cos(f: angleRad);
+			float rotationZ = Mathf.Sin(f: angleRad);
+
+			Vector3 inputDirection = new Vector3(
+				x: player.movementX * rotationX + player.movementY * rotationZ,
+				y: 0.0f,
+				z: player.movementY * rotationX - player.movementX * rotationZ
+			).normalized;
+
+			bool hasInput = (player.movementX != 0 || player.movementY != 0);
+
+			if (hasInput)
+			{
+				// Accelerate in the input direction
+				player.velocity += accelerationSpeed * Time.fixedDeltaTime * inputDirection;
+
+				// Clamp velocity to maxSpeed
+				if (player.velocity.magnitude > maxSpeed)
+					player.velocity = player.velocity.normalized * maxSpeed;
+			}
+			else
+			{
+				// Decelerate naturally
+				if (player.velocity.magnitude > 0)
+				{
+					Vector3 decel = decelerationSpeed * Time.fixedDeltaTime * player.velocity.normalized;
+					if (decel.magnitude > player.velocity.magnitude)
+						player.velocity = Vector3.zero;
+					else
+						player.velocity -= decel;
+				}
+			}
+
+			player.controller.Move(motion: player.velocity * Time.fixedDeltaTime);
+		}
+	}
+
+	#endregion
+
+	#region Unity Events
+	/// <summary>
+	/// Call this method to interact with an object
+	/// </summary>
+	/// <param name="callbackContext"></param>
+	public void OnInteract(InputAction.CallbackContext callbackContext)
 	{
 		// print("E outside");
 		if (callbackContext.started)
 		{
 			//print("E inside");
-			Ray ray = Camera.main.ScreenPointToRay(UnityEngine.Input.mousePosition);
+			Ray ray = Camera.main.ScreenPointToRay(pos: UnityEngine.Input.mousePosition);
 
-			if (Physics.Raycast(ray, out RaycastHit hit, 2f))
+			if (Physics.Raycast(
+				ray: ray,
+				hitInfo: out RaycastHit hit,
+				maxDistance: 2f))
 			{
-				if (hit.collider.CompareTag(doorTag))
+				if (hit.collider.CompareTag(tag: doorTag))
 				{
-					hit.transform.Rotate(0, 90, 0);
-					hit.collider.gameObject.GetComponent<MeshRenderer>().material.SetColor("_Color", Color.black);
+					hit.transform.Rotate(xAngle: 0, yAngle: 90, zAngle: 0);
+					hit.collider.gameObject.GetComponent<MeshRenderer>().material.SetColor(name: "_Color", value: Color.black);
 				}
-				else if (hit.collider.CompareTag(slotTag))
+				else if (hit.collider.CompareTag(tag: slotTag))
 				{
 					// Activate gambling mechanics
-					GainXp(50); // Change 50 to the enemy xp                    
+					GainXp(xp: 50); // Change 50 to the enemy xp                    
 				}
-				else if (hit.collider.CompareTag(itemTag))
+				else if (hit.collider.CompareTag(tag: itemTag))
 				{
 					GameObject original = hit.collider.gameObject;
 					ItemClass itemClass = original.GetComponent<ItemClass>();
 
 					if (!itemClass.isCollected)
 					{
-						inventory.AddInventoryItem(original);
+						inventory.AddInventoryItem(itemObject: original);
 						Transform originalParent = null;
 
 						bool isArrayItem = false;
@@ -287,30 +343,30 @@ public class Player : Character
 						{
 							for (int i = 0; i < targetArray.Count; i++)
 							{
-								Transform parent = targetArray[i]?.transform?.parent;
-								new_item = Instantiate(inventory.InventorySlots[inventoryIndex].item, parent);
+								Transform parent = targetArray[i].transform.parent;
+								new_item = Instantiate(original: inventory.InventorySlots[inventoryIndex].item, parent: parent);
 								targetArray[i] = new_item;
 
-								new_item.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+								new_item.transform.SetLocalPositionAndRotation(localPosition: Vector3.zero, localRotation:Quaternion.identity);
 								new_item.transform.localScale = Vector3.one;
 								new_item.GetComponent<ItemClass>().isCollected = true;
 							}
 						}
 						else if (originalParent != null)
 						{
-							new_item = Instantiate(original, originalParent);
-							new_item.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+							new_item = Instantiate(original: original, parent: originalParent);
+							new_item.transform.SetLocalPositionAndRotation(localPosition: Vector3.zero, localRotation: Quaternion.identity);
 							new_item.transform.localScale = Vector3.one;
 							new_item.GetComponent<ItemClass>().isCollected = true;
 						}
 
-						Destroy(original);
+						Destroy(obj: original);
 					}
 				}
 				else
 				{
 					// Case we want to do something
-					Debug.Log($"Hited {hit.collider.name}");
+					Debug.Log(message: $"Hited {hit.collider.name}");
 				}
 			}
 		}
@@ -326,14 +382,14 @@ public class Player : Character
 		{
 			moveInput = callbackContext.ReadValue<Vector2>();
 
-			animator.SetBool("isMoving", true);
+			// animator.SetBool("isMoving", true);
 
 		}
 		else if (callbackContext.canceled)
 		{
 			moveInput = Vector2.zero;
 
-			animator.SetBool("isMoving", false);
+			// animator.SetBool("isMoving", false);
 		}
 		movementX = moveInput.x;
 		movementY = moveInput.y;
