@@ -68,11 +68,12 @@ public class Player : Character
         SnapToGround();
         animator = GetComponent<Animator>();
         LevelUp();
-        GameManager.Instance?.UpdateLevelXP();
 
         idleState = new PlayerIdleState(fsm: statesMachine, player: this);
         runningState = new PlayerRunningState(fsm: statesMachine, player: this);
         statesMachine?.ChangeState(idleState);
+
+        GameManager.Instance.UpdateLevelXP();
     }
 
     private void Update()
@@ -85,11 +86,6 @@ public class Player : Character
     private void FixedUpdate()
     {
         statesMachine?.FixedUpdate();
-    }
-
-    private void LateUpdate()
-    {
-        statesMachine?.Animator();
     }
 
     private void OnTriggerEnter(Collider other)
