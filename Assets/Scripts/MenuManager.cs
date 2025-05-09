@@ -8,9 +8,9 @@ public class MenuManager : MonoBehaviour
 {
 	int Height = 1600, Width = 900;
 	FullScreenMode fullScreenMode = FullScreenMode.ExclusiveFullScreen;
-    public GameObject loadingPrefab;
+    [SerializeField] private GameObject loadingPrefab;
 
-    public GameObject loadingPanel;
+    private GameObject loadingPanel;
 
 	void Awake()
     {
