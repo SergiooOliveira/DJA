@@ -19,7 +19,7 @@ public class Player : Character
 
 	// Level Stats
 	[HideInInspector] public int baseLevel = 1;
-	[HideInInspector] public int baseMaxXp = 0;
+	[HideInInspector] public int baseMaxXp = 100;
 	[HideInInspector] public int baseXp = 0;
 	#endregion
 
@@ -58,17 +58,17 @@ public class Player : Character
 		if (Instance == null)
 			Instance = this;
 		else
-			Destroy(gameObject);
-	}
+			Destroy(gameObject);	
+    }
 
 	private void Start()
 	{
-		// Game logic
-		SnapToGround();
+        // Game logic        
+        SnapToGround();
 		animator = GetComponent<Animator>();
-		LevelUp();
-		GameManager.Instance.UpdateLevelXP();
-	}
+		//LevelUp();
+        GameManager.Instance.UpdateLevelXP();
+    }
 
     private Vector3 velocity = Vector3.zero;
 

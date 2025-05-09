@@ -37,11 +37,14 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        Player.Instance.Initialize(Player.Instance.baseName, Player.Instance.baseHealth, Player.Instance.baseStrenght,
-                                    Player.Instance.baseArmor, Player.Instance.baseLevel, Player.Instance.baseXp, Player.Instance.baseMaxXp);
+        Player.Instance.Initialize(Player.Instance.baseName, Player.Instance.baseHealth, 
+                                    Player.Instance.baseStrenght, Player.Instance.baseArmor,
+                                    Player.Instance.baseLevel, Player.Instance.baseXp,
+                                    Player.Instance.baseMaxXp);
+        
         UpdatePlayerStats();
 
-        Enemies.Instance.StartWave();
+        // Enemies.Instance.StartWave();
     }
     
     public void Update()
