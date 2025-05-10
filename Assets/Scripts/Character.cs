@@ -30,15 +30,15 @@ public class Character : MonoBehaviour
     }
     public int Level {
         get => level;
-        set => level = value;
+        set => level = Mathf.Max(0, value);
     }
     public int Xp {
         get => xp;
-        set => xp = value;
+        set => xp = Mathf.Max(0, value);
     }
     public int MaxXp {
         get => maxXp;
-        set => maxXp = value;
+        set => maxXp = Mathf.Max(0, value);
     }
 
     /// <summary>
@@ -67,9 +67,8 @@ public class Character : MonoBehaviour
     public void Attack(InputAction.CallbackContext callbackContext)
     {
         if (callbackContext.started)
-        {
-            // Debug.Log("<color=red>Attacking</color>");
-            Debug.Log("Attacking");
+        {            
+            //Debug.Log("Attacking");
         }
     }
 }

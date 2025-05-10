@@ -18,14 +18,14 @@ public class Player : Character
 	[HideInInspector] public int baseArmor = 10;
 
 	// Level Stats
-	[HideInInspector] public int baseLevel = 1;
-	[HideInInspector] public int baseMaxXp = 100;
+	[HideInInspector] public int baseLevel = 1;	
 	[HideInInspector] public int baseXp = 0;
-	#endregion
+    public int baseMaxXp = 100;
+    #endregion
 
-	#region Variables
-	// Controllers
-	public CharacterController controller;
+    #region Variables
+    // Controllers
+    public CharacterController controller;
 	public Animator animator;
 
 	// Tags for interactions
