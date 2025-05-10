@@ -115,11 +115,17 @@ public class Player : Character
 	{
 		Debug.Log("Triggered Spawning");
 
+		// Destroy other triggers of the scene
 		GameObject triggerParent = other.transform.parent.gameObject;
 		foreach (Transform triggers in triggerParent.transform)
 		{
 			Destroy(triggers.gameObject);
 		}
+
+		// Lock doors
+
+		// Trigger spawns
+		Enemies.Instance.StartWave();
 	}
 	#endregion
 
