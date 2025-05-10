@@ -129,6 +129,7 @@ public class Enemies : Character
     /// </summary>
     private void SpawnEnemies ()
     {
+        // Enemie counter to control the position
         int enemieCounter = 0;
 
         Debug.Log("Total enemies: " + enemies.Count);
@@ -137,19 +138,20 @@ public class Enemies : Character
         {
             Debug.Log("Processing: " + character.name);
 
+            // Just in case we have too many enemies for the amout of SpawnPoints available
             if (enemieCounter >= SP.Count)
             {
                 Debug.LogWarning("No spawn point for enemy #" + enemieCounter);
                 break;
             }
 
+            // Encapsulation of position and rotation
             Vector3 spawnPos = SP[enemieCounter].transform.position;
             Quaternion spawnRot = SP[enemieCounter].transform.rotation;
 
             if (character.name.StartsWith("Goblin"))
             {
-                Instantiate(goblin, spawnPos, spawnRot);
-                Debug.Log("Instantiate Goblin at: " + spawnPos);
+                Instantiate(goblin, spawnPos, spawnRot);                
             }
             else if (character.name.StartsWith("Orc"))
             {
