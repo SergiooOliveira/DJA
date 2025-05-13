@@ -181,9 +181,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2daa1b3117f3d144296254d02f462709, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouseSensitiviy: 100
-  topClamp: -90
-  bottomClamp: 90
+  topClamp: -80
+  bottomClamp: 80
   playerBody: {fileID: 1895731428089172384}
 --- !u!1001 &2144914973660411467
 PrefabInstance:
@@ -1114,10 +1113,8 @@ MonoBehaviour:
   baseMaxXp: 0
   baseXp: 0
   controller: {fileID: 4983096619118593243}
-  animator: {fileID: 0}
-  speed: 12
-  controller: {fileID: 4983096619118593243}
-  animator: {fileID: 0}
+  idleClip: {fileID: 7400000, guid: 5b1e40196d7050c4ebbd92dc7b5451b8, type: 2}
+  runningClip: {fileID: 7400000, guid: 22514416b696f3f42be4530a2430b1ae, type: 2}
   mainHand: {fileID: 6233423285811340509}
   offHand: {fileID: 2568465726202150791}
   helmet: {fileID: 3890338654500881295}
