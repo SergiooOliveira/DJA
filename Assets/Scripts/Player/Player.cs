@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,6 +12,7 @@ public class Player : Character
     public static StatesMachine statesMachine = new();
     private State idleState;
     private State runningState;
+    private State attackState;
 
     #region Base Stats
     // Fight Stats
@@ -69,6 +72,7 @@ public class Player : Character
 
         idleState = new PlayerIdleState(fsm: statesMachine, player: Instance);
         runningState = new PlayerRunningState(fsm: statesMachine, player: Instance);
+        attackState = new PlayerAttackState(fsm: statesMachine, player: Instance);
         statesMachine?.ChangeState(idleState);
 
         GameManager.Instance.UpdateLevelXP();
@@ -105,6 +109,7 @@ public class Player : Character
     /// <param name="callbackContext"></param>
     public void OnInteract(InputAction.CallbackContext callbackContext)
     {
+        animator = GetComponent<Animator>();
         // print("E outside");
         if (callbackContext.started)
         {
@@ -285,6 +290,30 @@ public class Player : Character
         return (int)(100 * Math.Pow(1.2, level - 1));
     }
 
+    public class PlayerAttackState: State{
+        private readonly Player player;
+        const string punch = "boolPunch";
+        const string sword = "boolSword";
+        public PlayerAttackState(StatesMachine fsm, Player player) : base(fsm)
+        {
+            this.player = player;
+        }
+        public override void Enter()
+        {
+            if (player.inventory.InventorySlots[0] != null){
+                animator.SetBool(name: sword, value: true);
+            }
+            else{
+                animator.SetBool(name: punch, value: true);
+            }
+        }
+        public override void Exit()
+        {
+            animator.SetBool(name: punch, value: false );
+            animator.SetBool(name: sword, value: false ); 
+        }
+    }
+    
     /// <summary>
     /// This class is a state that represents the idle state of the player.
     /// (It will be used to control the player's idle animation and state transitions)
@@ -293,6 +322,7 @@ public class Player : Character
     {
         private readonly Player player;
         const string animationName = "boolIdle";
+        
         public PlayerIdleState(StatesMachine fsm, Player player) : base(fsm)
         {
             this.player = player;
