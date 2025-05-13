@@ -5,20 +5,18 @@ public class Enemies : Character
 {
     public static Enemies Instance;
 
-    public List<Character> enemies = new List<Character>();
+    private List<Character> enemies = new List<Character>();
+    private GameObject spawnPoints;
+    public List<GameObject> SP = new List<GameObject>();
 
     [Header("Enemies Prefabs")]
     // Create various prefabs for enemies
-    [SerializeField] private Character goblinPrefab;
-    [SerializeField] private Character orcPrefab;
-    [SerializeField] private Character dragonPrefab;
-
-    Character goblin;
-    Character orc;   
-    Character dragon;
+    public Character goblin;
+    public Character orc;
+    public Character dragon;
 
     int playerLevel;
-    //int waveCounter = 0;
+    int waveCounter = 0;
 
     private void Awake()
     {
@@ -28,44 +26,28 @@ public class Enemies : Character
             Destroy(gameObject);
     }
 
-    private void Start()
-    {   
-                
-    }
-
     /// <summary>
     /// Call this method to start a wave
     /// </summary>
     public void StartWave()
     {
+        spawnPoints = GameObject.FindGameObjectWithTag("SpawnPoints");
+
+        if (spawnPoints == null)
+        {
+            print("SpawnPoints null");
+            return;
+        }
+
+        foreach (Transform t in spawnPoints.transform)
+        {
+            SP.Add(t.gameObject);
+        }
+
         playerLevel = Player.Instance.Level;
+        print(playerLevel);
         CreateEnemies();
-        CreateWave();
-    }
-
-    /// <summary>
-    /// Call this method to populate the wave
-    /// </summary>
-    private void CreateWave()
-    {
-        // Wave 1
-        AddToWave(goblin, 3);
-
-        //ViewAllWave();
-        //ClearWave();
-
-        // Wave 2        
-        AddToWave(goblin, 3);
-        AddToWave(orc, 2);
-
-        //ViewAllWave();
-        //ClearWave();
-
-        // Wave 3
-        AddToWave(dragon, 1);
-
-        //ViewAllWave();
-        //ClearWave();
+        CreateWave();        
     }
 
     /// <summary>
@@ -73,13 +55,33 @@ public class Enemies : Character
     /// </summary>
     private void CreateEnemies()
     {
-        goblin = Instantiate(goblinPrefab);
-        orc = Instantiate(orcPrefab);
-        dragon = Instantiate(dragonPrefab);
-
         goblin.Initialize("Goblin", 10 * playerLevel, 20 * playerLevel, 10 * playerLevel, playerLevel + 1, 10, 0);
         orc.Initialize("Orc", 100 * playerLevel, 5 * playerLevel, 30 * playerLevel, playerLevel + 2, 30, 0);
         dragon.Initialize("Dragon", 10 * playerLevel, 20 * playerLevel, 10 * playerLevel, playerLevel + 5, 500, 0);
+    }
+
+    /// <summary>
+    /// Call this method to populate the wave
+    /// </summary>
+    private void CreateWave()
+    {
+        switch (waveCounter)
+        {
+            case 0:
+                ClearWave();
+                AddToWave(goblin, 3);
+                SpawnEnemies();
+                break;
+            case 1:
+                ClearWave();
+                AddToWave(goblin, 3);
+                AddToWave(orc, 2);
+                break;
+            case 2:
+                ClearWave();
+                AddToWave(dragon, 1);
+                break;
+        }
     }
 
     /// <summary>
@@ -120,5 +122,47 @@ public class Enemies : Character
     private void ClearWave()
     {
         enemies.Clear();
+    }
+
+    /// <summary>
+    /// Call this method to spawn the enemies
+    /// </summary>
+    private void SpawnEnemies ()
+    {
+        // Enemie counter to control the position
+        int enemieCounter = 0;
+
+        Debug.Log("Total enemies: " + enemies.Count);
+
+        foreach (Character character in enemies)
+        {
+            Debug.Log("Processing: " + character.name);
+
+            // Just in case we have too many enemies for the amout of SpawnPoints available
+            if (enemieCounter >= SP.Count)
+            {
+                Debug.LogWarning("No spawn point for enemy #" + enemieCounter);
+                break;
+            }
+
+            // Encapsulation of position and rotation
+            Vector3 spawnPos = SP[enemieCounter].transform.position;
+            Quaternion spawnRot = SP[enemieCounter].transform.rotation;
+
+            if (character.name.StartsWith("Goblin"))
+            {
+                Instantiate(goblin, spawnPos, spawnRot);                
+            }
+            else if (character.name.StartsWith("Orc"))
+            {
+                Instantiate(orc, spawnPos, spawnRot);
+            }
+            else if (character.name.StartsWith("Dragon"))
+            {
+                Instantiate(dragon, spawnPos, spawnRot);
+            }
+
+            enemieCounter++;
+        }
     }
 }
