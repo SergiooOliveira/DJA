@@ -20,9 +20,8 @@ public class Player : Character
 
     // Level Stats
     [HideInInspector] public int baseLevel = 1;
-    [HideInInspector] public int baseMaxXp = 0;
+    [HideInInspector] public int baseMaxXp = 100;
     [HideInInspector] public int baseXp = 0;
-    public int baseMaxXp = 100;
     #endregion
 
     #region Variables
@@ -99,154 +98,6 @@ public class Player : Character
             Destroy(obj: triggers.gameObject);
         }
     }
-    #endregion
-
-    #region Methods
-    /// <summary>
-    /// Call the method to place the player in the ground
-    /// </summary>
-    private void SnapToGround()
-    {
-        if (Physics.Raycast(
-            origin: transform.position,
-            direction: Vector3.down,
-            hitInfo: out RaycastHit hit,
-            maxDistance: Mathf.Infinity
-            )
-            )
-        {
-            transform.position = hit.point; // Move player to the ground
-        }
-    }
-
-    /// <summary>
-    /// Call this method to give xp to Player
-    /// </summary>
-    /// <param name="xp">xp to add</param>
-    private void GainXp(int xp)
-    {
-        Xp += xp;
-
-        while (Xp >= MaxXp)
-        {
-            Xp -= MaxXp;
-            LevelUp();
-
-            GamblingManager.Instance.StartRolling();
-        }
-        GameManager.Instance.UpdateLevelXP();
-    }
-
-    /// <summary>
-    /// Call this method to Level Up
-    /// </summary>
-    private void LevelUp()
-    {
-        Level++;
-        MaxXp = CalculateMaxXp(level: Level);
-
-        Debug.Log($"Player is Level = {Level} with a MaxXp of {MaxXp}");
-    }
-
-    /// <summary>
-    /// Calculates max xp exponentially
-    /// </summary>
-    /// <param name="level">Current Level of the Player</param>
-    /// <returns></returns>
-    private int CalculateMaxXp(int level)
-    {
-        return (int)(100 * Math.Pow(x: 1.2, y: level - 1));
-    }
-
-    public class PlayerIdleState : State
-    {
-        private readonly Player player;
-        const string animationName = "boolIdle";
-        public PlayerIdleState(StatesMachine fsm, Player player) : base(fsm)
-        {
-            this.player = player;
-        }
-        public override void Enter()
-        {
-            Debug.Log(message: "PlayerIdleState State");
-            animator.SetBool(name: animationName, value: true);
-        }
-        public override void Update()
-        {
-            if (player.moveInput.magnitude > 0)
-            {
-                fsm.ChangeState(newState: player.runningState);
-            }
-        }
-        public override void Exit()
-        {
-            animator.SetBool(name: animationName, value: false);
-        }
-    }
-    public class PlayerRunningState : State
-    {
-        private readonly Player player;
-        const string animationName = "boolRunning";
-        public PlayerRunningState(StatesMachine fsm, Player player) : base(fsm)
-        {
-            this.player = player;
-        }
-        public override void Enter()
-        {
-            Debug.Log(message: "PlayerMovementState State");
-            animator.SetBool(name: animationName, value: true);
-        }
-        public override void Update()
-        {
-            if (player.velocity == Vector3.zero)
-            {
-                fsm.ChangeState(newState: player.idleState);
-            }
-        }
-        public override void FixedUpdate()
-        {
-            float angleRad = player.transform.rotation.eulerAngles.y * Mathf.Deg2Rad;
-            float rotationX = Mathf.Cos(f: angleRad);
-            float rotationZ = Mathf.Sin(f: angleRad);
-
-            Vector3 inputDirection = new Vector3(
-                x: player.movementX * rotationX + player.movementY * rotationZ,
-                y: 0.0f,
-                z: player.movementY * rotationX - player.movementX * rotationZ
-            ).normalized;
-
-            bool hasInput = (player.movementX != 0 || player.movementY != 0);
-
-            if (hasInput)
-            {
-                // Accelerate in the input direction
-                player.velocity += accelerationSpeed * Time.fixedDeltaTime * inputDirection;
-
-                // Clamp velocity to maxSpeed
-                if (player.velocity.magnitude > maxSpeed)
-                    player.velocity = player.velocity.normalized * maxSpeed;
-            }
-            else
-            {
-                // Decelerate naturally
-                if (player.velocity.magnitude > 0)
-                {
-                    Vector3 decel = decelerationSpeed * Time.fixedDeltaTime * player.velocity.normalized;
-                    if (decel.magnitude > player.velocity.magnitude)
-                        player.velocity = Vector3.zero;
-                    else
-                        player.velocity -= decel;
-                }
-            }
-
-            player.controller.Move(motion: player.velocity * Time.fixedDeltaTime);
-        }
-        public override void Exit()
-        {
-            animator.SetBool(name: animationName, value: false);
-        }
-    }
-
     #endregion
 
     #region Unity Events
@@ -382,219 +233,162 @@ public class Player : Character
         movementY = moveInput.y;
     }
 
-	private void OnTriggerEnter(Collider other)
-	{
-		Debug.Log("Triggered Spawning");
+    #endregion
 
-		// Destroy other triggers of the scene
-		GameObject triggerParent = other.transform.parent.gameObject;
-		foreach (Transform triggers in triggerParent.transform)
-		{
-			Destroy(triggers.gameObject);
-		}
+    #region Methods
+    /// <summary>
+    /// Call the method to place the player in the ground
+    /// </summary>
+    private void SnapToGround()
+    {
+        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, Mathf.Infinity))
+        {
+            transform.position = hit.point; // Move player to the ground
+        }
+    }
 
-		// Lock doors
+    /// <summary>
+    /// Call this method to give xp to Player
+    /// </summary>
+    /// <param name="xp">xp to add</param>
+    private void GainXp (int xp)
+    {        
+        Xp += xp;         
 
-		// Trigger spawns
-		Enemies.Instance.StartWave();
-	}
-	#endregion
+        while (Xp >= MaxXp)
+        {
+            Xp -= MaxXp;
+            LevelUp();
 
-	#region Methods
-	/// <summary>
-	/// Call the method to place the player in the ground
-	/// </summary>
-	private void SnapToGround()
-	{
-		if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, Mathf.Infinity))
-		{
-			transform.position = hit.point; // Move player to the ground
-		}
-	}
+            GamblingManager.Instance.StartRolling();
+        }
 
-	/// <summary>
-	/// Call this method to give xp to Player
-	/// </summary>
-	/// <param name="xp">xp to add</param>
-	private void GainXp (int xp)
-	{        
-		Xp += xp;         
+        GameManager.Instance.UpdateLevelXP();
+    }
 
-		while (Xp >= MaxXp)
-		{
-			Xp -= MaxXp;
-			LevelUp();
+    /// <summary>
+    /// Call this method to Level Up
+    /// </summary>
+    private void LevelUp()
+    {
+        Level++;
+        MaxXp = CalculateMaxXp(Level);
 
-			GamblingManager.Instance.StartRolling();
-		}
+        Debug.Log($"Player is Level = {Level} with a MaxXp of {MaxXp}");
+    }
 
-		GameManager.Instance.UpdateLevelXP();
-	}
+    /// <summary>
+    /// Calculates max xp exponentially
+    /// </summary>
+    /// <param name="level">Current Level of the Player</param>
+    /// <returns></returns>
+    private int CalculateMaxXp(int level)
+    {
+        return (int)(100 * Math.Pow(1.2, level - 1));
+    }
 
-	/// <summary>
-	/// Call this method to Level Up
-	/// </summary>
-	private void LevelUp()
-	{
-		Level++;
-		MaxXp = CalculateMaxXp(Level);
 
-		Debug.Log($"Player is Level = {Level} with a MaxXp of {MaxXp}");
-	}
+    public class PlayerIdleState : State
+    {
+        private readonly Player player;
+        const string animationName = "boolIdle";
+        public PlayerIdleState(StatesMachine fsm, Player player) : base(fsm)
+        {
+            this.player = player;
+        }
+        public override void Enter()
+        {
+            Debug.Log(message: "PlayerIdleState State");
+            animator.SetBool(name: animationName, value: true);
+        }
+        public override void Update()
+        {
+            if (player.moveInput.magnitude > 0)
+            {
+                fsm.ChangeState(newState: player.runningState);
+            }
+        }
+        public override void Exit()
+        {
+            animator.SetBool(name: animationName, value: false);
+        }
+    }
+    public class PlayerRunningState : State
+    {
+        private readonly Player player;
+        const string animationName = "boolRunning";
+        public PlayerRunningState(StatesMachine fsm, Player player) : base(fsm)
+        {
+            this.player = player;
+        }
+        public override void Enter()
+        {
+            Debug.Log(message: "PlayerMovementState State");
+            animator.SetBool(name: animationName, value: true);
+        }
+        public override void Update()
+        {
+            if (player.velocity == Vector3.zero)
+            {
+                fsm.ChangeState(newState: player.idleState);
+            }
+        }
+        public override void FixedUpdate()
+        {
+            float angleRad = player.transform.rotation.eulerAngles.y * Mathf.Deg2Rad;
+            float rotationX = Mathf.Cos(f: angleRad);
+            float rotationZ = Mathf.Sin(f: angleRad);
 
-	/// <summary>
-	/// Calculates max xp exponentially
-	/// </summary>
-	/// <param name="level">Current Level of the Player</param>
-	/// <returns></returns>
-	private int CalculateMaxXp(int level)
-	{
-		return (int)(100 * Math.Pow(1.2, level - 1));
-	}
+            Vector3 inputDirection = new Vector3(
+                x: player.movementX * rotationX + player.movementY * rotationZ,
+                y: 0.0f,
+                z: player.movementY * rotationX - player.movementX * rotationZ
+            ).normalized;
 
-	#endregion
+            bool hasInput = (player.movementX != 0 || player.movementY != 0);
 
-	#region Unity Events
-	/// <summary>
-	/// Call this method to interact with an object
-	/// </summary>
-	/// <param name="callbackContext"></param>
-	public void OnInteract(InputAction.CallbackContext callbackContext)
-	{
-		// print("E outside");
-		if (callbackContext.started)
-		{
-			//print("E inside");
-			Ray ray = Camera.main.ScreenPointToRay(UnityEngine.Input.mousePosition);
+            if (hasInput)
+            {
+                // Accelerate in the input direction
+                player.velocity += accelerationSpeed * Time.fixedDeltaTime * inputDirection;
 
-			if (Physics.Raycast(ray, out RaycastHit hit, 2f))
-			{
-				if (hit.collider.CompareTag(doorTag))
-				{
-					hit.transform.Rotate(0, 90, 0);
-					hit.collider.gameObject.GetComponent<MeshRenderer>().material.SetColor("_Color", Color.black);
-				}
-				else if (hit.collider.CompareTag(slotTag))
-				{
-					// Activate gambling mechanics
-					GainXp(50); // Change 50 to the enemy xp                    
-				}
-				else if (hit.collider.CompareTag(itemTag))
-				{
-					GameObject original = hit.collider.gameObject;
-					ItemClass itemClass = original.GetComponent<ItemClass>();
+                // Clamp velocity to maxSpeed
+                if (player.velocity.magnitude > maxSpeed)
+                    player.velocity = player.velocity.normalized * maxSpeed;
+            }
+            else
+            {
+                // Decelerate naturally
+                if (player.velocity.magnitude > 0)
+                {
+                    Vector3 decel = decelerationSpeed * Time.fixedDeltaTime * player.velocity.normalized;
+                    if (decel.magnitude > player.velocity.magnitude)
+                        player.velocity = Vector3.zero;
+                    else
+                        player.velocity -= decel;
+                }
+            }
 
-					if (!itemClass.isCollected)
-					{
-						inventory.AddInventoryItem(original);
-						Transform originalParent = null;
+            player.controller.Move(motion: player.velocity * Time.fixedDeltaTime);
+        }
+        public override void Exit()
+        {
+            animator.SetBool(name: animationName, value: false);
+        }
+    }
 
-						bool isArrayItem = false;
-						List<GameObject> targetArray = null;
-						int inventoryIndex = -1;
+    /// <summary>
+    /// Call this method to open and close the inventory
+    /// </summary>
+    /// <param name="callbackContext"></param>
+    public void OpenInventory(InputAction.CallbackContext callbackContext)
+    {
+        // Should have a bool to control if the inventory is open or closed. Toggle between those states
+        if (callbackContext.started)
+        {
 
-						switch (itemClass.Type)
-						{
-							case ItemType.MainHand:
-								originalParent = mainHand.transform.parent;
-								mainHand = inventory.InventorySlots[0].item;
-								break;
-							case ItemType.OffHand:
-								originalParent = offHand.transform.parent;
-								offHand = inventory.InventorySlots[1].item;
-								break;
-							case ItemType.Helmet:
-								originalParent = helmet.transform.parent;
-								helmet = inventory.InventorySlots[2].item;
-								break;
-							case ItemType.ChestPlate:
-								originalParent = chestPlate.transform.parent;
-								chestPlate = inventory.InventorySlots[3].item;
-								break;
-							case ItemType.LegsPlate:
-								isArrayItem = true;
-								targetArray = legPlate;
-								inventoryIndex = 4;
-								break;
-							case ItemType.FootWear:
-								isArrayItem = true;
-								targetArray = footWear;
-								inventoryIndex = 5;
-								break;
-							case ItemType.Amulet:
-								originalParent = amulet.transform.parent;
-								amulet = inventory.InventorySlots[6].item;
-								break;
-						}
+        }
+    }
 
-						GameObject new_item;
-						if (isArrayItem && targetArray != null && inventoryIndex != -1)
-						{
-							for (int i = 0; i < targetArray.Count; i++)
-							{
-								Transform parent = targetArray[i]?.transform?.parent;
-								new_item = Instantiate(inventory.InventorySlots[inventoryIndex].item, parent);
-								targetArray[i] = new_item;
-
-								new_item.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
-								new_item.transform.localScale = Vector3.one;
-								new_item.GetComponent<ItemClass>().isCollected = true;
-							}
-						}
-						else if (originalParent != null)
-						{
-							new_item = Instantiate(original, originalParent);
-							new_item.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
-							new_item.transform.localScale = Vector3.one;
-							new_item.GetComponent<ItemClass>().isCollected = true;
-						}
-
-						Destroy(original);
-					}
-				}
-				else
-				{
-					// Case we want to do something
-					Debug.Log($"Hited {hit.collider.name}");
-				}
-			}
-		}
-	}
-
-	/// <summary>
-	/// Call this method to move
-	/// </summary>
-	/// <param name="callbackContext"></param>
-	public void OnMove(InputAction.CallbackContext callbackContext)
-	{
-		if (callbackContext.performed)
-		{
-			moveInput = callbackContext.ReadValue<Vector2>();
-
-			animator.SetBool("isMoving", true);
-
-		}
-		else if (callbackContext.canceled)
-		{
-			moveInput = Vector2.zero;
-
-			animator.SetBool("isMoving", false);
-		}
-		movementX = moveInput.x;
-		movementY = moveInput.y;
-	}
-
-	/// <summary>
-	/// Call this method to open and close the inventory
-	/// </summary>
-	/// <param name="callbackContext"></param>
-	public void OpenInventory(InputAction.CallbackContext callbackContext)
-	{
-		// Should have a bool to control if the inventory is open or closed. Toggle between those states
-		if (callbackContext.started)
-		{
-
-		}
-	}
-	#endregion
+    #endregion
 }
