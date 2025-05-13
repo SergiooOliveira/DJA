@@ -56,10 +56,8 @@ public class Player : Character
     #region MonoBehaviour
     private void Awake()
     {
-        if (Instance == null)
-            Instance = this;
-        else
-            Destroy(gameObject);
+        if (Instance != null) Destroy(gameObject);
+        else Instance = this;
     }
 
     private void Start()
@@ -69,8 +67,8 @@ public class Player : Character
         animator = GetComponent<Animator>();
         LevelUp();
 
-        idleState = new PlayerIdleState(fsm: statesMachine, player: this);
-        runningState = new PlayerRunningState(fsm: statesMachine, player: this);
+        idleState = new PlayerIdleState(fsm: statesMachine, player: Instance);
+        runningState = new PlayerRunningState(fsm: statesMachine, player: Instance);
         statesMachine?.ChangeState(idleState);
 
         GameManager.Instance.UpdateLevelXP();
