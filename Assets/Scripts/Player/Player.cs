@@ -97,6 +97,11 @@ public class Player : Character
         {
             Destroy(obj: triggers.gameObject);
         }
+
+        // Lock doors
+
+        // Trigger spawns
+        Enemies.Instance.StartWave();
     }
     #endregion
 

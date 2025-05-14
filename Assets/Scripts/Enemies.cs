@@ -39,6 +39,8 @@ public class Enemies : Character
             return;
         }
 
+        if (SP.Count > 0) SP.Clear();
+
         foreach (Transform t in spawnPoints.transform)
         {
             SP.Add(t.gameObject);
