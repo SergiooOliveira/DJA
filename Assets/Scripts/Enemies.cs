@@ -29,16 +29,8 @@ public class Enemies : Character
     /// <summary>
     /// Call this method to start a wave
     /// </summary>
-    public void StartWave()
+    public void StartWave(Transform spawnPoints)
     {
-        spawnPoints = GameObject.FindGameObjectWithTag("SpawnPoints");
-
-        if (spawnPoints == null)
-        {
-            print("SpawnPoints null");
-            return;
-        }
-
         if (SP.Count > 0) SP.Clear();
 
         foreach (Transform t in spawnPoints.transform)
@@ -94,9 +86,8 @@ public class Enemies : Character
     public void AddToWave(Character character, int amount)
     {
         for (int i = 0; i < amount; i++)
-        {
-            Character newCharacter = Instantiate(character);
-            enemies.Add(newCharacter);
+        {            
+            enemies.Add(character);
         }
 
         Debug.Log($"Added {amount} x {character.Name} to the wave");
@@ -164,6 +155,7 @@ public class Enemies : Character
                 Instantiate(dragon, spawnPos, spawnRot);
             }
 
+            Debug.Log($"{enemieCounter}: {character.name} at {spawnPos}");
             enemieCounter++;
         }
     }

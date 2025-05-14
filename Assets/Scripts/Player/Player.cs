@@ -92,18 +92,28 @@ public class Player : Character
 
     private void OnTriggerEnter(Collider other)
     {
+        // Lock doors
+
         Debug.Log(message: "Triggered Spawning");
 
         GameObject triggerParent = other.transform.parent.gameObject;
         foreach (Transform triggers in triggerParent.transform)
         {
-            Destroy(obj: triggers.gameObject);
+            Destroy(triggers.gameObject);
         }
 
-        // Lock doors
+        // Get the current room spawnPoints
+        GameObject room = triggerParent.transform.parent.gameObject;
+        Transform spawnPoints = room.transform.Find("SpawnPoints");
+
+        if (spawnPoints == null)
+        {
+            print("SpawnPoints null");
+            return;
+        }
 
         // Trigger spawns
-        Enemies.Instance.StartWave();
+        Enemies.Instance.StartWave(spawnPoints);
     }
     #endregion
 
@@ -295,6 +305,7 @@ public class Player : Character
         return (int)(100 * Math.Pow(1.2, level - 1));
     }
 
+    #region States
     public class PlayerAttackState: State{
         private readonly Player player;
         const string punch = "boolPunch";
@@ -334,7 +345,7 @@ public class Player : Character
         }
         public override void Enter()
         {
-            Debug.Log(message: "PlayerIdleState State");
+            //Debug.Log(message: "PlayerIdleState State");
             animator.SetBool(name: animationName, value: true);
         }
         public override void Update(float deltaTime)
@@ -363,7 +374,7 @@ public class Player : Character
         }
         public override void Enter()
         {
-            Debug.Log(message: "PlayerMovementState State");
+            //Debug.Log(message: "PlayerMovementState State");
             animator.SetBool(name: animationName, value: true);
         }
         public override void Update(float deltaTime)
@@ -416,6 +427,7 @@ public class Player : Character
             animator.SetBool(name: animationName, value: false);
         }
     }
+    #endregion
 
     /// <summary>
     /// Call this method to open and close the inventory
