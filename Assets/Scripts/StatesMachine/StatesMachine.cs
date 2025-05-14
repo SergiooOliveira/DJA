@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class StatesMachine
 {
     private State currentState;
@@ -7,6 +9,6 @@ public class StatesMachine
         currentState = newState;
         currentState?.Enter();
     }
-    public void Update() => currentState?.Update();
-    public void FixedUpdate() => currentState?.FixedUpdate();
+    public void Update() => currentState?.Update(Time.deltaTime);
+    public void FixedUpdate() => currentState?.FixedUpdate(Time.fixedDeltaTime);
 }

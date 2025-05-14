@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,6 +12,7 @@ public class Player : Character
     public static StatesMachine statesMachine = new();
     private State idleState;
     private State runningState;
+    private State attackState;
 
     #region Base Stats
     // Fight Stats
@@ -56,10 +59,8 @@ public class Player : Character
     #region MonoBehaviour
     private void Awake()
     {
-        if (Instance == null)
-            Instance = this;
-        else
-            Destroy(gameObject);
+        if (Instance != null) Destroy(gameObject);
+        else Instance = this;
     }
 
     private void Start()
@@ -69,8 +70,9 @@ public class Player : Character
         animator = GetComponent<Animator>();
         LevelUp();
 
-        idleState = new PlayerIdleState(fsm: statesMachine, player: this);
-        runningState = new PlayerRunningState(fsm: statesMachine, player: this);
+        idleState = new PlayerIdleState(fsm: statesMachine, player: Instance);
+        runningState = new PlayerRunningState(fsm: statesMachine, player: Instance);
+        attackState = new PlayerAttackState(fsm: statesMachine, player: Instance);
         statesMachine?.ChangeState(idleState);
 
         GameManager.Instance.UpdateLevelXP();
@@ -112,6 +114,7 @@ public class Player : Character
     /// <param name="callbackContext"></param>
     public void OnInteract(InputAction.CallbackContext callbackContext)
     {
+        animator = GetComponent<Animator>();
         // print("E outside");
         if (callbackContext.started)
         {
@@ -292,11 +295,39 @@ public class Player : Character
         return (int)(100 * Math.Pow(1.2, level - 1));
     }
 
-
+    public class PlayerAttackState: State{
+        private readonly Player player;
+        const string punch = "boolPunch";
+        const string sword = "boolSword";
+        public PlayerAttackState(StatesMachine fsm, Player player) : base(fsm)
+        {
+            this.player = player;
+        }
+        public override void Enter()
+        {
+            if (player.inventory.InventorySlots[0] != null){
+                animator.SetBool(name: sword, value: true);
+            }
+            else{
+                animator.SetBool(name: punch, value: true);
+            }
+        }
+        public override void Exit()
+        {
+            animator.SetBool(name: punch, value: false );
+            animator.SetBool(name: sword, value: false ); 
+        }
+    }
+    
+    /// <summary>
+    /// This class is a state that represents the idle state of the player.
+    /// (It will be used to control the player's idle animation and state transitions)
+    /// </summary>
     public class PlayerIdleState : State
     {
         private readonly Player player;
         const string animationName = "boolIdle";
+        
         public PlayerIdleState(StatesMachine fsm, Player player) : base(fsm)
         {
             this.player = player;
@@ -306,7 +337,7 @@ public class Player : Character
             Debug.Log(message: "PlayerIdleState State");
             animator.SetBool(name: animationName, value: true);
         }
-        public override void Update()
+        public override void Update(float deltaTime)
         {
             if (player.moveInput.magnitude > 0)
             {
@@ -318,6 +349,10 @@ public class Player : Character
             animator.SetBool(name: animationName, value: false);
         }
     }
+    /// <summary>
+    /// This class is a state that represents the running state of the player.
+    /// (It will be used to control the player's running animation and state transitions)
+    /// </summary>
     public class PlayerRunningState : State
     {
         private readonly Player player;
@@ -331,14 +366,14 @@ public class Player : Character
             Debug.Log(message: "PlayerMovementState State");
             animator.SetBool(name: animationName, value: true);
         }
-        public override void Update()
+        public override void Update(float deltaTime)
         {
             if (player.velocity == Vector3.zero)
             {
                 fsm.ChangeState(newState: player.idleState);
             }
         }
-        public override void FixedUpdate()
+        public override void FixedUpdate(float deltaTime)
         {
             float angleRad = player.transform.rotation.eulerAngles.y * Mathf.Deg2Rad;
             float rotationX = Mathf.Cos(f: angleRad);
@@ -355,7 +390,7 @@ public class Player : Character
             if (hasInput)
             {
                 // Accelerate in the input direction
-                player.velocity += accelerationSpeed * Time.fixedDeltaTime * inputDirection;
+                player.velocity += accelerationSpeed * deltaTime * inputDirection;
 
                 // Clamp velocity to maxSpeed
                 if (player.velocity.magnitude > maxSpeed)
@@ -366,7 +401,7 @@ public class Player : Character
                 // Decelerate naturally
                 if (player.velocity.magnitude > 0)
                 {
-                    Vector3 decel = decelerationSpeed * Time.fixedDeltaTime * player.velocity.normalized;
+                    Vector3 decel = decelerationSpeed * deltaTime * player.velocity.normalized;
                     if (decel.magnitude > player.velocity.magnitude)
                         player.velocity = Vector3.zero;
                     else
@@ -374,7 +409,7 @@ public class Player : Character
                 }
             }
 
-            player.controller.Move(motion: player.velocity * Time.fixedDeltaTime);
+            player.controller.Move(motion: player.velocity * deltaTime);
         }
         public override void Exit()
         {
