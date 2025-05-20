@@ -1,8 +1,10 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class Character : MonoBehaviour
 {
+    private readonly string enemyTag = "Enemy";
     private string characterName;
     private int health;
     private int strength;
@@ -30,7 +32,7 @@ public class Character : MonoBehaviour
     }
     public int Level {
         get => level;
-        set => level = Mathf.Max(0, value);
+        set => level = Mathf.Max(1, value);
     }
     public int Xp {
         get => xp;
@@ -48,7 +50,7 @@ public class Character : MonoBehaviour
     /// <param name="strenght">Character Strenght</param>
     /// <param name="armor">Character Armor</param>
     /// <param name="level">Character Level</param>
-    public void Initialize(string name,int health, int strenght, int armor,
+    public void Initialize(string name, int health, int strenght, int armor,
                             int level, int xp, int maxXp)
     {
         this.Name = name;
@@ -61,14 +63,93 @@ public class Character : MonoBehaviour
     }
 
     /// <summary>
+    /// Call this method to Level Up
+    /// </summary>
+    public void LevelUp()
+    {
+        Level++;
+        MaxXp = CalculateMaxXp(Level);
+
+        Debug.Log($"Player is Level = {Level} with a MaxXp of {MaxXp}");
+    }
+
+    /// <summary>
+    /// Calculates max xp exponentially
+    /// </summary>
+    /// <param name="level">Current Level of the Player</param>
+    /// <returns></returns>
+    private int CalculateMaxXp(int level)
+    {
+        return (int)(100 * Math.Pow(1.2, level - 1));
+    }
+
+    /// <summary>
+    /// Call this method to give xp to Player
+    /// </summary>
+    /// <param name="xp">xp to add</param>
+    private void GainXp(int xp)
+    {
+        Xp += xp;
+        Debug.Log($"Player got {xp} xp ({Xp})");
+
+        while (Xp >= MaxXp)
+        {
+            Xp -= MaxXp;
+            LevelUp();
+            Debug.Log($"Player level up ({Level})");
+
+            GamblingManager.Instance.StartRolling();
+        }
+
+        GameManager.Instance.UpdateLevelXP();
+    }
+
+    /// <summary>
     /// Call this method to attack
     /// </summary>
     /// <param name="callbackContext"></param>
     public void Attack(InputAction.CallbackContext callbackContext)
     {
         if (callbackContext.started)
-        {            
-            //Debug.Log("Attacking");
+        {
+            Ray ray = Camera.main.ScreenPointToRay(pos: UnityEngine.Input.mousePosition);
+
+            if (Physics.Raycast(
+                ray: ray,
+                hitInfo: out RaycastHit hit,
+                maxDistance: 2f))
+            {
+                if (hit.collider.CompareTag(tag: enemyTag))
+                {
+                    Character hittedCharacter = hit.collider.GetComponent<Character>();
+                    hittedCharacter.TakeDamage(damage: Strenght);
+                    Debug.Log($"{hittedCharacter.name} got hitted (hp: {hittedCharacter.health})");
+                }
+            }
         }
+    }
+
+    public void TakeDamage(int damage)
+    {
+        int actualDamage = damage - Armor;
+        if (actualDamage < 0)
+        {
+            actualDamage = 0;
+            OnDeath();
+        }
+        Health -= actualDamage;
+        Debug.Log($"{Name} took {actualDamage} damage. Remaining health: {Health}");
+    }
+
+    public void Heal(int amount)
+    {
+        Health += amount;
+        Debug.Log($"{Name} healed {amount} health. Current health: {Health}");
+    }
+
+    public void OnDeath()
+    {
+        Debug.Log($"{Name} has died.");
+        GainXp(xp: 50);
     }
 }

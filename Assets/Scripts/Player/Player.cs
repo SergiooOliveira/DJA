@@ -18,7 +18,7 @@ public class Player : Character
     // Fight Stats
     [HideInInspector] public string baseName = "Player";
     [HideInInspector] public int baseHealth = 100;
-    [HideInInspector] public int baseStrenght = 5;
+    [HideInInspector] public int baseStrenght = 1;
     [HideInInspector] public int baseArmor = 10;
 
     // Level Stats
@@ -34,7 +34,6 @@ public class Player : Character
 
     // Tags for interactions
     private readonly string doorTag = "Door";
-    private readonly string slotTag = "SlotMachine";
     private readonly string itemTag = "Item";
 
     // Movement
@@ -125,10 +124,8 @@ public class Player : Character
     public void OnInteract(InputAction.CallbackContext callbackContext)
     {
         animator = GetComponent<Animator>();
-        // print("E outside");
         if (callbackContext.started)
         {
-            //print("E inside");
             Ray ray = Camera.main.ScreenPointToRay(pos: UnityEngine.Input.mousePosition);
 
             if (Physics.Raycast(
@@ -138,13 +135,8 @@ public class Player : Character
             {
                 if (hit.collider.CompareTag(tag: doorTag))
                 {
-                    hit.transform.Rotate(xAngle: 0, yAngle: 90, zAngle: 0);
+                    hit.transform.rotation = new Quaternion(x: 0, y: 60, z: 0, w: 0);
                     hit.collider.gameObject.GetComponent<MeshRenderer>().material.SetColor(name: "_Color", value: Color.black);
-                }
-                else if (hit.collider.CompareTag(tag: slotTag))
-                {
-                    // Activate gambling mechanics
-                    GainXp(xp: 50); // Change 50 to the enemy xp                    
                 }
                 else if (hit.collider.CompareTag(tag: itemTag))
                 {
@@ -238,14 +230,10 @@ public class Player : Character
         {
             moveInput = callbackContext.ReadValue<Vector2>();
 
-            // animator.SetBool("isMoving", true);
-
         }
         else if (callbackContext.canceled)
         {
             moveInput = Vector2.zero;
-
-            // animator.SetBool("isMoving", false);
         }
         movementX = moveInput.x;
         movementY = moveInput.y;
@@ -263,46 +251,6 @@ public class Player : Character
         {
             transform.position = hit.point; // Move player to the ground
         }
-    }
-
-    /// <summary>
-    /// Call this method to give xp to Player
-    /// </summary>
-    /// <param name="xp">xp to add</param>
-    private void GainXp (int xp)
-    {        
-        Xp += xp;         
-
-        while (Xp >= MaxXp)
-        {
-            Xp -= MaxXp;
-            LevelUp();
-
-            GamblingManager.Instance.StartRolling();
-        }
-
-        GameManager.Instance.UpdateLevelXP();
-    }
-
-    /// <summary>
-    /// Call this method to Level Up
-    /// </summary>
-    private void LevelUp()
-    {
-        Level++;
-        MaxXp = CalculateMaxXp(Level);
-
-        Debug.Log($"Player is Level = {Level} with a MaxXp of {MaxXp}");
-    }
-
-    /// <summary>
-    /// Calculates max xp exponentially
-    /// </summary>
-    /// <param name="level">Current Level of the Player</param>
-    /// <returns></returns>
-    private int CalculateMaxXp(int level)
-    {
-        return (int)(100 * Math.Pow(1.2, level - 1));
     }
 
     #region States

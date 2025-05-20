@@ -9,6 +9,7 @@ TagManager:
   - SlotMachine
   - Item
   - SpawnPoints
+  - Enemy
   layers:
   - Default
   - TransparentFX
