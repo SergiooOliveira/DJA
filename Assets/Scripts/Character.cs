@@ -1,12 +1,15 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class Character : MonoBehaviour
 {
     private readonly string enemyTag = "Enemy";
+    
+
     private string characterName;
-    private int health;
+    [SerializeField]private int health;
     private int strength;
     private int armor;
     private int level;
@@ -121,9 +124,9 @@ public class Character : MonoBehaviour
             {
                 if (hit.collider.CompareTag(tag: enemyTag))
                 {
-                    Character hittedCharacter = hit.collider.GetComponent<Character>();
+                    Character hittedCharacter = hit.collider.transform.root.GetComponent<Character>();
                     hittedCharacter.TakeDamage(damage: Strenght);
-                    Debug.Log($"{hittedCharacter.name} got hitted (hp: {hittedCharacter.health})");
+                    Debug.Log($"{hittedCharacter.name} got hitted (hp: {hittedCharacter.Health})");
                 }
             }
         }

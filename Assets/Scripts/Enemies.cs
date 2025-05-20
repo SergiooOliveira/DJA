@@ -155,7 +155,7 @@ public class Enemies : Character
                 Instantiate(dragon, spawnPos, spawnRot);
             }
 
-            Debug.Log($"{enemieCounter}: {character.name} at {spawnPos}");
+            Debug.Log($"{enemieCounter}: {character.name} at {spawnPos} with {character.Health} HP");
             enemieCounter++;
         }
     }
