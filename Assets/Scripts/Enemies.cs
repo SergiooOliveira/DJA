@@ -28,9 +28,28 @@ public class Enemies : Character
             Destroy(gameObject);
     }
 
+<<<<<<< Updated upstream
     private void Start()
     {   
                 
+=======
+    /// <summary>
+    /// Call this method to start a wave
+    /// </summary>
+    public void StartWave(Transform spawnPoints)
+    {
+        if (SP.Count > 0) SP.Clear();
+
+        foreach (Transform t in spawnPoints.transform)
+        {
+            SP.Add(t.gameObject);
+        }
+
+        playerLevel = Player.Instance.Level;
+        print(playerLevel);
+        CreateEnemies();
+        CreateWave();
+>>>>>>> Stashed changes
     }
 
     /// <summary>

@@ -30,7 +30,11 @@ public class Character : MonoBehaviour
     }
     public int Level {
         get => level;
+<<<<<<< Updated upstream
         set => level = value;
+=======
+        set => level = Mathf.Max(1, value);
+>>>>>>> Stashed changes
     }
     public int Xp {
         get => xp;
