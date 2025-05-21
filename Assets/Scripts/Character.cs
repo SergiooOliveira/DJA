@@ -7,7 +7,6 @@ public class Character : MonoBehaviour
 {
     private readonly string enemyTag = "Enemy";
     
-
     private string characterName;
     [SerializeField]private int health;
     private int strength;
@@ -53,7 +52,7 @@ public class Character : MonoBehaviour
     /// <param name="strenght">Character Strenght</param>
     /// <param name="armor">Character Armor</param>
     /// <param name="level">Character Level</param>
-    public void Initialize(string name, int health, int strenght, int armor,
+    public void Initialize2(string name, int health, int strenght, int armor,
                             int level, int xp, int maxXp)
     {
         this.Name = name;
@@ -92,14 +91,14 @@ public class Character : MonoBehaviour
     /// <param name="xp">xp to add</param>
     private void GainXp(int xp)
     {
-        Xp += xp;
-        Debug.Log($"Player got {xp} xp ({Xp})");
+        Player.Instance.Xp += xp;
+        Debug.Log($"Player got {xp} xp ({Player.Instance.Xp})");
 
-        while (Xp >= MaxXp)
+        while (Player.Instance.Xp >= Player.Instance.MaxXp)
         {
-            Xp -= MaxXp;
+            Player.Instance.Xp -= Player.Instance.MaxXp;
             LevelUp();
-            Debug.Log($"Player level up ({Level})");
+            Debug.Log($"Player level up ({Player.Instance.Level})");
 
             GamblingManager.Instance.StartRolling();
         }
@@ -125,7 +124,7 @@ public class Character : MonoBehaviour
                 if (hit.collider.CompareTag(tag: enemyTag))
                 {
                     Character hittedCharacter = hit.collider.transform.root.GetComponent<Character>();
-                    hittedCharacter.TakeDamage(damage: Strenght);
+                    hittedCharacter.TakeDamage(Player.Instance.Strenght);
                     Debug.Log($"{hittedCharacter.name} got hitted (hp: {hittedCharacter.Health})");
                 }
             }
@@ -135,24 +134,25 @@ public class Character : MonoBehaviour
     public void TakeDamage(int damage)
     {
         int actualDamage = damage - Armor;
-        if (actualDamage < 0)
-        {
-            actualDamage = 0;
-            OnDeath();
-        }
+        
+        if (actualDamage <= 0) actualDamage = 1;
+        
         Health -= actualDamage;
+
+        if (Health == 0) OnDeath();
+
         Debug.Log($"{Name} took {actualDamage} damage. Remaining health: {Health}");
     }
 
-    public void Heal(int amount)
-    {
-        Health += amount;
-        Debug.Log($"{Name} healed {amount} health. Current health: {Health}");
-    }
+    //public void Heal(int amount)
+    //{
+    //    Health += amount;
+    //    Debug.Log($"{Name} healed {amount} health. Current health: {Health}");
+    //}
 
     public void OnDeath()
-    {
-        Debug.Log($"{Name} has died.");
-        GainXp(xp: 50);
+    {        
+        GainXp(50);
+        Destroy(gameObject);
     }
 }

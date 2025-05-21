@@ -18,7 +18,7 @@ public class Player : Character
     // Fight Stats
     [HideInInspector] public string baseName = "Player";
     [HideInInspector] public int baseHealth = 100;
-    [HideInInspector] public int baseStrenght = 1;
+    [HideInInspector] public int baseStrenght = 500;
     [HideInInspector] public int baseArmor = 10;
 
     // Level Stats
@@ -67,7 +67,7 @@ public class Player : Character
         // Game logic
         SnapToGround();
         animator = GetComponent<Animator>();
-        LevelUp();
+        //LevelUp();
 
         idleState = new PlayerIdleState(fsm: statesMachine, player: Instance);
         runningState = new PlayerRunningState(fsm: statesMachine, player: Instance);

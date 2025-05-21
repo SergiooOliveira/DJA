@@ -40,8 +40,7 @@ public class Enemies : Character
 
         playerLevel = Player.Instance.Level;
         print(playerLevel);
-        CreateEnemies();
-        CreateWave();        
+        CreateWave();
     }
 
     /// <summary>
@@ -49,9 +48,9 @@ public class Enemies : Character
     /// </summary>
     private void CreateEnemies()
     {
-        goblin.Initialize("Goblin", 10 * playerLevel, 20 * playerLevel, 10 * playerLevel, playerLevel + 1, 10, 0);
-        orc.Initialize("Orc", 100 * playerLevel, 5 * playerLevel, 30 * playerLevel, playerLevel + 2, 30, 0);
-        dragon.Initialize("Dragon", 10 * playerLevel, 20 * playerLevel, 10 * playerLevel, playerLevel + 5, 500, 0);
+        goblin.Initialize2("Goblin", 10 * playerLevel, 20 * playerLevel, 10 * playerLevel, playerLevel + 1, 10, 0);
+        orc.Initialize2("Orc", 100 * playerLevel, 5 * playerLevel, 30 * playerLevel, playerLevel + 2, 30, 0);
+        dragon.Initialize2("Dragon", 10 * playerLevel, 20 * playerLevel, 10 * playerLevel, playerLevel + 5, 500, 0);
     }
 
     /// <summary>
@@ -59,6 +58,7 @@ public class Enemies : Character
     /// </summary>
     private void CreateWave()
     {
+        CreateEnemies();
         switch (waveCounter)
         {
             case 0:
@@ -129,7 +129,7 @@ public class Enemies : Character
 
         foreach (Character character in enemies)
         {
-            Debug.Log("Processing: " + character.name);
+            Debug.Log("Processing: " + character.Name);
 
             // Just in case we have too many enemies for the amout of SpawnPoints available
             if (enemieCounter >= SP.Count)
@@ -142,20 +142,23 @@ public class Enemies : Character
             Vector3 spawnPos = SP[enemieCounter].transform.position;
             Quaternion spawnRot = SP[enemieCounter].transform.rotation;
 
-            if (character.name.StartsWith("Goblin"))
+            if (character.Name.StartsWith("Goblin"))
             {
-                Instantiate(goblin, spawnPos, spawnRot);                
+                Character newGoblin = Instantiate(goblin, spawnPos, spawnRot);
+                newGoblin.Initialize2("Goblin", 10 * playerLevel, 20 * playerLevel, 10 * playerLevel, playerLevel + 1, 10, 0);
             }
-            else if (character.name.StartsWith("Orc"))
+            else if (character.Name.StartsWith("Orc"))
             {
-                Instantiate(orc, spawnPos, spawnRot);
+                Character newOrc = Instantiate(orc, spawnPos, spawnRot);
+                newOrc.Initialize2("Orc", 100 * playerLevel, 5 * playerLevel, 30 * playerLevel, playerLevel + 2, 30, 0);
             }
-            else if (character.name.StartsWith("Dragon"))
+            else if (character.Name.StartsWith("Dragon"))
             {
-                Instantiate(dragon, spawnPos, spawnRot);
+                Character newDragon = Instantiate(dragon, spawnPos, spawnRot);
+                newDragon.Initialize2("Dragon", 10 * playerLevel, 20 * playerLevel, 10 * playerLevel, playerLevel + 5, 500, 0);
             }
-
-            Debug.Log($"{enemieCounter}: {character.name} at {spawnPos} with {character.Health} HP");
+            
+            Debug.Log($"{enemieCounter}: {character.Name} at {spawnPos} with {character.Health} HP");
             enemieCounter++;
         }
     }
