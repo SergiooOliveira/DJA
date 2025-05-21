@@ -125,34 +125,37 @@ public class Character : MonoBehaviour
                 if (hit.collider.CompareTag(tag: enemyTag))
                 {
                     Character hittedCharacter = hit.collider.transform.root.GetComponent<Character>();
-                    hittedCharacter.TakeDamage(damage: Strenght);
-                    Debug.Log($"{hittedCharacter.name} got hitted (hp: {hittedCharacter.Health})");
+                    TakeDamage(hittedCharacter, attackerCharacter: this);
                 }
             }
         }
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(Character hittedCharacter, Character attackerCharacter)
     {
-        int actualDamage = damage - Armor;
-        if (actualDamage < 0)
+        int actualDamage = attackerCharacter.Strenght -hittedCharacter.Armor;
+        if (actualDamage < 1)
         {
-            actualDamage = 0;
-            OnDeath();
+            actualDamage = 1;
         }
-        Health -= actualDamage;
-        Debug.Log($"{Name} took {actualDamage} damage. Remaining health: {Health}");
+        hittedCharacter.Health -= actualDamage;
+        if (hittedCharacter.Health <= 0)
+        {
+            hittedCharacter.OnDeath(killedCharacter: hittedCharacter, KillerCharacter: attackerCharacter);
+        }
+        Debug.Log($"{hittedCharacter.Name} took {actualDamage} damage. Remaining health: {hittedCharacter.Health}");
     }
 
-    public void Heal(int amount)
+    public void Heal(Character healCharacter, int amount)
     {
-        Health += amount;
-        Debug.Log($"{Name} healed {amount} health. Current health: {Health}");
+        healCharacter.Health += amount;
+        Debug.Log($"{healCharacter.Name} healed {amount} health. Current health: {healCharacter.Health}");
     }
 
-    public void OnDeath()
+    public void OnDeath(Character killedCharacter, Character KillerCharacter)
     {
-        Debug.Log($"{Name} has died.");
-        GainXp(xp: 50);
+        KillerCharacter.GainXp(xp: 50);
+        Debug.Log($"{killedCharacter.Name} has died.");
+        Destroy(killedCharacter.gameObject);
     }
 }
