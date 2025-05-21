@@ -126,12 +126,14 @@ public class Character : MonoBehaviour
                     Character hittedCharacter = hit.collider.transform.root.GetComponent<Character>();
                     hittedCharacter.TakeDamage(Player.Instance.Strenght);
                     Debug.Log($"{hittedCharacter.name} got hitted (hp: {hittedCharacter.Health})");
+
+
                 }
             }
         }
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(Character hittedCharacter, Character attackerCharacter)
     {
         int actualDamage = damage - Armor;
         
