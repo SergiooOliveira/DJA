@@ -88,7 +88,7 @@ public class GameManager : MonoBehaviour
                 Player.Instance.Health += upgrade.BuffPower.Power;                
                 break;
             case "Strength":
-                Player.Instance.Strenght += upgrade.BuffPower.Power;                
+                Player.Instance.Strength += upgrade.BuffPower.Power;                
                 break;
             case "Armor":
                 Player.Instance.Armor += upgrade.BuffPower.Power;                
@@ -110,7 +110,7 @@ public class GameManager : MonoBehaviour
     private void UpdatePlayerStats()
     {
         PlayerHP.text = Player.Instance.Health.ToString();
-        PlayerStrenght.text = Player.Instance.Strenght.ToString();
+        PlayerStrenght.text = Player.Instance.Strength.ToString();
         PlayerArmor.text = Player.Instance.Armor.ToString();
     }
 }

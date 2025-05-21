@@ -6,9 +6,8 @@ using UnityEngine.InputSystem;
 public class Character : MonoBehaviour
 {
     private readonly string enemyTag = "Enemy";
-    
     private string characterName;
-    [SerializeField]private int health;
+    private int health;
     private int strength;
     private int armor;
     private int level;
@@ -24,7 +23,7 @@ public class Character : MonoBehaviour
         get => health;
         set => health = Mathf.Max(0, value);
     }
-    public int Strenght {
+    public int Strength {
         get => strength;
         set => strength = Mathf.Max(0, value);
     }
@@ -52,12 +51,13 @@ public class Character : MonoBehaviour
     /// <param name="strenght">Character Strenght</param>
     /// <param name="armor">Character Armor</param>
     /// <param name="level">Character Level</param>
-    public void Initialize(string name, int health, int strenght, int armor,
+
+    public void Initialize(string name, int health, int strength, int armor,
                             int level, int xp, int maxXp)
     {
         this.Name = name;
         this.Health = health;
-        this.Strenght = strenght;
+        this.Strength = strength;
         this.Armor = armor;
         this.Level = level;
         this.Xp = xp;
@@ -123,11 +123,8 @@ public class Character : MonoBehaviour
             {
                 if (hit.collider.CompareTag(tag: enemyTag))
                 {
-                    Character hittedCharacter = hit.collider.transform.root.GetComponent<Character>();
-                    hittedCharacter.TakeDamage(Player.Instance.Strenght);
-                    Debug.Log($"{hittedCharacter.name} got hitted (hp: {hittedCharacter.Health})");
-
-
+                    Character rayCharacter = hit.collider.gameObject.GetComponent<Character>();
+                    TakeDamage(hittedCharacter: rayCharacter, attackerCharacter: this);
                 }
             }
         }
@@ -135,15 +132,17 @@ public class Character : MonoBehaviour
 
     public void TakeDamage(Character hittedCharacter, Character attackerCharacter)
     {
-        int actualDamage = damage - Armor;
-        
-        if (actualDamage <= 0) actualDamage = 1;
-        
-        Health -= actualDamage;
-
-        if (Health == 0) OnDeath();
-
-        Debug.Log($"{Name} took {actualDamage} damage. Remaining health: {Health}");
+        int actualDamage = attackerCharacter.Strength - hittedCharacter.Armor;
+        if (actualDamage < 1)
+        {
+            actualDamage = 1;
+        }
+        hittedCharacter.Health -= actualDamage;
+        if (hittedCharacter.Health <= 0)
+        {
+            hittedCharacter.OnDeath(killedCharacter: hittedCharacter, KillerCharacter: attackerCharacter);
+        }
+        Debug.Log($"{hittedCharacter.Name} took {actualDamage} damage. Remaining health: {hittedCharacter.Health}");
     }
 
     //public void Heal(int amount)
