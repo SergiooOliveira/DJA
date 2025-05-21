@@ -124,25 +124,23 @@ public class Character : MonoBehaviour
                 if (hit.collider.CompareTag(tag: enemyTag))
                 {
                     Character rayCharacter = hit.collider.gameObject.GetComponent<Character>();
-                    TakeDamage(hittedCharacter: rayCharacter, attackerCharacter: this);
+                    rayCharacter.TakeDamage(Player.Instance.Strength);
                 }
             }
         }
     }
 
-    public void TakeDamage(Character hittedCharacter, Character attackerCharacter)
+    public void TakeDamage(int damage)
     {
-        int actualDamage = attackerCharacter.Strength - hittedCharacter.Armor;
-        if (actualDamage < 1)
-        {
-            actualDamage = 1;
-        }
-        hittedCharacter.Health -= actualDamage;
-        if (hittedCharacter.Health <= 0)
-        {
-            hittedCharacter.OnDeath(killedCharacter: hittedCharacter, KillerCharacter: attackerCharacter);
-        }
-        Debug.Log($"{hittedCharacter.Name} took {actualDamage} damage. Remaining health: {hittedCharacter.Health}");
+        int actualDamage = damage - Armor;
+
+        if (actualDamage <= 0) actualDamage = 1;
+
+        Health -= actualDamage;
+
+        if (Health == 0) OnDeath();
+
+        Debug.Log($"{Name} took {actualDamage} damage. Remaining health: {Health}");
     }
 
     //public void Heal(int amount)
