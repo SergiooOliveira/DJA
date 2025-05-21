@@ -52,7 +52,7 @@ public class Character : MonoBehaviour
     /// <param name="strenght">Character Strenght</param>
     /// <param name="armor">Character Armor</param>
     /// <param name="level">Character Level</param>
-    public void Initialize2(string name, int health, int strenght, int armor,
+    public void Initialize(string name, int health, int strenght, int armor,
                             int level, int xp, int maxXp)
     {
         this.Name = name;
