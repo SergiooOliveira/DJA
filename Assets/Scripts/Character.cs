@@ -53,7 +53,7 @@ public class Character : MonoBehaviour
     /// Call this method to Initialize the player
     /// </summary>
     /// <param name="health">Character Health</param>
-    /// <param name="strenght">Character Strenght</param>
+    /// <param name="strength">Character Strenght</param>
     /// <param name="armor">Character Armor</param>
     /// <param name="level">Character Level</param>
 
@@ -74,10 +74,10 @@ public class Character : MonoBehaviour
     /// </summary>
     public void LevelUp()
     {
-        Level++;
-        MaxXp = CalculateMaxXp(Level);
+        Player.Instance.Level++;
+        Player.Instance.MaxXp = CalculateMaxXp(Player.Instance.Level);
 
-        Debug.Log($"Player is Level = {Level} with a MaxXp of {MaxXp}");
+        Debug.Log($"Player is Level = {Player.Instance.Level} with a MaxXp of {Player.Instance.MaxXp}");
         OpenItemPanel?.Invoke();
     }
 
@@ -154,7 +154,7 @@ public class Character : MonoBehaviour
         GraphicRaycaster graphicRaycaster = canvasGameObject.AddComponent<GraphicRaycaster>();
         dmgCanvas.renderMode = RenderMode.WorldSpace;
         dmgCanvas.worldCamera = Camera.main;
-        dmgCanvas.transform.position = transform.position + Vector3.up; // Position above the character
+        dmgCanvas.transform.position = transform.position + new Vector3(0, .75f +actualDamage * .005f, 0); // Position above the character
         dmgCanvas.transform.rotation = Quaternion.LookRotation(Camera.main.transform.forward, Vector3.up); // Face the camera
 
         GameObject dmgText = new GameObject("DamageText");
@@ -164,11 +164,13 @@ public class Character : MonoBehaviour
         TextMeshPro textMeshPro = dmgText.AddComponent<TextMeshPro>();
 
         textMeshPro.text = $"-{actualDamage}";
-        textMeshPro.fontSize = 5 +actualDamage *.25f;
+        textMeshPro.fontSize = 1 +actualDamage *.01f;
         textMeshPro.color = Color.red;
+        textMeshPro.fontStyle = FontStyles.Bold;
+        textMeshPro.isOverlay = true;
         textMeshPro.alignment = TextAlignmentOptions.Center;
 
-        Destroy(canvasGameObject, actualDamage * .5f);
+        Destroy(canvasGameObject, 1 +actualDamage * .01f);
     }
 
     //public void Heal(int amount)

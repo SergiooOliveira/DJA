@@ -110,6 +110,7 @@ public class GameManager : MonoBehaviour
         xp.text = (Player.Instance.Xp).ToString();
         xpMax.text = (Player.Instance.MaxXp).ToString();
         xpSlider.value = (float)Player.Instance.Xp;
+        xpSlider.maxValue = (float)Player.Instance.MaxXp;
     }
 
     private void UpdatePlayerStats()
