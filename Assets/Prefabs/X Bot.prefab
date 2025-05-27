@@ -1105,6 +1105,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7562f92d64579284aa3667dc3037aff2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OpenItemPanel:
+    m_PersistentCalls:
+      m_Calls: []
   baseName: Player
   baseHealth: 100
   baseStrenght: 5
@@ -1113,8 +1116,6 @@ MonoBehaviour:
   baseMaxXp: 0
   baseXp: 0
   controller: {fileID: 4983096619118593243}
-  idleClip: {fileID: 7400000, guid: 5b1e40196d7050c4ebbd92dc7b5451b8, type: 2}
-  runningClip: {fileID: 7400000, guid: 22514416b696f3f42be4530a2430b1ae, type: 2}
   mainHand: {fileID: 6233423285811340509}
   offHand: {fileID: 2568465726202150791}
   helmet: {fileID: 3890338654500881295}

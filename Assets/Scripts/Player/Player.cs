@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 public class Player : Character
@@ -60,6 +61,9 @@ public class Player : Character
     {
         if (Instance != null) Destroy(gameObject);
         else Instance = this;
+
+        if (OpenItemPanel == null)
+            OpenItemPanel = new UnityEvent();
     }
 
     private void Start()

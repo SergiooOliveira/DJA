@@ -1,10 +1,15 @@
 using System;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class Character : MonoBehaviour
 {
+    public UnityEvent OpenItemPanel;
+
     private readonly string enemyTag = "Enemy";
     private string characterName;
     private int health;
@@ -73,6 +78,7 @@ public class Character : MonoBehaviour
         MaxXp = CalculateMaxXp(Level);
 
         Debug.Log($"Player is Level = {Level} with a MaxXp of {MaxXp}");
+        OpenItemPanel?.Invoke();
     }
 
     /// <summary>
@@ -141,6 +147,28 @@ public class Character : MonoBehaviour
         if (Health == 0) OnDeath();
 
         Debug.Log($"{Name} took {actualDamage} damage. Remaining health: {Health}");
+
+        GameObject canvasGameObject = new GameObject("DamageTextCanvas");
+        Canvas dmgCanvas = canvasGameObject.AddComponent<Canvas>();
+        CanvasScaler canvasScaler = canvasGameObject.AddComponent<CanvasScaler>();
+        GraphicRaycaster graphicRaycaster = canvasGameObject.AddComponent<GraphicRaycaster>();
+        dmgCanvas.renderMode = RenderMode.WorldSpace;
+        dmgCanvas.worldCamera = Camera.main;
+        dmgCanvas.transform.position = transform.position + Vector3.up; // Position above the character
+        dmgCanvas.transform.rotation = Quaternion.LookRotation(Camera.main.transform.forward, Vector3.up); // Face the camera
+
+        GameObject dmgText = new GameObject("DamageText");
+        dmgText.transform.SetParent(dmgCanvas.transform, false);
+        RectTransform textRect = dmgText.AddComponent<RectTransform>();
+        MeshRenderer textRenderer = dmgText.AddComponent<MeshRenderer>();
+        TextMeshPro textMeshPro = dmgText.AddComponent<TextMeshPro>();
+
+        textMeshPro.text = $"-{actualDamage}";
+        textMeshPro.fontSize = 5 +actualDamage *.25f;
+        textMeshPro.color = Color.red;
+        textMeshPro.alignment = TextAlignmentOptions.Center;
+
+        Destroy(canvasGameObject, actualDamage * .5f);
     }
 
     //public void Heal(int amount)

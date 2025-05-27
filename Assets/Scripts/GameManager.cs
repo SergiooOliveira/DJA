@@ -12,7 +12,9 @@ public class GameManager : MonoBehaviour
 
     [Header("Level UI")]
     public TMP_Text level;
+    public TMP_Text xp;
     public TMP_Text xpMax;
+    public Slider xpSlider;
 
     [Header("Player UI")]
     public TMP_Text PlayerHP;
@@ -41,7 +43,8 @@ public class GameManager : MonoBehaviour
                                     Player.Instance.baseStrenght, Player.Instance.baseArmor,
                                     Player.Instance.baseLevel, Player.Instance.baseXp,
                                     Player.Instance.baseMaxXp);
-        
+        Player.Instance.OpenItemPanel.AddListener(OpenPanel);
+
         UpdatePlayerStats();
 
         // Enemies.Instance.StartWave();
@@ -103,14 +106,22 @@ public class GameManager : MonoBehaviour
 
     public void UpdateLevelXP()
     {
-        level.text = Player.Instance.Level.ToString();
-        xpMax.text = (Player.Instance.Xp + "/" + Player.Instance.MaxXp);
+        level.text = "Lv: " + Player.Instance.Level.ToString();
+        xp.text = (Player.Instance.Xp).ToString();
+        xpMax.text = (Player.Instance.MaxXp).ToString();
+        xpSlider.value = (float)Player.Instance.Xp;
     }
 
     private void UpdatePlayerStats()
     {
-        PlayerHP.text = Player.Instance.Health.ToString();
-        PlayerStrenght.text = Player.Instance.Strength.ToString();
-        PlayerArmor.text = Player.Instance.Armor.ToString();
+        PlayerHP.text = "HP: " + Player.Instance.Health.ToString();
+        PlayerStrenght.text = "Strength: " + Player.Instance.Strength.ToString();
+        PlayerArmor.text = "Armor: " + Player.Instance.Armor.ToString();
+    }
+
+    public void OpenPanel()
+    {
+        Time.timeScale = 0f; // Pause the game
+        changeItemPanel.SetActive(true);
     }
 }
