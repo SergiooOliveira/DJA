@@ -48,9 +48,9 @@ public class Enemies : Character
     /// </summary>
     private void CreateEnemies()
     {
-        goblin.Initialize("Goblin", 10 * playerLevel, 20 * playerLevel, 10 * playerLevel, playerLevel + 1, 10, 0);
-        orc.Initialize("Orc", 100 * playerLevel, 5 * playerLevel, 30 * playerLevel, playerLevel + 2, 30, 0);
-        dragon.Initialize("Dragon", 10 * playerLevel, 20 * playerLevel, 10 * playerLevel, playerLevel + 5, 500, 0);
+        goblin.Initialize("Goblin", 20 * playerLevel, 20 * playerLevel, 1 * playerLevel, playerLevel + 1, 10, 0);
+        orc.Initialize("Orc", 100 * playerLevel, 5 * playerLevel, 3 * playerLevel, playerLevel + 2, 30, 0);
+        dragon.Initialize("Dragon", 20 * playerLevel, 20 * playerLevel, 1 * playerLevel, playerLevel + 5, 500, 0);
     }
 
     /// <summary>
@@ -145,17 +145,17 @@ public class Enemies : Character
             if (character.Name.StartsWith("Goblin"))
             {
                 Character newGoblin = Instantiate(goblin, spawnPos, spawnRot);
-                newGoblin.Initialize("Goblin", 10 * playerLevel, 20 * playerLevel, 10 * playerLevel, playerLevel + 1, 10, 0);
+                newGoblin.Initialize("Goblin", 20 * playerLevel, 20 * playerLevel, 5 * playerLevel, playerLevel + 1, 10, 0);
             }
             else if (character.Name.StartsWith("Orc"))
             {
                 Character newOrc = Instantiate(orc, spawnPos, spawnRot);
-                newOrc.Initialize("Orc", 100 * playerLevel, 5 * playerLevel, 30 * playerLevel, playerLevel + 2, 30, 0);
+                newOrc.Initialize("Orc", 100 * playerLevel, 5 * playerLevel, 15 * playerLevel, playerLevel + 2, 30, 0);
             }
             else if (character.Name.StartsWith("Dragon"))
             {
                 Character newDragon = Instantiate(dragon, spawnPos, spawnRot);
-                newDragon.Initialize("Dragon", 10 * playerLevel, 20 * playerLevel, 10 * playerLevel, playerLevel + 5, 500, 0);
+                newDragon.Initialize("Dragon", 20 * playerLevel, 20 * playerLevel, 10 * playerLevel, playerLevel + 5, 500, 0);
             }
             
             Debug.Log($"{enemieCounter}: {character.Name} at {spawnPos} with {character.Health} HP");

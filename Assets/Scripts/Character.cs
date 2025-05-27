@@ -144,17 +144,13 @@ public class Character : MonoBehaviour
 
         Health -= actualDamage;
 
-        if (Health == 0) OnDeath();
-
-        Debug.Log($"{Name} took {actualDamage} damage. Remaining health: {Health}");
-
         GameObject canvasGameObject = new GameObject("DamageTextCanvas");
         Canvas dmgCanvas = canvasGameObject.AddComponent<Canvas>();
         CanvasScaler canvasScaler = canvasGameObject.AddComponent<CanvasScaler>();
         GraphicRaycaster graphicRaycaster = canvasGameObject.AddComponent<GraphicRaycaster>();
         dmgCanvas.renderMode = RenderMode.WorldSpace;
         dmgCanvas.worldCamera = Camera.main;
-        dmgCanvas.transform.position = transform.position + new Vector3(0, .75f +actualDamage * .005f, 0); // Position above the character
+        dmgCanvas.transform.position = transform.position + new Vector3(0, .75f + actualDamage * .005f, 0); // Position above the character
         dmgCanvas.transform.rotation = Quaternion.LookRotation(Camera.main.transform.forward, Vector3.up); // Face the camera
 
         GameObject dmgText = new GameObject("DamageText");
@@ -164,13 +160,16 @@ public class Character : MonoBehaviour
         TextMeshPro textMeshPro = dmgText.AddComponent<TextMeshPro>();
 
         textMeshPro.text = $"-{actualDamage}";
-        textMeshPro.fontSize = 1 +actualDamage *.01f;
+        textMeshPro.fontSize = 1 + actualDamage * .01f;
         textMeshPro.color = Color.red;
         textMeshPro.fontStyle = FontStyles.Bold;
         textMeshPro.isOverlay = true;
         textMeshPro.alignment = TextAlignmentOptions.Center;
 
-        Destroy(canvasGameObject, 1 +actualDamage * .01f);
+        Destroy(canvasGameObject, 1 + actualDamage * .01f);
+
+        if (Health == 0) OnDeath();
+
     }
 
     //public void Heal(int amount)
@@ -181,7 +180,7 @@ public class Character : MonoBehaviour
 
     public void OnDeath()
     {        
-        GainXp(50);
+        GainXp(50 +level *3);
         Destroy(gameObject);
     }
 }
