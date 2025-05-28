@@ -7,9 +7,15 @@ public class GameManager : MonoBehaviour
     #region Variables
     public static GameManager Instance; // Singleton
 
-    [Header("Icons UI")]
+    private GameObject canvas; // Main Canvas object
+
+    [Header("Upgrade Icons UI")]
     public Transform icons;
     public GameObject upgradeObject;
+
+    [Header("PowerUps UI")]
+    public Transform powerUps;
+    public GameObject commonPowerUpObject;
 
     [Header("Level UI")]
     public TMP_Text level;
@@ -49,6 +55,8 @@ public class GameManager : MonoBehaviour
         Player.Instance.OpenItemPanel.AddListener(OpenPanel);
 
         UpdatePlayerStats();
+
+        canvas = powerUps.transform.parent.gameObject;
 
         // Enemies.Instance.StartWave();
     }
@@ -151,5 +159,34 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region PowerUps
+    /// <summary>
+    /// Call this method to make the PowerUp canvas appear
+    /// </summary>
+    public void ShowPowerUpSelector()
+    {
+        // Get the gameObject of the Transform
+        GameObject powerUpGameObject = powerUps.transform.gameObject;
+
+        powerUpGameObject.SetActive(true);
+        powerUps.transform.SetAsLastSibling();
+
+        foreach (Upgrade powerUp in Upgrades.Instance.playerPowerUp)
+        {
+            GameObject newPowerUp = Instantiate(commonPowerUpObject, powerUps);
+
+            Transform powerUpInfo = newPowerUp.transform.Find("PowerUp-Info");
+            Image spriteComponent = powerUpInfo.GetComponentInChildren<Image>();
+
+            if (spriteComponent != null) spriteComponent.sprite = powerUp.Icon;
+
+            TMP_Text[] powerUpTexts = powerUpInfo.GetComponentsInChildren<TMP_Text>();
+
+            foreach (TMP_Text text in powerUpTexts)
+            {
+                if (text.name == "PowerUp-Name" && text != null) text.text = powerUp.UpgradeName;                 
+                if (text.name == "PowerUp-Description" && text != null) text.text = powerUp.UpgradeDescription;                 
+            }
+        }
+    }
     #endregion
 }

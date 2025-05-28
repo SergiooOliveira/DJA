@@ -36,6 +36,7 @@ public class Upgrades : MonoBehaviour
 
         upgradeList = new List<Upgrade>();
         CreateUpgrades();
+        CreatePowerUps();
     }
 
 
@@ -95,7 +96,7 @@ public class Upgrades : MonoBehaviour
         powerUpList = new List<Upgrade>
         {
             // Name - Description - Type - Cost - Sprite - Weight - Tuple(Buff, BuffPower)
-            new Upgrade("Example Name", "Example Description", "Common", 0, "PowerUps/Example", 0, (null, 0))
+            new Upgrade("Angry Pepe", "When angry Pepe get's mad he unveils his pistol and massacrates like a little kid in USA", "Common", 0, "PowerUps/Example", 0, (null, 0))
         };
     }
 
@@ -105,6 +106,11 @@ public class Upgrades : MonoBehaviour
     /// <returns></returns>
     public Upgrade GetRandomPowerUp()
     {
+        foreach (Upgrade upgrade in powerUpList)
+        {
+            return upgrade;
+        }        
+
         return powerUpList[0];
     }
     #endregion
