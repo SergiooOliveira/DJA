@@ -1,5 +1,7 @@
-Swap input system and fix the raycast System.
+Temos de atualizar o GDD!!
+Tirem prints às coisas que fazemos para depois podermos mostrar o progresso que temos.
 
-Too clunky and not hitting the door properly
-Needs an animation as well.
-Start creating a real room and some enemies spawn points.
+Animação no texto do damage, não há feedback visual, apenas um texto estático em cima da cabeça não dá o efeito pretendido.
+Verificar o que está a acontecer no Spawn de inimigos e o porquê de não estar a funcionar da maneira correta.
+Modelos para os inimigos e suas animações.
+Acabar o script dos inimigos para ataques
