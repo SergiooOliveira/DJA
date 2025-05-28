@@ -9,6 +9,20 @@ Melhorar sistema de Gambling e tornar isso mais "Flashy"
 Criar uma animação de Level UP (Onde pausamos o jogo, aparece uma escolha de items)
 Player deverá ganhar alguma currency para gastar durante o jogo.
 Player deverá ter uma currency "global" para gastar entre as runs
+Implementar a loja de melhorias a cada 3 salas
+
+Loja sanguinea:
+- 3 opções na loja:
+  - Vida máxima para uma melhoria predefinida;
+  - Vida máxima para uma melhoria aleatória;
+  - Não comprar nada
+- Só pode comprar uma coisa ou nada, depois disso já não poderá comprar
+- As melhorias podem ser adquiridas trocando por Vida máxima (com melhorias para Vida, Força e Defesa máximas)
+- Exemplo:
+  - Sanguessuga: ganha HP por dano causado;
+  - Moeda de Lustro: uma probabilidade de obter parte da Vida máxima do inimigo como a sua Vida máxima;
+  - Armadura de Ouro: o dano que lhe é causado é reduzido pelo dano inimigo;
+  - Haverá uma animação de sucção do seu sangue que se transformará numa melhoria
 
 
 ------ Models and Animation ------
