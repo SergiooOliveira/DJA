@@ -22,4 +22,6 @@ Melhorar UI na informação para o Player
 Animação no texto do damage, não há feedback visual, apenas um texto estático em cima da cabeça não dá o efeito pretendido.
 Criar uma animação de morte
 Criar uma skill tree "global" e uma skill tree para essa run. Skill tree ou Power Ups
-
+Power Ups - "Death must die"
+Skill Tree - "Talented"
+Podemos usar um tipo ou o outro, ou até mesmo os 2. Power ups para durante o jogo e Skill Tree para a Global. Podemos discutir isto
