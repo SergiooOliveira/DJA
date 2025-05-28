@@ -78,7 +78,9 @@ public class Character : MonoBehaviour
         Player.Instance.MaxXp = CalculateMaxXp(Player.Instance.Level);
 
         Debug.Log($"Player is Level = {Player.Instance.Level} with a MaxXp of {Player.Instance.MaxXp}");
-        OpenItemPanel?.Invoke();
+        //OpenItemPanel?.Invoke();
+
+        Upgrades.Instance.playerPowerUp.Add(Upgrades.Instance.GetRandomPowerUp());
     }
 
     /// <summary>

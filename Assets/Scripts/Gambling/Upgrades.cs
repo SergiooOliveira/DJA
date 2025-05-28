@@ -6,8 +6,26 @@ public class Upgrades : MonoBehaviour
     public static Upgrades Instance;
 
     // Variables
+    /// <summary>
+    /// upgradeList is used to store all the upgrades that the player can have
+    /// </summary>
     [HideInInspector] public List<Upgrade> upgradeList;
+
+    /// <summary>
+    /// playerUpgrades is used to storeall the current Upgrades the player has
+    /// </summary>
     [HideInInspector] public List<Upgrade> playerUpgrades;
+
+    /// <summary>
+    /// powerUpList is used to store all the powerUps that the player can have
+    /// </summary>
+    [HideInInspector] public List<Upgrade> powerUpList;
+
+    /// <summary>
+    /// playerPowerUp is used to storeall the current powerUps the player has
+    /// </summary>
+    [HideInInspector] public List<Upgrade> playerPowerUp;
+
 
     private void Awake()
     {
@@ -21,7 +39,23 @@ public class Upgrades : MonoBehaviour
     }
 
 
-    #region Methods
+    #region Upgrade Methods
+    /// <summary>
+    /// Use this method to create static Upgrades
+    /// </summary>
+    public void CreateUpgrades()
+    {
+        upgradeList = new List<Upgrade>
+        {
+            // Name - Description - Type - Cost - Sprite - Weight - Tuple(Buff, BuffPower)
+            new Upgrade("Common Upgrade", "Common description", "Common", 10, "Sprites/Cyan", 100, ("Strength", 10)),
+            new Upgrade("Rare Upgrade", "Rare description", "Rare", 10, "Sprites/Blue", 20, ("Strength", 20)),
+            new Upgrade("Epic Upgrade", "Epic description", "Epic", 10, "Sprites/Pink", 10, ("Strength", 30)),
+            new Upgrade("Legendary Upgrade", "Legendary description", "Legendary", 10, "Sprites/Yellow", 7, ("Strength", 40)),
+            new Upgrade("Mythic Upgrade", "Mythic description", "Mythic", 10, "Sprites/Red", 3, ("Strength", 50))
+        };
+    }
+
     /// <summary>
     /// Call this method to get a random Upgrade
     /// </summary>
@@ -50,26 +84,28 @@ public class Upgrades : MonoBehaviour
 
         return upgradeList[0]; // Fallback
     }
+    #endregion
 
+    #region PowerUps Methods
     /// <summary>
-    /// Use this method to create static Upgrades
+    /// Call this method to create all PowerUps
     /// </summary>
-    public void CreateUpgrades()
+    public void CreatePowerUps()
     {
-        upgradeList = new List<Upgrade>
+        powerUpList = new List<Upgrade>
         {
-            // Name - Description - Cost - Sprite - Weight
-            new Upgrade("Common Upgrade", "Common description", "Common", 10, "Sprites/Cyan", 100, ("Strength", 10)),
-            new Upgrade("Rare Upgrade", "Rare description", "Rare", 10, "Sprites/Blue", 20, ("Strength", 20)),
-            new Upgrade("Epic Upgrade", "Epic description", "Epic", 10, "Sprites/Pink", 10, ("Strength", 30)),
-            new Upgrade("Legendary Upgrade", "Legendary description", "Legendary", 10, "Sprites/Yellow", 7, ("Strength", 40)),
-            new Upgrade("Mythic Upgrade", "Mythic description", "Mythic", 10, "Sprites/Red", 3, ("Strength", 50))
+            // Name - Description - Type - Cost - Sprite - Weight - Tuple(Buff, BuffPower)
+            new Upgrade("Example Name", "Example Description", "Common", 0, "PowerUps/Example", 0, (null, 0))
         };
     }
 
-    public void ConcedeUpgrades()
+    /// <summary>
+    /// Call this method to retrive a random PowerUp
+    /// </summary>
+    /// <returns></returns>
+    public Upgrade GetRandomPowerUp()
     {
-        playerUpgrades.Add(upgradeList[2]);
+        return powerUpList[0];
     }
     #endregion
 
