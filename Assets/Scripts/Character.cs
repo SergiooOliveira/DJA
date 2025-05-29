@@ -81,7 +81,9 @@ public class Character : MonoBehaviour
         OpenItemPanel?.Invoke();
 
         Upgrades.Instance.playerPowerUp.Add(Upgrades.Instance.GetRandomPowerUp());
-        GameManager.Instance.ShowPowerUpSelector();
+        Upgrades.Instance.playerPowerUp.Add(Upgrades.Instance.GetRandomPowerUp());
+        Upgrades.Instance.playerPowerUp.Add(Upgrades.Instance.GetRandomPowerUp());
+        GameManager.Instance.ShowPowerUpSelector();        
     }
 
     /// <summary>
