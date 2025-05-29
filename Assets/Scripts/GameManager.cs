@@ -4,11 +4,18 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    #region Variables
     public static GameManager Instance; // Singleton
 
-    [Header("Icons UI")]
+    private GameObject canvas; // Main Canvas object
+
+    [Header("Upgrade Icons UI")]
     public Transform icons;
     public GameObject upgradeObject;
+
+    [Header("PowerUps UI")]
+    public Transform powerUps;
+    public GameObject commonPowerUpObject;
 
     [Header("Level UI")]
     public TMP_Text level;
@@ -27,7 +34,9 @@ public class GameManager : MonoBehaviour
 
     [Header("Change Item")]
     public GameObject changeItemPanel;
+    #endregion
 
+    #region MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
     {
@@ -47,6 +56,8 @@ public class GameManager : MonoBehaviour
 
         UpdatePlayerStats();
 
+        canvas = powerUps.transform.parent.gameObject;
+
         // Enemies.Instance.StartWave();
     }
     
@@ -57,7 +68,48 @@ public class GameManager : MonoBehaviour
             Application.Quit();
         }
     }
+    #endregion
 
+    #region Methods
+    /// <summary>
+    ///  Call this method to add an upgrade to Player
+    /// </summary>
+    /// <param name="upgrade">Upgrade object</param>
+    public void AddStats(Upgrade upgrade)
+    {
+        switch (upgrade.BuffPower.Buff)
+        {
+            case "Health":
+                Player.Instance.Health += upgrade.BuffPower.Power;                
+                break;
+            case "Strength":
+                Player.Instance.Strength += upgrade.BuffPower.Power;                
+                break;
+            case "Armor":
+                Player.Instance.Armor += upgrade.BuffPower.Power;                
+                break;
+            default:
+                Debug.LogError("Error applying buff");
+                break;
+        }
+
+        UpdatePlayerStats();
+    }
+
+    /// <summary>
+    /// Listener (??)
+    /// </summary>
+    public void OpenPanel()
+    {
+        Time.timeScale = 0f; // Pause the game
+        changeItemPanel.SetActive(true);
+    }
+    #endregion
+
+    #region UI Update Methods (Maybe change these to Listeners)
+    /// <summary>
+    /// Call this method everytime the UpgradesUi needs to Update
+    /// </summary>
     public void UpdateUpgradesUI()
     {
         // Delete all previous icons
@@ -83,27 +135,9 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public void AddStats(Upgrade upgrade)
-    {
-        switch (upgrade.BuffPower.Buff)
-        {
-            case "Health":
-                Player.Instance.Health += upgrade.BuffPower.Power;                
-                break;
-            case "Strength":
-                Player.Instance.Strength += upgrade.BuffPower.Power;                
-                break;
-            case "Armor":
-                Player.Instance.Armor += upgrade.BuffPower.Power;                
-                break;
-            default:
-                Debug.LogError("Error applying buff");
-                break;
-        }
-
-        UpdatePlayerStats();
-    }
-
+    /// <summary>
+    /// Call this method to Update the Level and Xp on UI
+    /// </summary>
     public void UpdateLevelXP()
     {
         level.text = "Lv: " + Player.Instance.Level.ToString();
@@ -113,16 +147,46 @@ public class GameManager : MonoBehaviour
         xpSlider.maxValue = (float)Player.Instance.MaxXp;
     }
 
+    /// <summary>
+    /// Call this method to Update the Player Stats
+    /// </summary>
     private void UpdatePlayerStats()
     {
         PlayerHP.text = "HP: " + Player.Instance.Health.ToString();
         PlayerStrenght.text = "Strength: " + Player.Instance.Strength.ToString();
         PlayerArmor.text = "Armor: " + Player.Instance.Armor.ToString();
     }
+    #endregion
 
-    public void OpenPanel()
+    #region PowerUps
+    /// <summary>
+    /// Call this method to make the PowerUp canvas appear
+    /// </summary>
+    public void ShowPowerUpSelector()
     {
-        Time.timeScale = 0f; // Pause the game
-        changeItemPanel.SetActive(true);
+        // Get the gameObject of the Transform
+        GameObject powerUpGameObject = powerUps.transform.gameObject;
+
+        powerUpGameObject.SetActive(true);
+        powerUps.transform.SetAsLastSibling();
+
+        foreach (Upgrade powerUp in Upgrades.Instance.playerPowerUp)
+        {
+            GameObject newPowerUp = Instantiate(commonPowerUpObject, powerUps);
+
+            Transform powerUpInfo = newPowerUp.transform.Find("PowerUp-Info");
+            Image spriteComponent = powerUpInfo.GetComponentInChildren<Image>();
+
+            if (spriteComponent != null) spriteComponent.sprite = powerUp.Icon;
+
+            TMP_Text[] powerUpTexts = powerUpInfo.GetComponentsInChildren<TMP_Text>();
+
+            foreach (TMP_Text text in powerUpTexts)
+            {
+                if (text.name == "PowerUp-Name" && text != null) text.text = powerUp.UpgradeName;                 
+                if (text.name == "PowerUp-Description" && text != null) text.text = powerUp.UpgradeDescription;                 
+            }
+        }
     }
+    #endregion
 }

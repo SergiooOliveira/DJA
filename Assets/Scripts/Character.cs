@@ -79,6 +79,11 @@ public class Character : MonoBehaviour
 
         Debug.Log($"Player is Level = {Player.Instance.Level} with a MaxXp of {Player.Instance.MaxXp}");
         OpenItemPanel?.Invoke();
+
+        Upgrades.Instance.playerPowerUp.Add(Upgrades.Instance.GetRandomPowerUp());
+        Upgrades.Instance.playerPowerUp.Add(Upgrades.Instance.GetRandomPowerUp());
+        Upgrades.Instance.playerPowerUp.Add(Upgrades.Instance.GetRandomPowerUp());
+        GameManager.Instance.ShowPowerUpSelector();        
     }
 
     /// <summary>
