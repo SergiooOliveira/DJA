@@ -77,7 +77,7 @@ public class Character : MonoBehaviour
         Player.Instance.Level++;
         Player.Instance.MaxXp = CalculateMaxXp(Player.Instance.Level);
 
-        Debug.Log($"Player is Level = {Player.Instance.Level} with a MaxXp of {Player.Instance.MaxXp}");
+        //Debug.Log($"Player is Level = {Player.Instance.Level} with a MaxXp of {Player.Instance.MaxXp}");
         OpenItemPanel?.Invoke();
 
         Upgrades.Instance.playerPowerUp.Add(Upgrades.Instance.GetRandomPowerUp());
@@ -103,13 +103,13 @@ public class Character : MonoBehaviour
     private void GainXp(int xp)
     {
         Player.Instance.Xp += xp;
-        Debug.Log($"Player got {xp} xp ({Player.Instance.Xp})");
+        //Debug.Log($"Player got {xp} xp ({Player.Instance.Xp})");
 
         while (Player.Instance.Xp >= Player.Instance.MaxXp)
         {
             Player.Instance.Xp -= Player.Instance.MaxXp;
             LevelUp();
-            Debug.Log($"Player level up ({Player.Instance.Level})");
+            //Debug.Log($"Player level up ({Player.Instance.Level})");
 
             GamblingManager.Instance.StartRolling();
         }
@@ -132,10 +132,17 @@ public class Character : MonoBehaviour
                 hitInfo: out RaycastHit hit,
                 maxDistance: 2f))
             {
-                if (hit.collider.CompareTag(tag: enemyTag))
+                GameObject hitted = hit.collider.transform.root.gameObject;
+
+                if (hitted.CompareTag(tag: enemyTag))
                 {
-                    Character rayCharacter = hit.collider.gameObject.GetComponent<Character>();
+                    Enemy rayCharacter = hitted.GetComponent<Enemy>();
+                    Debug.Log($"rayCharacter: {rayCharacter.tag}");
                     rayCharacter.TakeDamage(Player.Instance.Strength);
+                }
+                else
+                {
+                    Debug.Log($"Hitted {hit.collider.tag.ToString()}");
                 }
             }
         }

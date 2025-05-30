@@ -95,7 +95,7 @@ public class Player : Character
     {
         // Lock doors
 
-        Debug.Log(message: "Triggered Spawning");
+        //Debug.Log(message: "Triggered Spawning");
 
         GameObject triggerParent = other.transform.parent.gameObject;
         foreach (Transform triggers in triggerParent.transform)
@@ -216,7 +216,7 @@ public class Player : Character
                 else
                 {
                     // Case we want to do something
-                    Debug.Log(message: $"Hited {hit.collider.name}");
+                    //Debug.Log(message: $"Hited {hit.collider.name}");
                 }
             }
         }
