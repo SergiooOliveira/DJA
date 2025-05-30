@@ -64,13 +64,13 @@ public class MenuManager : MonoBehaviour
             case 0:
                 Width = 1920;
                 Height = 1080;
-                Debug.Log("Resolution: 1920x1080");
+                //Debug.Log("Resolution: 1920x1080");
                 break;
             // Resolution: 1600x900
             case 1:
                 Width = 1600;
                 Height = 900;
-                Debug.Log("Resolution: 1600x900");
+                //Debug.Log("Resolution: 1600x900");
                 break;
         }
         Screen.SetResolution(Width, Height, fullScreenMode);
