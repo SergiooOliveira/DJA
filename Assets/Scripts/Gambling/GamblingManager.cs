@@ -41,6 +41,6 @@ public class GamblingManager : MonoBehaviour
         GameManager.Instance.AddStats(randomUpgrade);
 
         // Show Player Upgrades UI
-        GameManager.Instance.UpdateUpgradesUI();        
+        GameManager.Instance.UpdateUpgradesUI();
     }
 }

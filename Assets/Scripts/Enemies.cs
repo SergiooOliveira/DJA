@@ -44,38 +44,25 @@ public class Enemies : Character
     }
 
     /// <summary>
-    /// Call this method to create all types of enemies
-    /// </summary>
-    private void CreateEnemies()
-    {
-        goblin.Initialize("Goblin", 20 * playerLevel, 20 * playerLevel, 1 * playerLevel, playerLevel + 1, 10, 0);
-        orc.Initialize("Orc", 100 * playerLevel, 5 * playerLevel, 3 * playerLevel, playerLevel + 2, 30, 0);
-        dragon.Initialize("Dragon", 20 * playerLevel, 20 * playerLevel, 1 * playerLevel, playerLevel + 5, 500, 0);
-    }
-
-    /// <summary>
     /// Call this method to populate the wave
     /// </summary>
     private void CreateWave()
     {
-        CreateEnemies();
+        ClearWave();
         switch (waveCounter)
         {
             case 0:
-                ClearWave();
                 AddToWave(goblin, 3);
-                SpawnEnemies();
                 break;
             case 1:
-                ClearWave();
                 AddToWave(goblin, 3);
                 AddToWave(orc, 2);
                 break;
             case 2:
-                ClearWave();
                 AddToWave(dragon, 1);
                 break;
         }
+        SpawnEnemies();
     }
 
     /// <summary>
