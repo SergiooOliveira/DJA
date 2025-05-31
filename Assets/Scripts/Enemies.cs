@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Enemies : MonoBehaviour
 {
@@ -143,17 +144,26 @@ public class Enemies : MonoBehaviour
 
             if (enemy.Name.StartsWith("Goblin"))
             {
-                Character newGoblin = Instantiate(goblin, spawnPos, spawnRot);
+                Enemy newGoblin = Instantiate(goblin, spawnPos, spawnRot);
+
+                NavMeshAgent newGoblinAgent = newGoblin.GetComponent<NavMeshAgent>();
+
+                if (NavMesh.SamplePosition(spawnPos, out NavMeshHit hit, 1.0f, NavMesh.AllAreas))
+                {
+                    newGoblinAgent.Warp(hit.position);
+                    newGoblinAgent.enabled = true;
+                }
+
                 newGoblin.Initialize("Goblin", 20 * playerLevel, 20 * playerLevel, 5 * playerLevel, playerLevel + 1, 10, 0);
             }
             else if (enemy.Name.StartsWith("Orc"))
             {
-                Character newOrc = Instantiate(orc, spawnPos, spawnRot);
+                Enemy newOrc = Instantiate(orc, spawnPos, spawnRot);
                 newOrc.Initialize("Orc", 100 * playerLevel, 5 * playerLevel, 15 * playerLevel, playerLevel + 2, 30, 0);
             }
             else if (enemy.Name.StartsWith("Dragon"))
             {
-                Character newDragon = Instantiate(dragon, spawnPos, spawnRot);
+                Enemy newDragon = Instantiate(dragon, spawnPos, spawnRot);
                 newDragon.Initialize("Dragon", 20 * playerLevel, 20 * playerLevel, 10 * playerLevel, playerLevel + 5, 500, 0);
             }
             
