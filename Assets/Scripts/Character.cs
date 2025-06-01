@@ -162,8 +162,7 @@ public class Character : MonoBehaviour
         GraphicRaycaster graphicRaycaster = canvasGameObject.AddComponent<GraphicRaycaster>();
         dmgCanvas.renderMode = RenderMode.WorldSpace;
         dmgCanvas.worldCamera = Camera.main;
-        dmgCanvas.transform.position = transform.position + new Vector3(0, .75f + actualDamage * .005f, 0); // Position above the character
-        dmgCanvas.transform.rotation = Quaternion.LookRotation(Camera.main.transform.forward, Vector3.up); // Face the camera
+        dmgCanvas.transform.SetPositionAndRotation(transform.position + new Vector3(0, 1 + actualDamage * .005f, 0), Quaternion.LookRotation(Camera.main.transform.forward, Vector3.up));
 
         GameObject dmgText = new GameObject("DamageText");
         dmgText.transform.SetParent(dmgCanvas.transform, false);
@@ -181,7 +180,6 @@ public class Character : MonoBehaviour
         Destroy(canvasGameObject, 1 + actualDamage * .01f);
 
         if (Health == 0) OnDeath();
-
     }
 
     //public void Heal(int amount)

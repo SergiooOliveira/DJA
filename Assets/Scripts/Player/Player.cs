@@ -67,7 +67,6 @@ public class Player : Character
     private void Start()
     {
         // Game logic
-        SnapToGround();
         animator = GetComponent<Animator>();
         //LevelUp();
 
@@ -88,6 +87,7 @@ public class Player : Character
 
     private void FixedUpdate()
     {
+        SnapToGround();
         statesMachine?.FixedUpdate();
     }
 
@@ -137,7 +137,7 @@ public class Player : Character
             {
                 if (hit.collider.CompareTag(tag: doorTag))
                 {
-                    hit.transform.rotation = new Quaternion(x: 0, y: 60, z: 0, w: 0);
+                    hit.transform.rotation = new Quaternion(x: 0, y: 120, z: 0, w: 0);
                     hit.collider.gameObject.GetComponent<MeshRenderer>().material.SetColor(name: "_Color", value: Color.black);
                 }
                 else if (hit.collider.CompareTag(tag: itemTag))
