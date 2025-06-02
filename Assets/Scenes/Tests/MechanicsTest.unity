@@ -1040,6 +1040,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Goblin with Sword
       objectReference: {fileID: 0}
+    - target: {fileID: 1119886948512392853, guid: 7e4bf0d89d8e4b1478cdbb0c5d5ac65e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1121107433827525403, guid: 7e4bf0d89d8e4b1478cdbb0c5d5ac65e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 33.89329
@@ -6988,6 +6992,80 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &725169917
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 378527968533019787, guid: 5af5c0c7be258c44290c8159bc70c71d, type: 3}
+      propertyPath: fillAmount
+      value: 0.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 2694981450862145589, guid: 5af5c0c7be258c44290c8159bc70c71d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3076344875759778853, guid: 5af5c0c7be258c44290c8159bc70c71d, type: 3}
+      propertyPath: hpPercent
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017776222144379944, guid: 5af5c0c7be258c44290c8159bc70c71d, type: 3}
+      propertyPath: fillAmount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8883160905684398863, guid: 5af5c0c7be258c44290c8159bc70c71d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.339
+      objectReference: {fileID: 0}
+    - target: {fileID: 8883160905684398863, guid: 5af5c0c7be258c44290c8159bc70c71d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.49
+      objectReference: {fileID: 0}
+    - target: {fileID: 8883160905684398863, guid: 5af5c0c7be258c44290c8159bc70c71d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.984
+      objectReference: {fileID: 0}
+    - target: {fileID: 8883160905684398863, guid: 5af5c0c7be258c44290c8159bc70c71d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8883160905684398863, guid: 5af5c0c7be258c44290c8159bc70c71d, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8883160905684398863, guid: 5af5c0c7be258c44290c8159bc70c71d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8883160905684398863, guid: 5af5c0c7be258c44290c8159bc70c71d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8883160905684398863, guid: 5af5c0c7be258c44290c8159bc70c71d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8883160905684398863, guid: 5af5c0c7be258c44290c8159bc70c71d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8883160905684398863, guid: 5af5c0c7be258c44290c8159bc70c71d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9204652382074158849, guid: 5af5c0c7be258c44290c8159bc70c71d, type: 3}
+      propertyPath: m_Name
+      value: HpPool
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 3076344875759778853, guid: 5af5c0c7be258c44290c8159bc70c71d, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 5af5c0c7be258c44290c8159bc70c71d, type: 3}
 --- !u!1001 &771758941
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6999,6 +7077,10 @@ PrefabInstance:
     - target: {fileID: 2976604055723733644, guid: 97f0620c2a38f79479b1df7cdfa66290, type: 3}
       propertyPath: m_Name
       value: Room 4 With Enemies
+      objectReference: {fileID: 0}
+    - target: {fileID: 2976604055723733644, guid: 97f0620c2a38f79479b1df7cdfa66290, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7399802357388788171, guid: 97f0620c2a38f79479b1df7cdfa66290, type: 3}
       propertyPath: m_VoxelSize
@@ -7073,7 +7155,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &893128371
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7363,17 +7445,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: X Bot
       objectReference: {fileID: 0}
+    - target: {fileID: 1226436071852395290, guid: 2ef6cf883eba703469ebba9f0e633782, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1895731428089172384, guid: 2ef6cf883eba703469ebba9f0e633782, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 9.4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1895731428089172384, guid: 2ef6cf883eba703469ebba9f0e633782, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 64.639
+      value: -2.92
       objectReference: {fileID: 0}
     - target: {fileID: 1895731428089172384, guid: 2ef6cf883eba703469ebba9f0e633782, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 413.269
+      value: -1.649
       objectReference: {fileID: 0}
     - target: {fileID: 1895731428089172384, guid: 2ef6cf883eba703469ebba9f0e633782, type: 3}
       propertyPath: m_LocalRotation.w
@@ -8310,3 +8396,4 @@ SceneRoots:
   - {fileID: 239508920}
   - {fileID: 348047823}
   - {fileID: 771758941}
+  - {fileID: 725169917}
