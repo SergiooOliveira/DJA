@@ -57,14 +57,15 @@ public class Player : Character
     [Header("Wheel Settings")]
 
     public GameObject fortuneWheel;
+    public bool stopSpinning = false;
 
     // Speed of the wheel
     [Range(0.1f, 500f)]
-    [SerializeField] private float wheelSpeed = 500f;
+    [SerializeField] private float wheelSpeed = 20f;
 
     // Deceleration factor
     [Range(0.01f, 1f)]
-    [SerializeField] private float wheelDeceleration = 0.98f;
+    [SerializeField] private float wheelDeceleration = 0.02f;
 
     // Current speed of the wheel
     [SerializeField] private float wheelCurrentSpeed = 0f;
@@ -102,21 +103,12 @@ public class Player : Character
     private void Update()
     {
         statesMachine?.Update();
-    }
-
-    private Vector3 velocity = Vector3.zero;
-
-    private void FixedUpdate()
-    {
-        statesMachine?.FixedUpdate();
         if (wheelCurrentDeceleration > 0)
         {
             // Apply deceleration
             wheelCurrentSpeed *= wheelCurrentDeceleration;
             // Rotate the wheel
-            fortuneWheel.transform.Rotate(0, wheelCurrentSpeed * Time.deltaTime, 0);
-            // Reduce current deceleration
-            wheelCurrentDeceleration -= Time.deltaTime;
+            fortuneWheel.transform.Rotate(0, wheelCurrentSpeed, 0);
             // Stop the wheel if speed is low enough
             if (wheelCurrentSpeed < 0.01f)
             {
@@ -124,6 +116,17 @@ public class Player : Character
                 wheelCurrentDeceleration = 0f;
             }
         }
+        else
+        {
+            stopSpinning = false;
+        }
+    }
+
+    private Vector3 velocity = Vector3.zero;
+
+    private void FixedUpdate()
+    {
+        statesMachine?.FixedUpdate();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -163,7 +166,8 @@ public class Player : Character
         animator = GetComponent<Animator>();
         if (callbackContext.started)
         {
-            Ray ray = Camera.main.ScreenPointToRay(pos: UnityEngine.Input.mousePosition);
+            Vector3 pos = UnityEngine.Input.mousePosition;
+            Ray ray = Camera.main.ScreenPointToRay(pos);
 
             if (Physics.Raycast(
                 ray: ray,
@@ -248,13 +252,13 @@ public class Player : Character
                         Destroy(obj: original);
                     }
                 }
-                else if (hit.collider.CompareTag(tag: fortuneWheelTag))
+                else if (hit.collider.CompareTag(tag: fortuneWheelTag) && !stopSpinning)
                 {
+                    stopSpinning = true;
+
                     // Start spinning the wheel
-                    wheelCurrentDeceleration += Mathf.Min(1f, wheelDeceleration);
-                    wheelCurrentDeceleration = Mathf.Clamp(wheelCurrentDeceleration, 0.01f, 1f);
-                    wheelCurrentSpeed += wheelSpeed;
-                    wheelCurrentSpeed = Mathf.Clamp(wheelCurrentSpeed, 0.1f, 5000f);
+                    wheelCurrentDeceleration = wheelDeceleration;
+                    wheelCurrentSpeed = wheelSpeed;
 
                     fortuneWheel = hit.collider.gameObject;
                 }
