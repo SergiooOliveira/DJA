@@ -88,7 +88,6 @@ public class Player : Character
     private void Start()
     {
         // Game logic
-        SnapToGround();
         animator = GetComponent<Animator>();
         //LevelUp();
 
@@ -126,6 +125,7 @@ public class Player : Character
 
     private void FixedUpdate()
     {
+        SnapToGround();
         statesMachine?.FixedUpdate();
     }
 
@@ -133,7 +133,7 @@ public class Player : Character
     {
         // Lock doors
 
-        Debug.Log(message: "Triggered Spawning");
+        //Debug.Log(message: "Triggered Spawning");
 
         GameObject triggerParent = other.transform.parent.gameObject;
         foreach (Transform triggers in triggerParent.transform)
@@ -176,7 +176,7 @@ public class Player : Character
             {
                 if (hit.collider.CompareTag(tag: doorTag))
                 {
-                    hit.transform.rotation = new Quaternion(x: 0, y: 60, z: 0, w: 0);
+                    hit.transform.rotation = new Quaternion(x: 0, y: 120, z: 0, w: 0);
                     hit.collider.gameObject.GetComponent<MeshRenderer>().material.SetColor(name: "_Color", value: Color.black);
                 }
                 else if (hit.collider.CompareTag(tag: itemTag))
@@ -268,7 +268,7 @@ public class Player : Character
                 else
                 {
                     // Case we want to do something
-                    Debug.Log(message: $"Hited {hit.collider.name}");
+                    //Debug.Log(message: $"Hited {hit.collider.name}");
                 }
             }
         }

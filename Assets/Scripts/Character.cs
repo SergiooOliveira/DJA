@@ -77,8 +77,13 @@ public class Character : MonoBehaviour
         Player.Instance.Level++;
         Player.Instance.MaxXp = CalculateMaxXp(Player.Instance.Level);
 
-        Debug.Log($"Player is Level = {Player.Instance.Level} with a MaxXp of {Player.Instance.MaxXp}");
+        //Debug.Log($"Player is Level = {Player.Instance.Level} with a MaxXp of {Player.Instance.MaxXp}");
         OpenItemPanel?.Invoke();
+
+        Upgrades.Instance.playerPowerUp.Add(Upgrades.Instance.GetRandomPowerUp());
+        Upgrades.Instance.playerPowerUp.Add(Upgrades.Instance.GetRandomPowerUp());
+        Upgrades.Instance.playerPowerUp.Add(Upgrades.Instance.GetRandomPowerUp());
+        GameManager.Instance.ShowPowerUpSelector();        
     }
 
     /// <summary>
@@ -98,13 +103,13 @@ public class Character : MonoBehaviour
     private void GainXp(int xp)
     {
         Player.Instance.Xp += xp;
-        Debug.Log($"Player got {xp} xp ({Player.Instance.Xp})");
+        //Debug.Log($"Player got {xp} xp ({Player.Instance.Xp})");
 
         while (Player.Instance.Xp >= Player.Instance.MaxXp)
         {
             Player.Instance.Xp -= Player.Instance.MaxXp;
             LevelUp();
-            Debug.Log($"Player level up ({Player.Instance.Level})");
+            //Debug.Log($"Player level up ({Player.Instance.Level})");
 
             GamblingManager.Instance.StartRolling();
         }
@@ -127,10 +132,17 @@ public class Character : MonoBehaviour
                 hitInfo: out RaycastHit hit,
                 maxDistance: 2f))
             {
-                if (hit.collider.CompareTag(tag: enemyTag))
+                GameObject hitted = hit.collider.transform.root.gameObject;
+
+                if (hitted.CompareTag(tag: enemyTag))
                 {
-                    Character rayCharacter = hit.collider.gameObject.GetComponent<Character>();
+                    Enemy rayCharacter = hitted.GetComponent<Enemy>();
+                    Debug.Log($"rayCharacter: {rayCharacter.tag}");
                     rayCharacter.TakeDamage(Player.Instance.Strength);
+                }
+                else
+                {
+                    Debug.Log($"Hitted {hit.collider.tag.ToString()}");
                 }
             }
         }
@@ -150,8 +162,7 @@ public class Character : MonoBehaviour
         GraphicRaycaster graphicRaycaster = canvasGameObject.AddComponent<GraphicRaycaster>();
         dmgCanvas.renderMode = RenderMode.WorldSpace;
         dmgCanvas.worldCamera = Camera.main;
-        dmgCanvas.transform.position = transform.position + new Vector3(0, .75f + actualDamage * .005f, 0); // Position above the character
-        dmgCanvas.transform.rotation = Quaternion.LookRotation(Camera.main.transform.forward, Vector3.up); // Face the camera
+        dmgCanvas.transform.SetPositionAndRotation(transform.position + new Vector3(0, 1 + actualDamage * .005f, 0), Quaternion.LookRotation(Camera.main.transform.forward, Vector3.up));
 
         GameObject dmgText = new GameObject("DamageText");
         dmgText.transform.SetParent(dmgCanvas.transform, false);
@@ -169,7 +180,6 @@ public class Character : MonoBehaviour
         Destroy(canvasGameObject, 1 + actualDamage * .01f);
 
         if (Health == 0) OnDeath();
-
     }
 
     //public void Heal(int amount)

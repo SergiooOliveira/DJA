@@ -30,7 +30,7 @@ public class Upgrade
         Sprite loadedSprite = Resources.Load<Sprite>(path);
 
         //Debug.LogWarning($"Path: {path}");
-        if (loadedSprite == null) Debug.LogError($"Error loading {path}");        
+        if (loadedSprite == null) Debug.LogError($"Error loading {path}");
 
         return loadedSprite;
     }

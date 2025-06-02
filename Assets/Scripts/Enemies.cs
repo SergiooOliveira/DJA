@@ -1,19 +1,20 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
-public class Enemies : Character
+public class Enemies : MonoBehaviour
 {
     public static Enemies Instance;
 
-    private List<Character> enemies = new List<Character>();
+    private List<Enemy> enemies = new List<Enemy>();
     private GameObject spawnPoints;
     public List<GameObject> SP = new List<GameObject>();
 
-    [Header("Enemies Prefabs")]
     // Create various prefabs for enemies
-    public Character goblin;
-    public Character orc;
-    public Character dragon;
+    [Header("Enemies Prefabs")]    
+    public Enemy goblin;
+    public Enemy orc;
+    public Enemy dragon;
 
     int playerLevel;
     int waveCounter = 0;
@@ -39,7 +40,7 @@ public class Enemies : Character
         }
 
         playerLevel = Player.Instance.Level;
-        print(playerLevel);
+        //print(playerLevel);
         CreateWave();
     }
 
@@ -68,16 +69,16 @@ public class Enemies : Character
     /// <summary>
     /// Call this method to add enemies to the list
     /// </summary>
-    /// <param name="character">Enemies to add</param>
+    /// <param name="enemy">Enemies to add</param>
     /// <param name="amount">Amount of enemies to add</param>
-    public void AddToWave(Character character, int amount)
+    public void AddToWave(Enemy enemy, int amount)
     {
         for (int i = 0; i < amount; i++)
         {            
-            enemies.Add(character);
+            enemies.Add(enemy);
         }
 
-        Debug.Log($"Added {amount} x {character.Name} to the wave");
+        //Debug.Log($"Added {amount} x {character.Name} to the wave");
     }
 
     /// <summary>
@@ -85,14 +86,13 @@ public class Enemies : Character
     /// </summary>
     public void ViewAllWave()
     {
-        Debug.Log($"Wave has {enemies.Count} enemies.");
-        foreach (Character character in enemies)
+        //Debug.Log($"Wave has {enemies.Count} enemies.");
+        foreach (Enemy enemy in enemies)
         {
-            if (character == null)
+            if (enemy == null)
                 Debug.LogWarning($"Null enemy in list");
-            else
-
-                Debug.Log($"{character.Name}");
+            //else
+            //    Debug.Log($"{character.Name}");
         }
     }
 
@@ -112,16 +112,16 @@ public class Enemies : Character
         // Enemie counter to control the position
         int enemieCounter = 0;
 
-        Debug.Log("Total enemies: " + enemies.Count);
+        //Debug.Log("Total enemies: " + enemies.Count);
 
-        foreach (Character character in enemies)
+        foreach (Enemy enemy in enemies)
         {
-            Debug.Log("Processing: " + character.Name);
+            //Debug.Log("Processing: " + character.Name);
 
             // Just in case we have too many enemies for the amout of SpawnPoints available
             if (enemieCounter >= SP.Count)
             {
-                Debug.LogWarning("No spawn point for enemy #" + enemieCounter);
+                //Debug.LogWarning("No spawn point for enemy #" + enemieCounter);
                 break;
             }
 
@@ -129,23 +129,32 @@ public class Enemies : Character
             Vector3 spawnPos = SP[enemieCounter].transform.position;
             Quaternion spawnRot = SP[enemieCounter].transform.rotation;
 
-            if (character.Name.StartsWith("Goblin"))
+            if (enemy.Name.StartsWith("Goblin"))
             {
-                Character newGoblin = Instantiate(goblin, spawnPos, spawnRot);
+                Enemy newGoblin = Instantiate(goblin, spawnPos, spawnRot);
+
+                NavMeshAgent newGoblinAgent = newGoblin.GetComponent<NavMeshAgent>();
+
+                if (NavMesh.SamplePosition(spawnPos, out NavMeshHit hit, 1.0f, NavMesh.AllAreas))
+                {
+                    newGoblinAgent.Warp(hit.position);
+                    newGoblinAgent.enabled = true;
+                }
+
                 newGoblin.Initialize("Goblin", 20 * playerLevel, 20 * playerLevel, 5 * playerLevel, playerLevel + 1, 10, 0);
             }
-            else if (character.Name.StartsWith("Orc"))
+            else if (enemy.Name.StartsWith("Orc"))
             {
-                Character newOrc = Instantiate(orc, spawnPos, spawnRot);
+                Enemy newOrc = Instantiate(orc, spawnPos, spawnRot);
                 newOrc.Initialize("Orc", 100 * playerLevel, 5 * playerLevel, 15 * playerLevel, playerLevel + 2, 30, 0);
             }
-            else if (character.Name.StartsWith("Dragon"))
+            else if (enemy.Name.StartsWith("Dragon"))
             {
-                Character newDragon = Instantiate(dragon, spawnPos, spawnRot);
+                Enemy newDragon = Instantiate(dragon, spawnPos, spawnRot);
                 newDragon.Initialize("Dragon", 20 * playerLevel, 20 * playerLevel, 10 * playerLevel, playerLevel + 5, 500, 0);
             }
             
-            Debug.Log($"{enemieCounter}: {character.Name} at {spawnPos} with {character.Health} HP");
+            //Debug.Log($"{enemieCounter}: {character.Name} at {spawnPos} with {character.Health} HP");
             enemieCounter++;
         }
     }
