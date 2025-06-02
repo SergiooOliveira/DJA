@@ -1127,6 +1127,11 @@ MonoBehaviour:
   - {fileID: 9139217751014765311}
   - {fileID: 7518333618124095192}
   amulet: {fileID: 5985671208179796118}
+  fortuneWheel: {fileID: 0}
+  stopSpinning: 0
+  wheelSpeed: 2500
+  wheelDeceleration: 0.98
+  wheelCurrentSpeed: 0
 --- !u!4 &1895731428089172384 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 44fd605ef6df41e4687d8628b219609b, type: 3}

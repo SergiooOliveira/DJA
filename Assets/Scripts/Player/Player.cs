@@ -56,16 +56,16 @@ public class Player : Character
 
     [Header("Wheel Settings")]
 
-    public GameObject fortuneWheel;
-    public bool stopSpinning = false;
+    private GameObject fortuneWheel;
+    private bool stopSpinning = false;
 
     // Speed of the wheel
-    [Range(0.1f, 500f)]
-    [SerializeField] private float wheelSpeed = 20f;
+    [Range(0.1f, 2500f)]
+    [SerializeField] private float wheelSpeed = 2500f;
 
     // Deceleration factor
     [Range(0.01f, 1f)]
-    [SerializeField] private float wheelDeceleration = 0.02f;
+    [SerializeField] private float wheelDeceleration = 0.98f;
 
     // Current speed of the wheel
     [SerializeField] private float wheelCurrentSpeed = 0f;
@@ -108,7 +108,7 @@ public class Player : Character
             // Apply deceleration
             wheelCurrentSpeed *= wheelCurrentDeceleration;
             // Rotate the wheel
-            fortuneWheel.transform.Rotate(0, wheelCurrentSpeed, 0);
+            fortuneWheel.transform.Rotate(0, wheelCurrentSpeed * Time.deltaTime, 0);
             // Stop the wheel if speed is low enough
             if (wheelCurrentSpeed < 0.01f)
             {
@@ -252,15 +252,18 @@ public class Player : Character
                         Destroy(obj: original);
                     }
                 }
-                else if (hit.collider.CompareTag(tag: fortuneWheelTag) && !stopSpinning)
+                else if (hit.collider.CompareTag(tag: fortuneWheelTag))
                 {
-                    stopSpinning = true;
+                    if (!stopSpinning)
+                    {
+                        stopSpinning = true;
 
-                    // Start spinning the wheel
-                    wheelCurrentDeceleration = wheelDeceleration;
-                    wheelCurrentSpeed = wheelSpeed;
+                        // Start spinning the wheel
+                        wheelCurrentDeceleration = wheelDeceleration;
+                        wheelCurrentSpeed = wheelSpeed;
 
-                    fortuneWheel = hit.collider.gameObject;
+                        fortuneWheel = hit.collider.gameObject;
+                    }
                 }
                 else
                 {
