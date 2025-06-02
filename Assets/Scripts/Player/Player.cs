@@ -34,6 +34,7 @@ public class Player : Character
     // Tags for interactions
     private readonly string doorTag = "Door";
     private readonly string itemTag = "Item";
+    private readonly string fortuneWheelTag = "FortuneWheel";
 
     // Movement
     private Vector2 moveInput;
@@ -52,6 +53,25 @@ public class Player : Character
     public List<GameObject> footWear;
     public GameObject amulet;
     public Inventory inventory = new(10);
+
+    [Header("Wheel Settings")]
+
+    public GameObject fortuneWheel;
+
+    // Speed of the wheel
+    [Range(0.1f, 500f)]
+    [SerializeField] private float wheelSpeed = 500f;
+
+    // Deceleration factor
+    [Range(0.01f, 1f)]
+    [SerializeField] private float wheelDeceleration = 0.98f;
+
+    // Current speed of the wheel
+    [SerializeField] private float wheelCurrentSpeed = 0f;
+
+    // Current deceleration factor
+    private float wheelCurrentDeceleration = 0f;
+
     #endregion
 
     #region MonoBehaviour
@@ -89,6 +109,21 @@ public class Player : Character
     private void FixedUpdate()
     {
         statesMachine?.FixedUpdate();
+        if (wheelCurrentDeceleration > 0)
+        {
+            // Apply deceleration
+            wheelCurrentSpeed *= wheelCurrentDeceleration;
+            // Rotate the wheel
+            fortuneWheel.transform.Rotate(0, wheelCurrentSpeed * Time.deltaTime, 0);
+            // Reduce current deceleration
+            wheelCurrentDeceleration -= Time.deltaTime;
+            // Stop the wheel if speed is low enough
+            if (wheelCurrentSpeed < 0.01f)
+            {
+                wheelCurrentSpeed = 0f;
+                wheelCurrentDeceleration = 0f;
+            }
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -212,6 +247,16 @@ public class Player : Character
 
                         Destroy(obj: original);
                     }
+                }
+                else if (hit.collider.CompareTag(tag: fortuneWheelTag))
+                {
+                    // Start spinning the wheel
+                    wheelCurrentDeceleration += Mathf.Min(1f, wheelDeceleration);
+                    wheelCurrentDeceleration = Mathf.Clamp(wheelCurrentDeceleration, 0.01f, 1f);
+                    wheelCurrentSpeed += wheelSpeed;
+                    wheelCurrentSpeed = Mathf.Clamp(wheelCurrentSpeed, 0.1f, 5000f);
+
+                    fortuneWheel = hit.collider.gameObject;
                 }
                 else
                 {
