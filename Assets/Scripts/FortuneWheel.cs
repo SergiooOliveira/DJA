@@ -7,10 +7,12 @@ public class FortuneWheel : MonoBehaviour
 
     [Header("Fortune Wheel Settings")]
 
-    private float fortuneWheelSpeed = 10000f;
+    private float fortuneWheeMinSpeed = 7500f;
+    private float fortuneWheelMaxSpeed = 10000f;
     private float fortuneWheelDeceleration = 0.99f;
 
     private bool fortuneWheelStopSpinning = false;
+    private bool fortuneWheelSpinned = false;
 
     float fortuneWheelCurrentSpeed = 0f;
     float fortuneWheelCurrentDeceleration = 0f;
@@ -19,11 +21,12 @@ public class FortuneWheel : MonoBehaviour
     {
         if (!fortuneWheelStopSpinning)
         {
+            fortuneWheelSpinned = true;
             fortuneWheelStopSpinning = true;
 
             // Start spinning the wheel
             fortuneWheelCurrentDeceleration = fortuneWheelDeceleration;
-            fortuneWheelCurrentSpeed = Random.Range(fortuneWheelSpeed * 0.75f, fortuneWheelSpeed);
+            fortuneWheelCurrentSpeed = Random.Range(fortuneWheeMinSpeed, fortuneWheelMaxSpeed);
         }
     }
 
@@ -42,9 +45,10 @@ public class FortuneWheel : MonoBehaviour
                 fortuneWheelCurrentDeceleration = 0f;
             }
         }
-        else
+        else if(fortuneWheelSpinned)
         {
             fortuneWheelStopSpinning = false;
+            fortuneWheelSpinned = false;
             GetHighestUpgradePosition();
         }
     }
@@ -61,6 +65,16 @@ public class FortuneWheel : MonoBehaviour
                 highestUpgrade = go;
             }
         }
-        Debug.Log("Highest Upgrade Position: " + highestUpgrade.name);
+        Upgrades.Instance.playerPowerUp.Add(highestUpgrade.GetComponent<FortuneWheelUpgrade>().powerUp);
+        Debug.Log("Added PowerUp: "
+            + Upgrades.Instance.playerPowerUp[Upgrades.Instance.playerPowerUp.Count - 1].UpgradeName
+            + " - " + Upgrades.Instance.playerPowerUp[Upgrades.Instance.playerPowerUp.Count - 1].UpgradeDescription
+            + " - " + Upgrades.Instance.playerPowerUp[Upgrades.Instance.playerPowerUp.Count - 1].UpgradeType
+            + " - " + Upgrades.Instance.playerPowerUp[Upgrades.Instance.playerPowerUp.Count - 1].UpgradeCost
+            + " - " + Upgrades.Instance.playerPowerUp[Upgrades.Instance.playerPowerUp.Count - 1].Icon.name
+            + " - " + Upgrades.Instance.playerPowerUp[Upgrades.Instance.playerPowerUp.Count - 1].Weight
+            + " - Buff: " + Upgrades.Instance.playerPowerUp[Upgrades.Instance.playerPowerUp.Count - 1].BuffPower.Buff
+            + " Power: " + Upgrades.Instance.playerPowerUp[Upgrades.Instance.playerPowerUp.Count - 1].BuffPower.Power
+            + " to Player's PowerUps as PowerUp Number " + Upgrades.Instance.playerPowerUp.Count);
     }
 }

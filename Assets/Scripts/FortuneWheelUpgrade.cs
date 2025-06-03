@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class FortuneWheelUpgrade : MonoBehaviour
 {
-    [HideInInspector] private Upgrade powerUp;
+    [HideInInspector] public Upgrade powerUp;
     [SerializeField] private int upgradeindex = 0;
 
     private void Start()
