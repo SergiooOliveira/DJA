@@ -262,10 +262,8 @@ public class Player : Character
                 SkillTreeManager.Instance.Canvas.SetActive(true);
                 GameManager.Instance.TogglePause(true);
             }
-        }
-        
+        }        
     }
-
     #endregion
 
     #region Methods

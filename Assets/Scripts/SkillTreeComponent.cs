@@ -1,22 +1,27 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SkillTreeComponent : MonoBehaviour
 {
     public bool isBought;
     public bool isLocked;
     public int minLevel;
-    public Transform previousComponent;
+    public SkillTreeComponent[] nextComponent;
 
-    public SkillTreeComponent(bool isBought, int minLevel, Transform previous)
-    {
-        this.isBought = isBought;
-        this.isLocked = IsLocked(previous);
-        this.minLevel = minLevel;
-        this.previousComponent = previous;
-    }
+    //public SkillTreeComponent(bool isBought, bool isLocked, int minLevel, Transform[] next)
+    //{
+    //    this.isBought = isBought;
+    //    this.isLocked = isLocked;
+    //    this.minLevel = minLevel;
+    //    this.nextComponent = next;
+    //}
 
-    private bool IsLocked(Transform previous)
+    public void UnlockNext()
     {
-        return previous.transform.GetComponent<SkillTreeComponent>().isBought ? true : false;
+        foreach (SkillTreeComponent stc in nextComponent)
+        {
+            stc.isLocked = false;
+            stc.transform.GetChild(0).GetComponent<Image>().enabled = false;
+        }
     }
 }

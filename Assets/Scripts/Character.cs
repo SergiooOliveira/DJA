@@ -80,10 +80,10 @@ public class Character : MonoBehaviour
         //Debug.Log($"Player is Level = {Player.Instance.Level} with a MaxXp of {Player.Instance.MaxXp}");
         OpenItemPanel?.Invoke();
 
-        Upgrades.Instance.playerPowerUp.Add(Upgrades.Instance.GetRandomPowerUp());
-        Upgrades.Instance.playerPowerUp.Add(Upgrades.Instance.GetRandomPowerUp());
-        Upgrades.Instance.playerPowerUp.Add(Upgrades.Instance.GetRandomPowerUp());
-        GameManager.Instance.ShowPowerUpSelector();        
+        //Upgrades.Instance.playerPowerUp.Add(Upgrades.Instance.GetRandomPowerUp());
+        //Upgrades.Instance.playerPowerUp.Add(Upgrades.Instance.GetRandomPowerUp());
+        //Upgrades.Instance.playerPowerUp.Add(Upgrades.Instance.GetRandomPowerUp());
+        //GameManager.Instance.ShowPowerUpSelector();
     }
 
     /// <summary>
@@ -192,5 +192,13 @@ public class Character : MonoBehaviour
     {        
         GainXp(50 +level *3);
         Destroy(gameObject);
+        Enemies.Instance.enemyCounter--;
+
+        if (Enemies.Instance.enemyCounter == 0)
+        {
+            Debug.Log("Starting new wave");
+            Enemies.Instance.waveCounter++;
+            Enemies.Instance.CreateWave();
+        }
     }
 }
