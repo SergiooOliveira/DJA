@@ -139,16 +139,9 @@ public class GameManager : MonoBehaviour
         {
             GameObject newIcon = Instantiate(upgradeObject, icons);
 
-            /*
-             * Use this to change upgrade name as well
-             * TMP_Text textComponent = newIcon.GetComponentInChildren<TMP_Text>();
-             * if (textComponent != null) textComponent.text = upgrade.UpgradeName;
-            */
-
             Image spriteComponent = newIcon.GetComponentInChildren<Image>();
             if (spriteComponent != null) spriteComponent.sprite = upgrade.Icon;
         }
-
     }
 
     /// <summary>
