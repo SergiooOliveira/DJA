@@ -8,14 +8,14 @@ public class FortuneWheel : MonoBehaviour
     [Header("Fortune Wheel Settings")]
 
     private float fortuneWheeMinSpeed = 7500f;
-    private float fortuneWheelMaxSpeed = 10000f;
-    private float fortuneWheelDeceleration = 0.99f;
+    private float fortuneWheelMaxSpeed = 20000f;
+    private float fortuneWheelDeceleration = 0.001f;
 
     private bool fortuneWheelStopSpinning = false;
     private bool fortuneWheelSpinned = false;
 
-    float fortuneWheelCurrentSpeed = 0f;
-    float fortuneWheelCurrentDeceleration = 0f;
+    private float fortuneWheelCurrentSpeed = 0f;
+    private float fortuneWheelCurrentDeceleration = 0f;
 
     public void SpinWheel()
     {
@@ -35,11 +35,11 @@ public class FortuneWheel : MonoBehaviour
         if (fortuneWheelCurrentDeceleration > 0)
         {
             // Apply deceleration
-            fortuneWheelCurrentSpeed *= fortuneWheelCurrentDeceleration;
+            fortuneWheelCurrentSpeed -= fortuneWheelCurrentSpeed * fortuneWheelCurrentDeceleration;
             // Rotate the wheel
             transform.Rotate(0, fortuneWheelCurrentSpeed * Time.deltaTime, 0);
             // Stop the wheel if speed is low enough
-            if (fortuneWheelCurrentSpeed < 0.1f)
+            if (fortuneWheelCurrentSpeed < 2f)
             {
                 fortuneWheelCurrentSpeed = 0f;
                 fortuneWheelCurrentDeceleration = 0f;

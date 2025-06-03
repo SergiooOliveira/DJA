@@ -439,6 +439,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3015156495564752914, guid: 19752e3a000b2eb4fb601aedff8d11d4, type: 3}
+      propertyPath: fortuneWheelSpeed
+      value: 5000
+      objectReference: {fileID: 0}
+    - target: {fileID: 3015156495564752914, guid: 19752e3a000b2eb4fb601aedff8d11d4, type: 3}
       propertyPath: fortuneWheelDeceleration
       value: 0.99
       objectReference: {fileID: 0}
