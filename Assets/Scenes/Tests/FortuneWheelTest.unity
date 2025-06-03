@@ -119,6 +119,54 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &968602998
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 968603000}
+  - component: {fileID: 968603001}
+  m_Layer: 0
+  m_Name: Upgrades
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &968603000
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 968602998}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.1764108, y: 1.80326, z: 1.6619154}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &968603001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 968602998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57f5522633baa8a409dd76417de567f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upgradeList: []
+  playerUpgrades: []
+  powerUpList: []
+  playerPowerUp: []
 --- !u!1 &999910584
 GameObject:
   m_ObjectHideFlags: 0
@@ -390,6 +438,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3015156495564752914, guid: 19752e3a000b2eb4fb601aedff8d11d4, type: 3}
+      propertyPath: fortuneWheelDeceleration
+      value: 0.99
+      objectReference: {fileID: 0}
     - target: {fileID: 4928909067163468986, guid: 19752e3a000b2eb4fb601aedff8d11d4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -430,10 +482,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5659218510154642549, guid: 19752e3a000b2eb4fb601aedff8d11d4, type: 3}
-      propertyPath: m_Convex
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5705163535060524544, guid: 19752e3a000b2eb4fb601aedff8d11d4, type: 3}
       propertyPath: m_Name
       value: fortuneWheel
@@ -451,3 +499,4 @@ SceneRoots:
   - {fileID: 2131270932}
   - {fileID: 2425410335790450333}
   - {fileID: 1364092800}
+  - {fileID: 968603000}
