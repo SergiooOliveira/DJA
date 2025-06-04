@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using static Unity.Collections.AllocatorManager;
 
 public class Character : MonoBehaviour
 {
@@ -18,6 +19,16 @@ public class Character : MonoBehaviour
     private int level;
     private int xp;
     private int maxXp;
+
+    // Sounds Effects
+    [Header("Sound Effects")]
+    public GameObject click;
+    public GameObject hitHurt;
+    public GameObject powerUp;
+
+    public AudioSource clickSource;
+    public AudioSource hitHurtSource;
+    public AudioSource powerUpSource;
 
     // Variables
     public string Name {
@@ -67,6 +78,26 @@ public class Character : MonoBehaviour
         this.Level = level;
         this.Xp = xp;
         this.MaxXp = maxXp;
+
+        click = new GameObject("ClickSound");
+        hitHurt = new GameObject("HitHurtSound");
+        powerUp = new GameObject("PowerUpSound");
+
+        click.transform.SetParent(this.transform);
+        hitHurt.transform.SetParent(this.transform);
+        powerUp.transform.SetParent(this.transform);
+
+        clickSource = click.AddComponent<AudioSource>();
+        hitHurtSource = hitHurt.AddComponent<AudioSource>();
+        powerUpSource = powerUp.AddComponent<AudioSource>();
+
+        clickSource.clip = Resources.Load<AudioClip>("Sfx/click");
+        hitHurtSource.clip = Resources.Load<AudioClip>("Sfx/hitHurt");
+        powerUpSource.clip = Resources.Load<AudioClip>("Sfx/powerUp");
+
+        clickSource.playOnAwake = false;
+        hitHurtSource.playOnAwake = false;
+        powerUpSource.playOnAwake = false;
     }
 
     /// <summary>
@@ -79,6 +110,7 @@ public class Character : MonoBehaviour
 
         //Debug.Log($"Player is Level = {Player.Instance.Level} with a MaxXp of {Player.Instance.MaxXp}");
         OpenItemPanel?.Invoke();
+        powerUp.GetComponent<AudioSource>().Play();
 
         //Upgrades.Instance.playerPowerUp.Add(Upgrades.Instance.GetRandomPowerUp());
         //Upgrades.Instance.playerPowerUp.Add(Upgrades.Instance.GetRandomPowerUp());
@@ -139,6 +171,7 @@ public class Character : MonoBehaviour
                     Enemy rayCharacter = hitted.GetComponent<Enemy>();
                     Debug.Log($"rayCharacter: {rayCharacter.tag}");
                     rayCharacter.TakeDamage(Player.Instance.Strength);
+                    hitHurtSource.Play();
                 }
                 else
                 {
@@ -155,17 +188,25 @@ public class Character : MonoBehaviour
         if (actualDamage <= 0) actualDamage = 1;
 
         Health -= actualDamage;
+        Debug.Log($"{Name} took {actualDamage} damage. Current health: {Health}");
+        hitHurtSource.Play();
 
         GameObject canvasGameObject = new GameObject("DamageTextCanvas");
+
+        canvasGameObject.transform.SetParent(transform, true);
+
         Canvas dmgCanvas = canvasGameObject.AddComponent<Canvas>();
         CanvasScaler canvasScaler = canvasGameObject.AddComponent<CanvasScaler>();
         GraphicRaycaster graphicRaycaster = canvasGameObject.AddComponent<GraphicRaycaster>();
+
         dmgCanvas.renderMode = RenderMode.WorldSpace;
         dmgCanvas.worldCamera = Camera.main;
         dmgCanvas.transform.SetPositionAndRotation(transform.position + new Vector3(0, 1.25f + actualDamage * .005f, 0), Quaternion.LookRotation(Camera.main.transform.forward, Vector3.up));
 
         GameObject dmgText = new GameObject("DamageText");
+
         dmgText.transform.SetParent(dmgCanvas.transform, false);
+
         RectTransform textRect = dmgText.AddComponent<RectTransform>();
         MeshRenderer textRenderer = dmgText.AddComponent<MeshRenderer>();
         TextMeshPro textMeshPro = dmgText.AddComponent<TextMeshPro>();
@@ -178,7 +219,6 @@ public class Character : MonoBehaviour
         textMeshPro.alignment = TextAlignmentOptions.Center;
 
         Destroy(canvasGameObject, 1 + actualDamage * .01f);
-
         if (Health == 0) OnDeath();
     }
 

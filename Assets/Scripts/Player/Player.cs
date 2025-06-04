@@ -138,92 +138,96 @@ public class Player : Character
                 hitInfo: out RaycastHit hit,
                 maxDistance: 2f))
             {
-                if (hit.collider.CompareTag(tag: doorTag))
+                if (hit.collider != null)
                 {
-                    hit.transform.rotation = new Quaternion(x: 0, y: 120, z: 0, w: 0);
-                    hit.collider.gameObject.GetComponent<MeshRenderer>().material.SetColor(name: "_Color", value: Color.black);
-                }
-                else if (hit.collider.CompareTag(tag: itemTag))
-                {
-                    GameObject original = hit.collider.gameObject;
-                    ItemClass itemClass = original.GetComponent<ItemClass>();
-
-                    if (!itemClass.isCollected)
+                    clickSource.Play();
+                    if (hit.collider.CompareTag(tag: doorTag))
                     {
-                        inventory.AddInventoryItem(itemObject: original);
-                        Transform originalParent = null;
+                        hit.transform.rotation = new Quaternion(x: 0, y: 120, z: 0, w: 0);
+                        hit.collider.gameObject.GetComponent<MeshRenderer>().material.SetColor(name: "_Color", value: Color.black);
+                    }
+                    else if (hit.collider.CompareTag(tag: itemTag))
+                    {
+                        GameObject original = hit.collider.gameObject;
+                        ItemClass itemClass = original.GetComponent<ItemClass>();
 
-                        bool isArrayItem = false;
-                        List<GameObject> targetArray = null;
-                        int inventoryIndex = -1;
-
-                        switch (itemClass.Type)
+                        if (!itemClass.isCollected)
                         {
-                            case ItemType.MainHand:
-                                originalParent = mainHand.transform.parent;
-                                mainHand = inventory.InventorySlots[0].item;
-                                break;
-                            case ItemType.OffHand:
-                                originalParent = offHand.transform.parent;
-                                offHand = inventory.InventorySlots[1].item;
-                                break;
-                            case ItemType.Helmet:
-                                originalParent = helmet.transform.parent;
-                                helmet = inventory.InventorySlots[2].item;
-                                break;
-                            case ItemType.ChestPlate:
-                                originalParent = chestPlate.transform.parent;
-                                chestPlate = inventory.InventorySlots[3].item;
-                                break;
-                            case ItemType.LegsPlate:
-                                isArrayItem = true;
-                                targetArray = legPlate;
-                                inventoryIndex = 4;
-                                break;
-                            case ItemType.FootWear:
-                                isArrayItem = true;
-                                targetArray = footWear;
-                                inventoryIndex = 5;
-                                break;
-                            case ItemType.Amulet:
-                                originalParent = amulet.transform.parent;
-                                amulet = inventory.InventorySlots[6].item;
-                                break;
-                        }
+                            inventory.AddInventoryItem(itemObject: original);
+                            Transform originalParent = null;
 
-                        GameObject new_item;
-                        if (isArrayItem && targetArray != null && inventoryIndex != -1)
-                        {
-                            for (int i = 0; i < targetArray.Count; i++)
+                            bool isArrayItem = false;
+                            List<GameObject> targetArray = null;
+                            int inventoryIndex = -1;
+
+                            switch (itemClass.Type)
                             {
-                                Transform parent = targetArray[i].transform.parent;
-                                new_item = Instantiate(original: inventory.InventorySlots[inventoryIndex].item, parent: parent);
-                                targetArray[i] = new_item;
+                                case ItemType.MainHand:
+                                    originalParent = mainHand.transform.parent;
+                                    mainHand = inventory.InventorySlots[0].item;
+                                    break;
+                                case ItemType.OffHand:
+                                    originalParent = offHand.transform.parent;
+                                    offHand = inventory.InventorySlots[1].item;
+                                    break;
+                                case ItemType.Helmet:
+                                    originalParent = helmet.transform.parent;
+                                    helmet = inventory.InventorySlots[2].item;
+                                    break;
+                                case ItemType.ChestPlate:
+                                    originalParent = chestPlate.transform.parent;
+                                    chestPlate = inventory.InventorySlots[3].item;
+                                    break;
+                                case ItemType.LegsPlate:
+                                    isArrayItem = true;
+                                    targetArray = legPlate;
+                                    inventoryIndex = 4;
+                                    break;
+                                case ItemType.FootWear:
+                                    isArrayItem = true;
+                                    targetArray = footWear;
+                                    inventoryIndex = 5;
+                                    break;
+                                case ItemType.Amulet:
+                                    originalParent = amulet.transform.parent;
+                                    amulet = inventory.InventorySlots[6].item;
+                                    break;
+                            }
 
+                            GameObject new_item;
+                            if (isArrayItem && targetArray != null && inventoryIndex != -1)
+                            {
+                                for (int i = 0; i < targetArray.Count; i++)
+                                {
+                                    Transform parent = targetArray[i].transform.parent;
+                                    new_item = Instantiate(original: inventory.InventorySlots[inventoryIndex].item, parent: parent);
+                                    targetArray[i] = new_item;
+
+                                    new_item.transform.SetLocalPositionAndRotation(localPosition: Vector3.zero, localRotation: Quaternion.identity);
+                                    new_item.transform.localScale = Vector3.one;
+                                    new_item.GetComponent<ItemClass>().isCollected = true;
+                                }
+                            }
+                            else if (originalParent != null)
+                            {
+                                new_item = Instantiate(original: original, parent: originalParent);
                                 new_item.transform.SetLocalPositionAndRotation(localPosition: Vector3.zero, localRotation: Quaternion.identity);
                                 new_item.transform.localScale = Vector3.one;
                                 new_item.GetComponent<ItemClass>().isCollected = true;
                             }
-                        }
-                        else if (originalParent != null)
-                        {
-                            new_item = Instantiate(original: original, parent: originalParent);
-                            new_item.transform.SetLocalPositionAndRotation(localPosition: Vector3.zero, localRotation: Quaternion.identity);
-                            new_item.transform.localScale = Vector3.one;
-                            new_item.GetComponent<ItemClass>().isCollected = true;
-                        }
 
-                        Destroy(obj: original);
+                            Destroy(obj: original);
+                        }
                     }
-                }
-                else if (hit.collider.CompareTag(tag: fortuneWheelTag))
-                {
-                    hit.collider.gameObject.GetComponent<FortuneWheel>()?.SpinWheel();
-                }
-                else
-                {
-                    // Case we want to do something
-                    //Debug.Log(message: $"Hited {hit.collider.name}");
+                    else if (hit.collider.CompareTag(tag: fortuneWheelTag))
+                    {
+                        hit.collider.gameObject.GetComponent<FortuneWheel>()?.SpinWheel();
+                    }
+                    else
+                    {
+                        // Case we want to do something
+                        //Debug.Log(message: $"Hited {hit.collider.name}");
+                    }
                 }
             }
         }
@@ -269,7 +273,7 @@ public class Player : Character
                 SkillTreeManager.Instance.Canvas.SetActive(true);
                 GameManager.Instance.TogglePause(true);
             }
-        }        
+        }
     }
     #endregion
 
@@ -286,7 +290,8 @@ public class Player : Character
     }
 
     #region States
-    public class PlayerAttackState: State{
+    public class PlayerAttackState : State
+    {
         private readonly Player player;
         const string punch = "boolPunch";
         const string sword = "boolSword";
@@ -296,20 +301,22 @@ public class Player : Character
         }
         public override void Enter()
         {
-            if (player.inventory.InventorySlots[0] != null){
+            if (player.inventory.InventorySlots[0] != null)
+            {
                 animator.SetBool(name: sword, value: true);
             }
-            else{
+            else
+            {
                 animator.SetBool(name: punch, value: true);
             }
         }
         public override void Exit()
         {
-            animator.SetBool(name: punch, value: false );
-            animator.SetBool(name: sword, value: false ); 
+            animator.SetBool(name: punch, value: false);
+            animator.SetBool(name: sword, value: false);
         }
     }
-    
+
     /// <summary>
     /// This class is a state that represents the idle state of the player.
     /// (It will be used to control the player's idle animation and state transitions)
@@ -318,7 +325,7 @@ public class Player : Character
     {
         private readonly Player player;
         const string animationName = "boolIdle";
-        
+
         public PlayerIdleState(StatesMachine fsm, Player player) : base(fsm)
         {
             this.player = player;
