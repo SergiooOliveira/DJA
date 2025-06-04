@@ -51,25 +51,29 @@ public class Upgrades : MonoBehaviour
             //              Name                            Description              Type         Cost                     Sprite                  Weight  Tuple(Buff, BuffPower)
 
             // ----- Health Buffs -----
-            new Upgrade("Health Common Upgrade",       "Common description",       "Common",       10, "Sprites/HpBuff", 100,  ("Health", 10)),
-            new Upgrade("Health Rare Upgrade",         "Rare description",         "Rare",         10, "Sprites/HpBuff", 20,   ("Health", 20)),
+            new Upgrade("Health Common Upgrade",       "Common description",       "Common",       10, "Sprites/HpBuffCommon", 100,  ("Health", 10)),
+            new Upgrade("Health Rare Upgrade",         "Rare description",         "Rare",         10, "Sprites/HpBuffRare", 20,   ("Health", 20)),
             new Upgrade("Health Epic Upgrade",         "Epic description",         "Epic",         10, "Sprites/HpBuff", 10,   ("Health", 30)),
             new Upgrade("Health Legendary Upgrade",    "Legendary description",    "Legendary",    10, "Sprites/HpBuff", 7,    ("Health", 40)),
             new Upgrade("Health Mythic Upgrade",       "Mythic description",       "Mythic",       10, "Sprites/HpBuff", 3,    ("Health", 50)),
 
             // ----- Strength Buffs -----
-            new Upgrade("Strength Common Upgrade",       "Common description",       "Common",       10, "Sprites/AttackBuff", 100,  ("Strength", 10)),
-            new Upgrade("Strength Rare Upgrade",         "Rare description",         "Rare",         10, "Sprites/AttackBuff", 20,   ("Strength", 20)),
+            new Upgrade("Strength Common Upgrade",       "Common description",       "Common",       10, "Sprites/AttackBuffCommon", 100,  ("Strength", 10)),
+            new Upgrade("Strength Rare Upgrade",         "Rare description",         "Rare",         10, "Sprites/AttackBuffRare", 20,   ("Strength", 20)),
             new Upgrade("Strength Epic Upgrade",         "Epic description",         "Epic",         10, "Sprites/AttackBuff", 10,   ("Strength", 30)),
             new Upgrade("Strength Legendary Upgrade",    "Legendary description",    "Legendary",    10, "Sprites/AttackBuff", 7,    ("Strength", 40)),
             new Upgrade("Strength Mythic Upgrade",       "Mythic description",       "Mythic",       10, "Sprites/AttackBuff", 3,    ("Strength", 50)),
 
             // ----- Armor Buffs -----
-            new Upgrade("Armor Common Upgrade",       "Common description",       "Common",       10, "Sprites/ArmorBuff", 100,  ("Armor", 10)),
-            new Upgrade("Armor Rare Upgrade",         "Rare description",         "Rare",         10, "Sprites/ArmorBuff", 20,   ("Armor", 20)),
+            new Upgrade("Armor Common Upgrade",       "Common description",       "Common",       10, "Sprites/ArmorBuffCommon", 100,  ("Armor", 10)),
+            new Upgrade("Armor Rare Upgrade",         "Rare description",         "Rare",         10, "Sprites/ArmorBuffRare", 20,   ("Armor", 20)),
             new Upgrade("Armor Epic Upgrade",         "Epic description",         "Epic",         10, "Sprites/ArmorBuff", 10,   ("Armor", 30)),
             new Upgrade("Armor Legendary Upgrade",    "Legendary description",    "Legendary",    10, "Sprites/ArmorBuff", 7,    ("Armor", 40)),
             new Upgrade("Armor Mythic Upgrade",       "Mythic description",       "Mythic",       10, "Sprites/ArmorBuff", 3,    ("Armor", 50)),
+            
+            // ----- Downgrades -----
+            new Upgrade("Strength Downgrade",       "Downgrade description",       "Downgrade",       10, "Sprites/Red", 3,    ("Strength", -10)),
+            new Upgrade("Armor Downgrade",       "Downgrade description",       "Downgrade",       10, "Sprites/Red", 3,    ("Strength", -10)),
         };
     }
 
