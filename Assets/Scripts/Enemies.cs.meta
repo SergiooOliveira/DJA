@@ -1,2 +1,15 @@
 fileFormatVersion: 2
 guid: 5992d712752764c4b893b6c626f6bd87
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - goblin: {instanceID: 0}
+  - orc: {instanceID: 0}
+  - dragon: {instanceID: 0}
+  - fortuneWheelPrefab: {fileID: 5705163535060524544, guid: 19752e3a000b2eb4fb601aedff8d11d4, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

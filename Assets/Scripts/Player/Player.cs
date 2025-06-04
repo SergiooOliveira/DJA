@@ -140,11 +140,11 @@ public class Player : Character
             {
                 if (hit.collider != null)
                 {
-                    clickSource.Play();
                     if (hit.collider.CompareTag(tag: doorTag))
                     {
                         hit.transform.rotation = new Quaternion(x: 0, y: 120, z: 0, w: 0);
                         hit.collider.gameObject.GetComponent<MeshRenderer>().material.SetColor(name: "_Color", value: Color.black);
+                        clickSource.Play();
                     }
                     else if (hit.collider.CompareTag(tag: itemTag))
                     {
@@ -218,10 +218,12 @@ public class Player : Character
 
                             Destroy(obj: original);
                         }
+                        clickSource.Play();
                     }
                     else if (hit.collider.CompareTag(tag: fortuneWheelTag))
                     {
                         hit.collider.gameObject.GetComponent<FortuneWheel>()?.SpinWheel();
+                        clickSource.Play();
                     }
                     else
                     {
