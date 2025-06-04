@@ -21,8 +21,6 @@ public class Enemies : MonoBehaviour
 
     int playerLevel;
 
-    public GameObject fortuneWheelPrefab;
-
     private void Awake()
     {
         if (Instance == null)
@@ -79,9 +77,6 @@ public class Enemies : MonoBehaviour
                 break;
             case 2:
                 AddToWave(dragon, 1);
-                break;
-            case 3:
-                Instantiate(fortuneWheelPrefab, Vector3.zero, Quaternion.identity);
                 break;
         }
 
