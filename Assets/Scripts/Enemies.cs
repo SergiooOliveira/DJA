@@ -55,9 +55,9 @@ public class Enemies : MonoBehaviour
     /// </summary>
     private void CreateEnemies()
     {
-        goblin.Initialize("Goblin", 20 * playerLevel, 20 * playerLevel, 1 * playerLevel, playerLevel + 1, 10, 0);
-        orc.Initialize("Orc", 100 * playerLevel, 5 * playerLevel, 3 * playerLevel, playerLevel + 2, 30, 0);
-        dragon.Initialize("Dragon", 20 * playerLevel, 20 * playerLevel, 1 * playerLevel, playerLevel + 5, 500, 0);
+        goblin.Initialize("Goblin", 20 + 4 * playerLevel, 20 + 2 * playerLevel, 1 * playerLevel, playerLevel + 1, 10, 0);
+        orc.Initialize("Orc", 100 + 20 * playerLevel, 5 + 1 * playerLevel, 3 + 1 * playerLevel, playerLevel + 2, 30, 0);
+        dragon.Initialize("Dragon", 20 + 4 * playerLevel, 20 + 2 * playerLevel, 1 * playerLevel, playerLevel + 5, 500, 0);
     }
 
     /// <summary>
@@ -156,17 +156,17 @@ public class Enemies : MonoBehaviour
                     newGoblinAgent.enabled = true;
                 }
 
-                newGoblin.Initialize("Goblin", 20 * playerLevel, 20 * playerLevel, 5 * playerLevel, playerLevel + 1, 10, 0);
+                newGoblin.Initialize("Goblin", 20 + 4 * playerLevel, 20 + 4 * playerLevel, 5 + 1 * playerLevel, playerLevel + 1, 10, 0);
             }
             else if (enemy.Name.StartsWith("Orc"))
             {
                 Enemy newOrc = Instantiate(orc, spawnPos, spawnRot);
-                newOrc.Initialize("Orc", 100 * playerLevel, 5 * playerLevel, 15 * playerLevel, playerLevel + 2, 30, 0);
+                newOrc.Initialize("Orc", 100 + 20 * playerLevel, 5 + 1 * playerLevel, 15 + 3 * playerLevel, playerLevel + 2, 30, 0);
             }
             else if (enemy.Name.StartsWith("Dragon"))
             {
                 Enemy newDragon = Instantiate(dragon, spawnPos, spawnRot);
-                newDragon.Initialize("Dragon", 20 * playerLevel, 20 * playerLevel, 10 * playerLevel, playerLevel + 5, 500, 0);
+                newDragon.Initialize("Dragon", 20 + 4 * playerLevel, 20 + 4 * playerLevel, 10 + 2 * playerLevel, playerLevel + 5, 500, 0);
             }
 
             enemyCounter++;
