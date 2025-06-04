@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Upgrades : MonoBehaviour
@@ -82,29 +83,23 @@ public class Upgrades : MonoBehaviour
     /// </summary>
     public Upgrade GetRandomUpgrade()
     {
-        float totalWeight = 0f;
+        var filteredUpgrades = upgradeList.Where(u => u.UpgradeType != "Downgrade").ToList();
 
-        foreach (Upgrade upgrade in upgradeList)
-        {
-            //Debug.Log($"<color=yellow>{totalWeight}</color> += <color=lime>{upgrade.Weight}</color>");
-            totalWeight += upgrade.Weight;
-        }
-
+        float totalWeight = filteredUpgrades.Sum(u => u.Weight);
         float randomValue = Random.Range(0, totalWeight);
 
-        //Debug.Log($"<color=yellow>{ randomValue }</color>");
-
         float cumulativeWeight = 0f;
-
-        foreach (Upgrade upgrade in upgradeList)
+        foreach (var upgrade in filteredUpgrades)
         {
             cumulativeWeight += upgrade.Weight;
             if (randomValue < cumulativeWeight)
                 return upgrade;
         }
 
-        return upgradeList[0]; // Fallback
+        return filteredUpgrades[0]; // Fallback
     }
+
+
     #endregion
 
     #region PowerUps Methods
