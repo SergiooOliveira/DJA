@@ -34,6 +34,9 @@ public class GameManager : MonoBehaviour
 
     [Header("Change Item")]
     public GameObject changeItemPanel;
+
+    // Flag to stop and resume the game
+    [HideInInspector] public bool isPaused;
     #endregion
 
     #region MonoBehaviour
@@ -57,6 +60,7 @@ public class GameManager : MonoBehaviour
         UpdatePlayerStats();
 
         canvas = powerUps.transform.parent.gameObject;
+        isPaused = false;
 
         // Enemies.Instance.StartWave();
     }
@@ -104,6 +108,18 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0f; // Pause the game
         changeItemPanel.SetActive(true);
     }
+
+    /// <summary>
+    /// Call this method to pause the game
+    /// </summary>
+    /// <param name="pause"></param>
+    public void TogglePause(bool pause)
+    {
+        isPaused = pause;
+        Time.timeScale = isPaused ? 0 : 1;
+        Cursor.lockState = isPaused ? CursorLockMode.None : CursorLockMode.Locked;
+        Cursor.visible = isPaused;
+    }
     #endregion
 
     #region UI Update Methods (Maybe change these to Listeners)
@@ -123,16 +139,9 @@ public class GameManager : MonoBehaviour
         {
             GameObject newIcon = Instantiate(upgradeObject, icons);
 
-            /*
-             * Use this to change upgrade name as well
-             * TMP_Text textComponent = newIcon.GetComponentInChildren<TMP_Text>();
-             * if (textComponent != null) textComponent.text = upgrade.UpgradeName;
-            */
-
             Image spriteComponent = newIcon.GetComponentInChildren<Image>();
             if (spriteComponent != null) spriteComponent.sprite = upgrade.Icon;
         }
-
     }
 
     /// <summary>

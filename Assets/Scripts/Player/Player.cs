@@ -248,6 +248,29 @@ public class Player : Character
         movementY = moveInput.y;
     }
 
+    /// <summary>
+    /// Call this method to open and close the SkillTree
+    /// </summary>
+    /// <param name="callbackContext"></param>
+    public void OnOpeningSkillTree(InputAction.CallbackContext callbackContext)
+    {
+        if (callbackContext.performed)
+        {
+            Debug.Log("Opening Inventory");
+            //Canvas canvas = SkillTreeManager.Instance.Canvas.GetComponent<Canvas>();
+
+            if (SkillTreeManager.Instance.Canvas.activeSelf)
+            {
+                SkillTreeManager.Instance.Canvas.SetActive(false);
+                GameManager.Instance.TogglePause(false);
+            }
+            else
+            {
+                SkillTreeManager.Instance.Canvas.SetActive(true);
+                GameManager.Instance.TogglePause(true);
+            }
+        }        
+    }
     #endregion
 
     #region Methods

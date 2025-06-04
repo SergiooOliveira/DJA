@@ -20,6 +20,8 @@ public class MouseMovement : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
+        if (GameManager.Instance.isPaused) return;
+
         float mouseX = Input.GetAxisRaw("Mouse X") * mouseSensitiviy;
         float mouseY = Input.GetAxisRaw("Mouse Y") * mouseSensitiviy;
 
