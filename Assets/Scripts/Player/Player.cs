@@ -34,6 +34,7 @@ public class Player : Character
     // Tags for interactions
     private readonly string doorTag = "Door";
     private readonly string itemTag = "Item";
+    private readonly string fortuneWheelTag = "FortuneWheel";
 
     // Movement
     private Vector2 moveInput;
@@ -52,6 +53,7 @@ public class Player : Character
     public List<GameObject> footWear;
     public GameObject amulet;
     public Inventory inventory = new(10);
+
     #endregion
 
     #region MonoBehaviour
@@ -128,7 +130,8 @@ public class Player : Character
         animator = GetComponent<Animator>();
         if (callbackContext.started)
         {
-            Ray ray = Camera.main.ScreenPointToRay(pos: UnityEngine.Input.mousePosition);
+            Vector3 pos = UnityEngine.Input.mousePosition;
+            Ray ray = Camera.main.ScreenPointToRay(pos);
 
             if (Physics.Raycast(
                 ray: ray,
@@ -212,6 +215,10 @@ public class Player : Character
 
                         Destroy(obj: original);
                     }
+                }
+                else if (hit.collider.CompareTag(tag: fortuneWheelTag))
+                {
+                    hit.collider.gameObject.GetComponent<FortuneWheel>()?.SpinWheel();
                 }
                 else
                 {

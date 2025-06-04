@@ -10,6 +10,7 @@ TagManager:
   - Item
   - SpawnPoints
   - Enemy
+  - FortuneWheel
   layers:
   - Default
   - TransparentFX
