@@ -48,7 +48,7 @@ public class Upgrades : MonoBehaviour
     {
         upgradeList = new List<Upgrade>
         {
-            //              Name                            Description              Type         Cost     Sprite      Weight  Tuple(Buff, BuffPower)
+            //              Name                            Description              Type         Cost                     Sprite                  Weight  Tuple(Buff, BuffPower)
 
             // ----- Health Buffs -----
             new Upgrade("Health Common Upgrade",       "Common description",       "Common",       10, "Sprites/HpBuff", 100,  ("Health", 10)),
@@ -65,11 +65,11 @@ public class Upgrades : MonoBehaviour
             new Upgrade("Strength Mythic Upgrade",       "Mythic description",       "Mythic",       10, "Sprites/AttackBuff", 3,    ("Strength", 50)),
 
             // ----- Armor Buffs -----
-            new Upgrade("Armor Common Upgrade",       "Common description",       "Common",       10, "Sprites/Cyan", 100,  ("Armor", 10)),
-            new Upgrade("Armor Rare Upgrade",         "Rare description",         "Rare",         10, "Sprites/Cyan", 20,   ("Armor", 20)),
-            new Upgrade("Armor Epic Upgrade",         "Epic description",         "Epic",         10, "Sprites/Cyan", 10,   ("Armor", 30)),
-            new Upgrade("Armor Legendary Upgrade",    "Legendary description",    "Legendary",    10, "Sprites/Cyan", 7,    ("Armor", 40)),
-            new Upgrade("Armor Mythic Upgrade",       "Mythic description",       "Mythic",       10, "Sprites/Cyan", 3,    ("Armor", 50)),
+            new Upgrade("Armor Common Upgrade",       "Common description",       "Common",       10, "Sprites/ArmorBuff", 100,  ("Armor", 10)),
+            new Upgrade("Armor Rare Upgrade",         "Rare description",         "Rare",         10, "Sprites/ArmorBuff", 20,   ("Armor", 20)),
+            new Upgrade("Armor Epic Upgrade",         "Epic description",         "Epic",         10, "Sprites/ArmorBuff", 10,   ("Armor", 30)),
+            new Upgrade("Armor Legendary Upgrade",    "Legendary description",    "Legendary",    10, "Sprites/ArmorBuff", 7,    ("Armor", 40)),
+            new Upgrade("Armor Mythic Upgrade",       "Mythic description",       "Mythic",       10, "Sprites/ArmorBuff", 3,    ("Armor", 50)),
         };
     }
 

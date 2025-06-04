@@ -45,6 +45,7 @@ public class FortuneWheel : MonoBehaviour
         {
             // Apply deceleration
             fortuneWheelCurrentSpeed -= fortuneWheelCurrentSpeed * fortuneWheelCurrentDeceleration;
+            Debug.Log("Current Speed: " + fortuneWheelCurrentSpeed + " - Deceleration: " + fortuneWheelCurrentDeceleration);
             // Rotate the wheel
             transform.Rotate(0, fortuneWheelCurrentSpeed * Time.deltaTime, 0);
             // Stop the wheel if speed is low enough
