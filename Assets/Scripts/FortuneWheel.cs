@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FortuneWheel : MonoBehaviour
 {
-    [SerializeField] private List<GameObject> gameObjectList;
+    [SerializeField] private List<FortuneWheelUpgrade> fortuneWheelUpgradeList;
 
     [Header("Fortune Wheel Settings")]
 
@@ -16,6 +17,14 @@ public class FortuneWheel : MonoBehaviour
 
     private float fortuneWheelCurrentSpeed = 0f;
     private float fortuneWheelCurrentDeceleration = 0f;
+
+    private void Start()
+    {
+        foreach (FortuneWheelUpgrade go in fortuneWheelUpgradeList)
+        {
+            go.GetComponent<Image>().sprite = go.powerUp.Icon;
+        }
+    }
 
     public void SpinWheel()
     {
@@ -56,9 +65,9 @@ public class FortuneWheel : MonoBehaviour
     // This method serves to get the highest Upgrade position from the list
     void GetHighestUpgradePosition()
     {
-        if (gameObjectList.Count == 0) return;
-        GameObject highestUpgrade = gameObjectList[0];
-        foreach (GameObject go in gameObjectList)
+        if (fortuneWheelUpgradeList.Count == 0) return;
+        FortuneWheelUpgrade highestUpgrade = fortuneWheelUpgradeList[0];
+        foreach (FortuneWheelUpgrade go in fortuneWheelUpgradeList)
         {
             if (go.transform.position.y > highestUpgrade.transform.position.y)
             {

@@ -286,7 +286,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a1da33fa00969242a36f39a76df039a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upgradeindex: 0
+  upgradeindex: 1
 --- !u!1 &1381651342435494987
 GameObject:
   m_ObjectHideFlags: 0
@@ -375,7 +375,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a1da33fa00969242a36f39a76df039a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upgradeindex: 0
+  upgradeindex: 6
 --- !u!1 &2905787322727577133
 GameObject:
   m_ObjectHideFlags: 0
@@ -464,7 +464,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a1da33fa00969242a36f39a76df039a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upgradeindex: 0
+  upgradeindex: 10
 --- !u!1 &4385611722484564660
 GameObject:
   m_ObjectHideFlags: 0
@@ -553,7 +553,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a1da33fa00969242a36f39a76df039a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upgradeindex: 0
+  upgradeindex: 11
 --- !u!1 &4430753700525961116
 GameObject:
   m_ObjectHideFlags: 0
@@ -642,7 +642,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a1da33fa00969242a36f39a76df039a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upgradeindex: 0
+  upgradeindex: 15
 --- !u!1 &5035654339138583866
 GameObject:
   m_ObjectHideFlags: 0
@@ -707,7 +707,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 15303, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -817,7 +817,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a1da33fa00969242a36f39a76df039a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upgradeindex: 0
+  upgradeindex: 5
 --- !u!1 &7707160928576477839
 GameObject:
   m_ObjectHideFlags: 0
@@ -906,7 +906,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a1da33fa00969242a36f39a76df039a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upgradeindex: 0
+  upgradeindex: 15
 --- !u!1001 &4894772689681933137
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -956,9 +956,13 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7635826562936255635, guid: 661fcae53119fd6469bd0a494d0ffa20, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 661fcae53119fd6469bd0a494d0ffa20, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 44c06d65f27cd7e4280931226c32238f, type: 2}
+      objectReference: {fileID: 15303, guid: 0000000000000000f000000000000000, type: 0}
     - target: {fileID: 919132149155446097, guid: 661fcae53119fd6469bd0a494d0ffa20, type: 3}
       propertyPath: m_Name
       value: fortuneWheel
@@ -1061,15 +1065,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e335845f048cfe499d1bc2af5e30807, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameObjectList:
-  - {fileID: 933492032330905223}
-  - {fileID: 7478068658347683694}
-  - {fileID: 2905787322727577133}
-  - {fileID: 7707160928576477839}
-  - {fileID: 944776667293066859}
-  - {fileID: 1381651342435494987}
-  - {fileID: 4385611722484564660}
-  - {fileID: 4430753700525961116}
+  fortuneWheelUpgradeList:
+  - {fileID: 6390996675154064688}
+  - {fileID: 3983881535842888521}
+  - {fileID: 7514564088664480565}
+  - {fileID: 8163792390557310447}
+  - {fileID: 5988902813609605957}
+  - {fileID: 8250869005029263871}
+  - {fileID: 1188618133196178236}
+  - {fileID: 8613027768743486241}
 --- !u!4 &4928909067163468986 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 661fcae53119fd6469bd0a494d0ffa20, type: 3}
