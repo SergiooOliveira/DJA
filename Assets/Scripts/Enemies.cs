@@ -7,17 +7,19 @@ public class Enemies : MonoBehaviour
     public static Enemies Instance;
 
     private List<Enemy> enemies = new List<Enemy>();
+    public int enemyCounter;
+    public int waveCounter;
+
     private GameObject spawnPoints;
     public List<GameObject> SP = new List<GameObject>();
 
     // Create various prefabs for enemies
-    [Header("Enemies Prefabs")]    
+    [Header("Enemies Prefabs")]
     public Enemy goblin;
     public Enemy orc;
     public Enemy dragon;
 
     int playerLevel;
-    int waveCounter = 0;
 
     private void Awake()
     {
@@ -40,16 +42,30 @@ public class Enemies : MonoBehaviour
         }
 
         playerLevel = Player.Instance.Level;
-        //print(playerLevel);
+        enemyCounter = 0;
+        waveCounter = 0;
+
         CreateWave();
+    }
+
+    /// <summary>
+    /// Call this method to create all types of enemies
+    /// </summary>
+    private void CreateEnemies()
+    {
+        goblin.Initialize("Goblin", 20 * playerLevel, 20 * playerLevel, 1 * playerLevel, playerLevel + 1, 10, 0);
+        orc.Initialize("Orc", 100 * playerLevel, 5 * playerLevel, 3 * playerLevel, playerLevel + 2, 30, 0);
+        dragon.Initialize("Dragon", 20 * playerLevel, 20 * playerLevel, 1 * playerLevel, playerLevel + 5, 500, 0);
     }
 
     /// <summary>
     /// Call this method to populate the wave
     /// </summary>
-    private void CreateWave()
+    public void CreateWave()
     {
+        CreateEnemies();
         ClearWave();
+
         switch (waveCounter)
         {
             case 0:
@@ -63,6 +79,7 @@ public class Enemies : MonoBehaviour
                 AddToWave(dragon, 1);
                 break;
         }
+
         SpawnEnemies();
     }
 
@@ -74,11 +91,9 @@ public class Enemies : MonoBehaviour
     public void AddToWave(Enemy enemy, int amount)
     {
         for (int i = 0; i < amount; i++)
-        {            
+        {
             enemies.Add(enemy);
         }
-
-        //Debug.Log($"Added {amount} x {character.Name} to the wave");
     }
 
     /// <summary>
@@ -107,27 +122,22 @@ public class Enemies : MonoBehaviour
     /// <summary>
     /// Call this method to spawn the enemies
     /// </summary>
-    private void SpawnEnemies ()
+    private void SpawnEnemies()
     {
-        // Enemie counter to control the position
-        int enemieCounter = 0;
-
-        //Debug.Log("Total enemies: " + enemies.Count);
-
         foreach (Enemy enemy in enemies)
         {
             //Debug.Log("Processing: " + character.Name);
 
             // Just in case we have too many enemies for the amout of SpawnPoints available
-            if (enemieCounter >= SP.Count)
+            if (enemyCounter >= SP.Count)
             {
                 //Debug.LogWarning("No spawn point for enemy #" + enemieCounter);
                 break;
             }
 
             // Encapsulation of position and rotation
-            Vector3 spawnPos = SP[enemieCounter].transform.position;
-            Quaternion spawnRot = SP[enemieCounter].transform.rotation;
+            Vector3 spawnPos = SP[enemyCounter].transform.position;
+            Quaternion spawnRot = SP[enemyCounter].transform.rotation;
 
             if (enemy.Name.StartsWith("Goblin"))
             {
@@ -153,9 +163,8 @@ public class Enemies : MonoBehaviour
                 Enemy newDragon = Instantiate(dragon, spawnPos, spawnRot);
                 newDragon.Initialize("Dragon", 20 * playerLevel, 20 * playerLevel, 10 * playerLevel, playerLevel + 5, 500, 0);
             }
-            
-            //Debug.Log($"{enemieCounter}: {character.Name} at {spawnPos} with {character.Health} HP");
-            enemieCounter++;
+
+            enemyCounter++;
         }
     }
 }
