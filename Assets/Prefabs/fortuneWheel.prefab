@@ -962,7 +962,7 @@ PrefabInstance:
     - target: {fileID: -7635826562936255635, guid: 661fcae53119fd6469bd0a494d0ffa20, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 15303, guid: 0000000000000000f000000000000000, type: 0}
+      objectReference: {fileID: 2100000, guid: 8cad91b081e6b5a48b62b9846fe5687c, type: 2}
     - target: {fileID: 919132149155446097, guid: 661fcae53119fd6469bd0a494d0ffa20, type: 3}
       propertyPath: m_Name
       value: fortuneWheel
