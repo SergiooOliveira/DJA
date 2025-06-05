@@ -184,31 +184,34 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// Call this method to make the PowerUp canvas appear
     /// </summary>
-    public void ShowPowerUpSelector()
-    {
-        // Get the gameObject of the Transform
-        GameObject powerUpGameObject = powerUps.transform.gameObject;
+    //public void ShowPowerUpSelector()
+    //{
 
-        powerUpGameObject.SetActive(true);
-        powerUps.transform.SetAsLastSibling();
+    //    // ----- Not beeing used -----
 
-        foreach (Upgrade powerUp in Upgrades.Instance.playerPowerUp)
-        {
-            GameObject newPowerUp = Instantiate(commonPowerUpObject, powerUps);
+    //    // Get the gameObject of the Transform
+    //    GameObject powerUpGameObject = powerUps.transform.gameObject;
 
-            Transform powerUpInfo = newPowerUp.transform.Find("PowerUp-Info");
-            Image spriteComponent = powerUpInfo.GetComponentInChildren<Image>();
+    //    powerUpGameObject.SetActive(true);
+    //    powerUps.transform.SetAsLastSibling();
 
-            if (spriteComponent != null) spriteComponent.sprite = powerUp.Icon;
+    //    foreach (Upgrade powerUp in Upgrades.Instance.playerPowerUp)
+    //    {
+    //        GameObject newPowerUp = Instantiate(commonPowerUpObject, powerUps);
 
-            TMP_Text[] powerUpTexts = powerUpInfo.GetComponentsInChildren<TMP_Text>();
+    //        Transform powerUpInfo = newPowerUp.transform.Find("PowerUp-Info");
+    //        Image spriteComponent = powerUpInfo.GetComponentInChildren<Image>();
 
-            foreach (TMP_Text text in powerUpTexts)
-            {
-                if (text.name == "PowerUp-Name" && text != null) text.text = powerUp.UpgradeName;                 
-                if (text.name == "PowerUp-Description" && text != null) text.text = powerUp.UpgradeDescription;                 
-            }
-        }
-    }
+    //        if (spriteComponent != null) spriteComponent.sprite = powerUp.Icon;
+
+    //        TMP_Text[] powerUpTexts = powerUpInfo.GetComponentsInChildren<TMP_Text>();
+
+    //        foreach (TMP_Text text in powerUpTexts)
+    //        {
+    //            if (text.name == "PowerUp-Name" && text != null) text.text = powerUp.UpgradeName;                 
+    //            if (text.name == "PowerUp-Description" && text != null) text.text = powerUp.UpgradeDescription;                 
+    //        }
+    //    }
+    //}
     #endregion
 }

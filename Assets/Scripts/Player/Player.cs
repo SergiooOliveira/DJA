@@ -262,6 +262,7 @@ public class Player : Character
     /// <param name="callbackContext"></param>
     public void OnOpeningSkillTree(InputAction.CallbackContext callbackContext)
     {
+        // Always updating on opening
         GameManager.Instance.UpdateSkillPoints();
 
         if (callbackContext.performed)
@@ -269,6 +270,7 @@ public class Player : Character
             Debug.Log("Opening Inventory");
             //Canvas canvas = SkillTreeManager.Instance.Canvas.GetComponent<Canvas>();
 
+            // Activate and Deactivate SkillTree Canvas
             if (SkillTreeManager.Instance.Canvas.activeSelf)
             {
                 SkillTreeManager.Instance.Canvas.SetActive(false);
