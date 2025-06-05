@@ -236,6 +236,7 @@ MonoBehaviour:
   goblin: {fileID: -6724554534600337875, guid: 7e4bf0d89d8e4b1478cdbb0c5d5ac65e, type: 3}
   orc: {fileID: -6724554534600337875, guid: 7e4bf0d89d8e4b1478cdbb0c5d5ac65e, type: 3}
   dragon: {fileID: -6724554534600337875, guid: 7e4bf0d89d8e4b1478cdbb0c5d5ac65e, type: 3}
+  fortuneWheelPrefab: {fileID: 5705163535060524544, guid: 19752e3a000b2eb4fb601aedff8d11d4, type: 3}
 --- !u!114 &635379990
 MonoBehaviour:
   m_ObjectHideFlags: 0

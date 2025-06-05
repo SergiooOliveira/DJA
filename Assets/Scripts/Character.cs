@@ -198,7 +198,7 @@ public class Character : MonoBehaviour
 
         dmgCanvas.renderMode = RenderMode.WorldSpace;
         dmgCanvas.worldCamera = Camera.main;
-        dmgCanvas.transform.SetPositionAndRotation(transform.position + new Vector3(0, 1.25f + actualDamage * .005f, 0), Quaternion.LookRotation(Camera.main.transform.forward, Vector3.up));
+        dmgCanvas.transform.SetPositionAndRotation(transform.position + new Vector3(0, 1.25f, 0), Quaternion.LookRotation(Camera.main.transform.forward, Vector3.up));
 
         GameObject dmgText = new GameObject("DamageText");
 

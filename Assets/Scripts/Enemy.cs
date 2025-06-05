@@ -70,7 +70,7 @@ public class Enemy : Character
 
         if (agent.velocity.magnitude > 0.1f)
         {
-            Quaternion lookRotation = Quaternion.LookRotation(agent.velocity.normalized);
+            Quaternion lookRotation = Quaternion.LookRotation(-agent.velocity.normalized);
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * agent.angularSpeed);
         }
 
@@ -84,7 +84,11 @@ public class Enemy : Character
 
         agent.SetDestination(transform.position);
 
-        transform.LookAt(Player.Instance.transform);
+        if (agent.velocity.magnitude > 0.1f)
+        {
+            Quaternion lookRotation = Quaternion.LookRotation(-agent.velocity.normalized);
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * agent.angularSpeed);
+        }
 
         if (!alreadyAttacked)
         {

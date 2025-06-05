@@ -8307,6 +8307,12 @@ MonoBehaviour:
   OpenItemPanel:
     m_PersistentCalls:
       m_Calls: []
+  click: {fileID: 0}
+  hitHurt: {fileID: 0}
+  powerUp: {fileID: 0}
+  clickSource: {fileID: 0}
+  hitHurtSource: {fileID: 0}
+  powerUpSource: {fileID: 0}
   agent: {fileID: -5529861636363557275}
   whatIsGround:
     serializedVersion: 2
