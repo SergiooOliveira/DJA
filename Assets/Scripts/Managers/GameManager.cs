@@ -146,6 +146,8 @@ public class GameManager : MonoBehaviour
 
             Image spriteComponent = newIcon.GetComponentInChildren<Image>();
             if (spriteComponent != null) spriteComponent.sprite = upgrade.Icon;
+
+            if (upgrade.UpgradeName.Contains("Downgrade")) spriteComponent.color = Color.red;
         }
     }
 
@@ -178,40 +180,5 @@ public class GameManager : MonoBehaviour
     {
         skillPointsText.text = "Skill Points: " + Player.Instance.skillPoints.ToString();
     }
-    #endregion
-
-    #region PowerUps
-    /// <summary>
-    /// Call this method to make the PowerUp canvas appear
-    /// </summary>
-    //public void ShowPowerUpSelector()
-    //{
-
-    //    // ----- Not beeing used -----
-
-    //    // Get the gameObject of the Transform
-    //    GameObject powerUpGameObject = powerUps.transform.gameObject;
-
-    //    powerUpGameObject.SetActive(true);
-    //    powerUps.transform.SetAsLastSibling();
-
-    //    foreach (Upgrade powerUp in Upgrades.Instance.playerPowerUp)
-    //    {
-    //        GameObject newPowerUp = Instantiate(commonPowerUpObject, powerUps);
-
-    //        Transform powerUpInfo = newPowerUp.transform.Find("PowerUp-Info");
-    //        Image spriteComponent = powerUpInfo.GetComponentInChildren<Image>();
-
-    //        if (spriteComponent != null) spriteComponent.sprite = powerUp.Icon;
-
-    //        TMP_Text[] powerUpTexts = powerUpInfo.GetComponentsInChildren<TMP_Text>();
-
-    //        foreach (TMP_Text text in powerUpTexts)
-    //        {
-    //            if (text.name == "PowerUp-Name" && text != null) text.text = powerUp.UpgradeName;                 
-    //            if (text.name == "PowerUp-Description" && text != null) text.text = powerUp.UpgradeDescription;                 
-    //        }
-    //    }
-    //}
     #endregion
 }

@@ -41,7 +41,7 @@ public class Character : MonoBehaviour
     }
     public int Strength {
         get => strength;
-        set => strength = Mathf.Max(0, value);
+        set => strength = Mathf.Max(1, value);
     }
     public int Armor {
         get => armor;
