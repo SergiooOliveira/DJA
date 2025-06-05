@@ -24,6 +24,8 @@ public class Player : Character
     [HideInInspector] public int baseLevel = 1;
     [HideInInspector] public int baseMaxXp = 100;
     [HideInInspector] public int baseXp = 0;
+
+    [HideInInspector] public int skillPoints = 0;
     #endregion
 
     #region Variables
@@ -258,6 +260,8 @@ public class Player : Character
     /// <param name="callbackContext"></param>
     public void OnOpeningSkillTree(InputAction.CallbackContext callbackContext)
     {
+        GameManager.Instance.UpdateSkillPoints();
+
         if (callbackContext.performed)
         {
             Debug.Log("Opening Inventory");

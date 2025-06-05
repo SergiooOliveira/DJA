@@ -8,13 +8,13 @@ public class SkillTreeComponent : MonoBehaviour
     public int minLevel;
     public SkillTreeComponent[] nextComponent;
 
-    //public SkillTreeComponent(bool isBought, bool isLocked, int minLevel, Transform[] next)
-    //{
-    //    this.isBought = isBought;
-    //    this.isLocked = isLocked;
-    //    this.minLevel = minLevel;
-    //    this.nextComponent = next;
-    //}
+    [Header("Buff1")]
+    public SkillTreeManager.Buffs selectedBuff1;    
+    public int buffPower1;
+
+    [Header("Buff2")]
+    public SkillTreeManager.Buffs selectedBuff2;
+    public int buffPower2;
 
     public void UnlockNext()
     {

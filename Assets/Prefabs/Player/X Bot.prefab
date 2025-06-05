@@ -1339,6 +1339,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: d55d5fc5-44ef-41b2-bb2f-ce2bd29096e5
     m_ActionName: 'Player/Inventory[/Keyboard/i]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6951022813634259221}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_MethodName: OnOpeningSkillTree
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: d2995f63-7365-4eaf-8ff4-98acdf36ac5a
+    m_ActionName: 'Player/SkillTree[/Keyboard/k]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -1384,6 +1400,12 @@ MonoBehaviour:
   OpenItemPanel:
     m_PersistentCalls:
       m_Calls: []
+  click: {fileID: 0}
+  hitHurt: {fileID: 0}
+  powerUp: {fileID: 0}
+  clickSource: {fileID: 0}
+  hitHurtSource: {fileID: 0}
+  powerUpSource: {fileID: 0}
   baseName: Player
   baseHealth: 100
   baseStrenght: 5
@@ -1403,11 +1425,6 @@ MonoBehaviour:
   - {fileID: 9139217751014765311}
   - {fileID: 7518333618124095192}
   amulet: {fileID: 5985671208179796118}
-  fortuneWheel: {fileID: 0}
-  stopSpinning: 0
-  wheelSpeed: 2500
-  wheelDeceleration: 0.98
-  wheelCurrentSpeed: 0
 --- !u!4 &1895731428089172384 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 44fd605ef6df41e4687d8628b219609b, type: 3}

@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance; // Singleton
 
     private GameObject canvas; // Main Canvas object
+    public TMP_Text skillPointsText;
 
     [Header("Upgrade Icons UI")]
     public Transform icons;
@@ -84,13 +85,16 @@ public class GameManager : MonoBehaviour
         switch (upgrade.BuffPower.Buff)
         {
             case "Health":
-                Player.Instance.Health += upgrade.BuffPower.Power;                
+                Player.Instance.Health += upgrade.BuffPower.Power;
+                Debug.Log($"Adding {upgrade.BuffPower.Power} to Health");
                 break;
             case "Strength":
-                Player.Instance.Strength += upgrade.BuffPower.Power;                
+                Player.Instance.Strength += upgrade.BuffPower.Power;
+                Debug.Log($"Adding {upgrade.BuffPower.Power} to Strength");
                 break;
             case "Armor":
-                Player.Instance.Armor += upgrade.BuffPower.Power;                
+                Player.Instance.Armor += upgrade.BuffPower.Power;
+                Debug.Log($"Adding {upgrade.BuffPower.Power} to Armor");
                 break;
             default:
                 Debug.LogError("Error applying buff");
@@ -98,6 +102,7 @@ public class GameManager : MonoBehaviour
         }
 
         UpdatePlayerStats();
+        UpdateUpgradesUI();
     }
 
     /// <summary>
@@ -161,9 +166,17 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void UpdatePlayerStats()
     {
-        PlayerHP.text = "HP: " + Player.Instance.Health.ToString();
-        PlayerStrenght.text = "Strength: " + Player.Instance.Strength.ToString();
-        PlayerArmor.text = "Armor: " + Player.Instance.Armor.ToString();
+        PlayerHP.text = Player.Instance.Health.ToString();
+        PlayerStrenght.text = Player.Instance.Strength.ToString();
+        PlayerArmor.text = Player.Instance.Armor.ToString();
+    }
+
+    /// <summary>
+    /// Call this method to update the remaining skill points in the skill tree menu
+    /// </summary>
+    public void UpdateSkillPoints()
+    {
+        skillPointsText.text = "Skill Points: " + Player.Instance.skillPoints.ToString();
     }
     #endregion
 

@@ -106,16 +106,13 @@ public class Character : MonoBehaviour
     public void LevelUp()
     {
         Player.Instance.Level++;
+        Player.Instance.skillPoints++;
         Player.Instance.MaxXp = CalculateMaxXp(Player.Instance.Level);
 
         //Debug.Log($"Player is Level = {Player.Instance.Level} with a MaxXp of {Player.Instance.MaxXp}");
-        OpenItemPanel?.Invoke();
-        powerUp.GetComponent<AudioSource>().Play();
+        //OpenItemPanel?.Invoke();
 
-        //Upgrades.Instance.playerPowerUp.Add(Upgrades.Instance.GetRandomPowerUp());
-        //Upgrades.Instance.playerPowerUp.Add(Upgrades.Instance.GetRandomPowerUp());
-        //Upgrades.Instance.playerPowerUp.Add(Upgrades.Instance.GetRandomPowerUp());
-        //GameManager.Instance.ShowPowerUpSelector();
+        powerUp.GetComponent<AudioSource>().Play();
     }
 
     /// <summary>
