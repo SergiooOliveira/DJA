@@ -11,7 +11,7 @@ public class Character : MonoBehaviour
 {
     public UnityEvent OpenItemPanel;
 
-    private readonly string enemyTag = "Enemy";
+    public readonly string enemyTag = "Enemy";
     private string characterName;
     private int health;
     private int strength;

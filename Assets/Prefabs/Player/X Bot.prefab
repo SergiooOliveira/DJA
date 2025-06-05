@@ -1234,8 +1234,8 @@ MonoBehaviour:
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 6951022813634259221}
-        m_TargetAssemblyTypeName: Character, Assembly-CSharp
-        m_MethodName: Attack
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_MethodName: OnAttack
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1413,6 +1413,7 @@ MonoBehaviour:
   baseLevel: 1
   baseMaxXp: 0
   baseXp: 0
+  skillPoints: 0
   controller: {fileID: 4983096619118593243}
   mainHand: {fileID: 6233423285811340509}
   offHand: {fileID: 2568465726202150791}

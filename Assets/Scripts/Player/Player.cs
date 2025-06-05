@@ -283,6 +283,35 @@ public class Player : Character
             }
         }
     }
+
+    public void OnAttack(InputAction.CallbackContext callbackContext)
+    {
+        if (callbackContext.started)
+        {
+            Ray ray = Camera.main.ScreenPointToRay(pos: UnityEngine.Input.mousePosition);
+
+            if (Physics.Raycast(
+                ray: ray,
+                hitInfo: out RaycastHit hit,
+                maxDistance: 2f))
+            {
+                GameObject hitted = hit.collider.transform.root.gameObject;
+
+                if (hitted.CompareTag(tag: enemyTag))
+                {
+                    Enemy rayCharacter = hitted.GetComponent<Enemy>();
+                    Debug.Log($"rayCharacter: {rayCharacter.tag}");
+                    rayCharacter.TakeDamage(Player.Instance.Strength);
+                    hitHurtSource.Play();
+                }
+                else
+                {
+                    Debug.Log($"Hitted {hit.collider.tag.ToString()}");
+                }
+            }
+            statesMachine.ChangeState(attackState);
+        }
+    }
     #endregion
 
     #region Methods
@@ -301,27 +330,53 @@ public class Player : Character
     public class PlayerAttackState : State
     {
         private readonly Player player;
-        const string punch = "boolPunch";
+        const string punch = "boolPunching";
         const string sword = "boolSword";
+        private float attackDuration = 1f; 
+        private float timer;
+
         public PlayerAttackState(StatesMachine fsm, Player player) : base(fsm)
         {
             this.player = player;
         }
+
         public override void Enter()
         {
+            timer = 0f;
+
             if (player.inventory.InventorySlots[0] != null)
             {
-                animator.SetBool(name: sword, value: true);
+                animator.SetBool(sword, true);
             }
             else
             {
-                animator.SetBool(name: punch, value: true);
+                animator.SetBool(punch, true);
+            }
+
+            Debug.Log("Attack animation started");
+        }
+
+        public override void Update(float deltaTime)
+        {
+            timer += deltaTime;
+
+            if (timer >= attackDuration)
+            {
+                if (player.moveInput.magnitude > 0)
+                {
+                    fsm.ChangeState(player.runningState);
+                }
+                else
+                {
+                    fsm.ChangeState(player.idleState);
+                }
             }
         }
+
         public override void Exit()
         {
-            animator.SetBool(name: punch, value: false);
-            animator.SetBool(name: sword, value: false);
+            animator.SetBool(punch, false);
+            animator.SetBool(sword, false);
         }
     }
 
