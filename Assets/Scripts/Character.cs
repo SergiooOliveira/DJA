@@ -101,52 +101,6 @@ public class Character : MonoBehaviour
     }
 
     /// <summary>
-    /// Call this method to Level Up
-    /// </summary>
-    public void LevelUp()
-    {
-        Player.Instance.Level++;
-        Player.Instance.skillPoints++;
-        Player.Instance.MaxXp = CalculateMaxXp(Player.Instance.Level);
-
-        //Debug.Log($"Player is Level = {Player.Instance.Level} with a MaxXp of {Player.Instance.MaxXp}");
-        //OpenItemPanel?.Invoke();
-
-        powerUp.GetComponent<AudioSource>().Play();
-    }
-
-    /// <summary>
-    /// Calculates max xp exponentially
-    /// </summary>
-    /// <param name="level">Current Level of the Player</param>
-    /// <returns></returns>
-    private int CalculateMaxXp(int level)
-    {
-        return (int)(100 * Math.Pow(1.2, level - 1));
-    }
-
-    /// <summary>
-    /// Call this method to give xp to Player
-    /// </summary>
-    /// <param name="xp">xp to add</param>
-    private void GainXp(int xp)
-    {
-        Player.Instance.Xp += xp;
-        //Debug.Log($"Player got {xp} xp ({Player.Instance.Xp})");
-
-        while (Player.Instance.Xp >= Player.Instance.MaxXp)
-        {
-            Player.Instance.Xp -= Player.Instance.MaxXp;
-            LevelUp();
-            //Debug.Log($"Player level up ({Player.Instance.Level})");
-
-            GamblingManager.Instance.StartRolling();
-        }
-
-        GameManager.Instance.UpdateLevelXP();
-    }
-
-    /// <summary>
     /// Call this method to attack
     /// </summary>
     /// <param name="callbackContext"></param>
@@ -226,8 +180,9 @@ public class Character : MonoBehaviour
     //}
 
     public void OnDeath()
-    {        
-        GainXp(50 +level *3);
+    {
+        Debug.Log($"{this.Name} died");
+        Player.Instance.GainXp(50 +level *3);
         Destroy(gameObject);
         Enemies.Instance.enemyCounter--;
 

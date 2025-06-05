@@ -166,7 +166,7 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// Call this method to Update the Player Stats
     /// </summary>
-    private void UpdatePlayerStats()
+    public void UpdatePlayerStats()
     {
         PlayerHP.text = Player.Instance.Health.ToString();
         PlayerStrenght.text = Player.Instance.Strength.ToString();

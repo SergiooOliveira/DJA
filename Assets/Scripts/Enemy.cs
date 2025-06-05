@@ -38,6 +38,14 @@ public class Enemy : Character
         if (playerInSightRange && playerInAttackRange) AttackPlayer();
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            Debug.Log($"Collided with Player");
+        }
+    }
+
     private void Patrolling()
     {
         animator.SetBool("isWalking", true);

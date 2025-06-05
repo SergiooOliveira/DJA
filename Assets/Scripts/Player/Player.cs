@@ -96,29 +96,49 @@ public class Player : Character
     }
 
     private void OnTriggerEnter(Collider other)
-    {
-        // Lock doors
-
-        //Debug.Log(message: "Triggered Spawning");
-
-        GameObject triggerParent = other.transform.parent.gameObject;
-        foreach (Transform triggers in triggerParent.transform)
+    {     
+        // Case Player triggers the room triggers
+        // If so, spawn enemies
+        if (other.name.Contains("Trigger"))
         {
-            Destroy(triggers.gameObject);
+            // Get all triggers
+            GameObject triggerParent = other.transform.parent.gameObject;
+
+            // Lock doors
+
+            // Destroy all so it doesn't spawn multiple times
+            foreach (Transform triggers in triggerParent.transform)
+            {
+                Destroy(triggers.gameObject);
+            }
+
+            // Get the current room spawnPoints
+            GameObject room = triggerParent.transform.parent.gameObject;
+            Transform spawnPoints = room.transform.Find("SpawnPoints");
+
+            // Fall safe
+            if (spawnPoints == null)
+            {
+                print("SpawnPoints null");
+                return;
+            }
+
+            // Trigger spawns
+            Enemies.Instance.StartWave(spawnPoints);
         }
-
-        // Get the current room spawnPoints
-        GameObject room = triggerParent.transform.parent.gameObject;
-        Transform spawnPoints = room.transform.Find("SpawnPoints");
-
-        if (spawnPoints == null)
+        // Case Enemies trigger an attack
+        // Player takes damage
+        else if (other.name.Contains("SWORD"))
         {
-            print("SpawnPoints null");
-            return;
-        }
+            // Get Enemy script
+            Enemy enemy = other.transform.root.gameObject.GetComponent<Enemy>();
 
-        // Trigger spawns
-        Enemies.Instance.StartWave(spawnPoints);
+            // Player takes damage
+            TakeDamage(enemy.Strength);
+
+            // Update UI
+            GameManager.Instance.UpdatePlayerStats();
+        }
     }
     #endregion
 
@@ -437,5 +457,48 @@ public class Player : Character
         }
     }
 
+    /// <summary>
+    /// Call this method to give xp to Player
+    /// </summary>
+    /// <param name="xp">xp to add</param>
+    public void GainXp(int xp)
+    {
+        Xp += xp;
+
+        while (Xp >= MaxXp)
+        {
+            Xp -= MaxXp;
+            LevelUp();
+
+            GamblingManager.Instance.StartRolling();
+        }
+
+        GameManager.Instance.UpdateLevelXP();
+    }
+
+    /// <summary>
+    /// Call this method to Level Up
+    /// </summary>
+    private void LevelUp()
+    {
+        // Player level +1 - SkillPoints +1
+        Level++;
+        skillPoints++;
+
+        // Calculate new Max Xp for Player
+        MaxXp = CalculateMaxXp(Level);
+
+        powerUp.GetComponent<AudioSource>().Play();
+    }
+
+    /// <summary>
+    /// Calculates max xp exponentially
+    /// </summary>
+    /// <param name="level">Current Level of the Player</param>
+    /// <returns></returns>
+    private int CalculateMaxXp(int level)
+    {
+        return (int)(100 * Math.Pow(1.2, level - 1));
+    }
     #endregion
 }

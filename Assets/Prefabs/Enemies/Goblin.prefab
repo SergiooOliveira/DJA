@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 690667415544525296}
   - component: {fileID: 1932169072303438596}
   - component: {fileID: 7234868030097452841}
-  - component: {fileID: 5634950084563954451}
   m_Layer: 0
   m_Name: Goblin
   m_TagString: Enemy
@@ -109,15 +108,3 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &5634950084563954451
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6606822180441615572}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41eeadd951ac98a4db267af95959dbf6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

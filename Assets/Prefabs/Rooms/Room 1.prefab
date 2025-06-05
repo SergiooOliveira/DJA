@@ -143,7 +143,7 @@ GameObject:
   - component: {fileID: 8921636257779622501}
   - component: {fileID: 46945609425841756}
   m_Layer: 0
-  m_Name: GameObject (4)
+  m_Name: Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -227,7 +227,7 @@ GameObject:
   - component: {fileID: 9025665334036530742}
   - component: {fileID: 1543380243966217644}
   m_Layer: 0
-  m_Name: GameObject (3)
+  m_Name: Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -674,7 +674,7 @@ GameObject:
   - component: {fileID: 3243520130353646313}
   - component: {fileID: 1021035288880377136}
   m_Layer: 0
-  m_Name: GameObject (1)
+  m_Name: Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1200,7 +1200,7 @@ GameObject:
   - component: {fileID: 5091542256763094903}
   - component: {fileID: 8561191582351094268}
   m_Layer: 0
-  m_Name: GameObject (2)
+  m_Name: Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4533,15 +4533,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4004747079835370064, guid: 572738c4d0599f548bfb81c7f67b7c39, type: 3}
       propertyPath: m_LocalScale.x
-      value: -0.0595232
+      value: 0.0595232
       objectReference: {fileID: 0}
     - target: {fileID: 4004747079835370064, guid: 572738c4d0599f548bfb81c7f67b7c39, type: 3}
       propertyPath: m_LocalScale.y
-      value: -0.0595232
+      value: 0.0595232
       objectReference: {fileID: 0}
     - target: {fileID: 4004747079835370064, guid: 572738c4d0599f548bfb81c7f67b7c39, type: 3}
       propertyPath: m_LocalScale.z
-      value: -0.0595232
+      value: 0.0595232
       objectReference: {fileID: 0}
     - target: {fileID: 4004747079835370064, guid: 572738c4d0599f548bfb81c7f67b7c39, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4582,6 +4582,10 @@ PrefabInstance:
     - target: {fileID: 4004747079835370064, guid: 572738c4d0599f548bfb81c7f67b7c39, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4004747079835370064, guid: 572738c4d0599f548bfb81c7f67b7c39, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9094967195158229417, guid: 572738c4d0599f548bfb81c7f67b7c39, type: 3}
       propertyPath: m_Name
