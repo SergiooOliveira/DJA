@@ -139,15 +139,6 @@ public class Enemies : MonoBehaviour
             Vector3 spawnPos = SP[enemyCounter].transform.position;
             Quaternion spawnRot = SP[enemyCounter].transform.rotation;
 
-            Enemy newEnemy = Instantiate(goblin, spawnPos, spawnRot);
-            string enemyName = "";
-            int enemyHp = 0;
-            int enemyStrength = 0;
-            int enemyArmor = 0;
-            int enemyLevel = 0;
-            int enemyXp = 0;
-            int enemyMaxXp = 0;
-
             if (enemy.Name.StartsWith("Goblin"))
             {
                 Enemy newGoblin = Instantiate(goblin, spawnPos, spawnRot);
@@ -159,37 +150,32 @@ public class Enemies : MonoBehaviour
                     newGoblinAgent.Warp(hit.position);
                     newGoblinAgent.enabled = true;
                 }
-
-                enemyName = "Goblin";
-                enemyHp = 20 + 10 * playerLevel;
-                enemyStrength = 20 + 5 * playerLevel;
-                enemyArmor = 5 + 1 * playerLevel;
-                enemyLevel = playerLevel + 1;
-                enemyXp = 10; 
-                enemyMaxXp = 0;
             }
             else if (enemy.Name.StartsWith("Orc"))
             {
-                enemyName = "Orc";
-                enemyHp = 100 + 50 * playerLevel;
-                enemyStrength = 5 + 1 * playerLevel;
-                enemyArmor = 15 + 3 * playerLevel;
-                enemyLevel = playerLevel + 2;
-                enemyXp = 30;
-                enemyMaxXp = 0;
+                Enemy newOrc = Instantiate(orc, spawnPos, spawnRot);
+
+                NavMeshAgent newOrcAgent = newOrc.GetComponent<NavMeshAgent>();
+
+                if (NavMesh.SamplePosition(spawnPos, out NavMeshHit hit, 1.0f, NavMesh.AllAreas))
+                {
+                    newOrcAgent.Warp(hit.position);
+                    newOrcAgent.enabled = true;
+                }
+
             }
             else if (enemy.Name.StartsWith("Dragon"))
             {
-                enemyName = "Dragon";
-                enemyHp = 20 + 10 * playerLevel;
-                enemyStrength = 5 + 1 * playerLevel;
-                enemyArmor = 10 + 2 * playerLevel;
-                enemyLevel = playerLevel + 5;
-                enemyXp = 500;
-                enemyMaxXp = 0;
-            }
+                Enemy newDragon = Instantiate(dragon, spawnPos, spawnRot);
 
-            newEnemy.Initialize(enemyName, enemyHp, enemyStrength, enemyArmor, enemyLevel, enemyXp, enemyMaxXp);
+                NavMeshAgent newDragonAgent = newDragon.GetComponent<NavMeshAgent>();
+
+                if (NavMesh.SamplePosition(spawnPos, out NavMeshHit hit, 1.0f, NavMesh.AllAreas))
+                {
+                    newDragonAgent.Warp(hit.position);
+                    newDragonAgent.enabled = true;
+                }
+            }
 
             enemyCounter++;
         }
