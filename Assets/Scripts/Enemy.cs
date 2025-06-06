@@ -8,7 +8,7 @@ public class Enemy : Character
 
     public LayerMask whatIsGround, whatIsPlayer;
 
-    // Patrolling
+    // Patrolling 
     public Vector3 walkPoint;
     bool walkPointSet;
     public float walkPointRange;

@@ -195,7 +195,7 @@ MonoBehaviour:
   waveCounter: 0
   SP: []
   goblin: {fileID: -6724554534600337875, guid: 7e4bf0d89d8e4b1478cdbb0c5d5ac65e, type: 3}
-  orc: {fileID: 4537635414907389767, guid: d270fd084bd1d114b80ca44a364eafe8, type: 3}
+  orc: {fileID: 2347053377714005165, guid: 7697844926639a740a8f8f1d2cc5d11d, type: 3}
   dragon: {fileID: 518261770996959124, guid: 69f34fbba8d47cd4485c35bb273343f6, type: 3}
 --- !u!114 &635379990
 MonoBehaviour:
@@ -254,7 +254,6 @@ MonoBehaviour:
   inventoryText: {fileID: 836335290}
   changeItemPanel: {fileID: 334154022}
   isPaused: 0
-  loadingPrefab: {fileID: 411043387669033973, guid: 4a062b5b19db47e45a9671427ae05d46, type: 3}
 --- !u!4 &635379993
 Transform:
   m_ObjectHideFlags: 0

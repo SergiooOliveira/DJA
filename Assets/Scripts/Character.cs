@@ -22,13 +22,13 @@ public class Character : MonoBehaviour
 
     // Sounds Effects
     [Header("Sound Effects")]
-    public GameObject click;
-    public GameObject hitHurt;
-    public GameObject powerUp;
+    [HideInInspector] public GameObject click;
+    [HideInInspector] public GameObject hitHurt;
+    [HideInInspector] public GameObject powerUp;
 
-    public AudioSource clickSource;
-    public AudioSource hitHurtSource;
-    public AudioSource powerUpSource;
+    [HideInInspector] public AudioSource clickSource;
+    [HideInInspector] public AudioSource hitHurtSource;
+    [HideInInspector] public AudioSource powerUpSource;
 
     // Variables
     public string Name {
@@ -143,8 +143,6 @@ public class Character : MonoBehaviour
         hitHurtSource.Play();
 
         GameObject canvasGameObject = new GameObject("DamageTextCanvas");
-
-        canvasGameObject.transform.SetParent(transform, true);
 
         Canvas dmgCanvas = canvasGameObject.AddComponent<Canvas>();
         CanvasScaler canvasScaler = canvasGameObject.AddComponent<CanvasScaler>();
