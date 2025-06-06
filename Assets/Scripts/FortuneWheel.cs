@@ -10,7 +10,7 @@ public class FortuneWheel : MonoBehaviour
 
     private float fortuneWheeMinSpeed = 7500f;
     private float fortuneWheelMaxSpeed = 20000f;
-    private float fortuneWheelDeceleration = 0.001f;
+    private float fortuneWheelDeceleration = 0.002f;
 
     private bool fortuneWheelStopSpinning = false;
     private bool fortuneWheelSpinned = false;
@@ -18,13 +18,6 @@ public class FortuneWheel : MonoBehaviour
     private float fortuneWheelCurrentSpeed = 0f;
     private float fortuneWheelCurrentDeceleration = 0f;
 
-    private void Start()
-    {
-        foreach (FortuneWheelUpgrade go in fortuneWheelUpgradeList)
-        {
-            go.GetComponent<Image>().sprite = go.powerUp.Icon;
-        }
-    }
 
     public void SpinWheel()
     {
@@ -45,7 +38,6 @@ public class FortuneWheel : MonoBehaviour
         {
             // Apply deceleration
             fortuneWheelCurrentSpeed -= fortuneWheelCurrentSpeed * fortuneWheelCurrentDeceleration;
-            Debug.Log("Current Speed: " + fortuneWheelCurrentSpeed + " - Deceleration: " + fortuneWheelCurrentDeceleration);
             // Rotate the wheel
             transform.Rotate(0, fortuneWheelCurrentSpeed * Time.deltaTime, 0);
             // Stop the wheel if speed is low enough
@@ -57,9 +49,8 @@ public class FortuneWheel : MonoBehaviour
         }
         else if(fortuneWheelSpinned)
         {
-            fortuneWheelStopSpinning = false;
-            fortuneWheelSpinned = false;
             GetHighestUpgradePosition();
+            Destroy(this); // Destroy the FortuneWheel script after spinning
         }
     }
 
@@ -75,16 +66,6 @@ public class FortuneWheel : MonoBehaviour
                 highestUpgrade = go;
             }
         }
-        Upgrades.Instance.playerPowerUp.Add(highestUpgrade.GetComponent<FortuneWheelUpgrade>().powerUp);
-        Debug.Log("Added PowerUp: "
-            + Upgrades.Instance.playerPowerUp[Upgrades.Instance.playerPowerUp.Count - 1].UpgradeName
-            + " - " + Upgrades.Instance.playerPowerUp[Upgrades.Instance.playerPowerUp.Count - 1].UpgradeDescription
-            + " - " + Upgrades.Instance.playerPowerUp[Upgrades.Instance.playerPowerUp.Count - 1].UpgradeType
-            + " - " + Upgrades.Instance.playerPowerUp[Upgrades.Instance.playerPowerUp.Count - 1].UpgradeCost
-            + " - " + Upgrades.Instance.playerPowerUp[Upgrades.Instance.playerPowerUp.Count - 1].Icon.name
-            + " - " + Upgrades.Instance.playerPowerUp[Upgrades.Instance.playerPowerUp.Count - 1].Weight
-            + " - Buff: " + Upgrades.Instance.playerPowerUp[Upgrades.Instance.playerPowerUp.Count - 1].BuffPower.Buff
-            + " Power: " + Upgrades.Instance.playerPowerUp[Upgrades.Instance.playerPowerUp.Count - 1].BuffPower.Power
-            + " to Player's PowerUps as PowerUp Number " + Upgrades.Instance.playerPowerUp.Count);
+        GameManager.Instance.AddStats(highestUpgrade.GetComponent<FortuneWheelUpgrade>().powerUp);
     }
 }
