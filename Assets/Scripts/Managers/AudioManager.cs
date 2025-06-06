@@ -8,14 +8,14 @@ public class AudioManager : MenuManager
     public static AudioManager Instance;
 
     [Header("Audio Sources")]
-    [SerializeField] private AudioClip[] OstsClips;
-    [SerializeField] private AudioClip[] SfxsClips;
+    private AudioClip[] OstsClips;
+    private AudioClip[] SfxsClips;
 
-    [SerializeField] private AudioSource[] OstsSource;
-    [SerializeField] private AudioSource[] SfxsSource;
+    private AudioSource[] OstsSource;
+    private AudioSource[] SfxsSource;
 
-    [SerializeField] private AudioSource currentOsts;
-    [SerializeField] private AudioSource currentSfxs;
+    private AudioSource currentOsts;
+    private AudioSource currentSfxs;
 
     private void Awake()
     {
