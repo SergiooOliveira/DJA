@@ -59,7 +59,7 @@ public class AudioManager : MenuManager
             currentOsts?.Stop();
         currentOsts = OstsSource[index];
         currentOsts.Play();
-        Debug.Log($"Playing OST: {currentOsts.name}");
+        Debug.Log($"Playing OST: {currentOsts.clip.name}");
     }
 
     public void PlaySfx(int index)
@@ -68,6 +68,6 @@ public class AudioManager : MenuManager
             currentSfxs?.Stop();
         currentSfxs = SfxsSource[index];
         currentSfxs.Play();
-        Debug.Log($"Playing SFX: {currentSfxs.name}");
+        Debug.Log($"Playing SFX: {currentSfxs.clip.name}");
     }
 }
