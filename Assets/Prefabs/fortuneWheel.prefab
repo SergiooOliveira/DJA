@@ -197,7 +197,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a1da33fa00969242a36f39a76df039a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upgradeindex: 0
+  upgradeName: Health Common Upgrade
 --- !u!1 &944776667293066859
 GameObject:
   m_ObjectHideFlags: 0
@@ -286,7 +286,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a1da33fa00969242a36f39a76df039a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upgradeindex: 1
+  upgradeName: Health Rare Upgrade
 --- !u!1 &1381651342435494987
 GameObject:
   m_ObjectHideFlags: 0
@@ -375,7 +375,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a1da33fa00969242a36f39a76df039a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upgradeindex: 5
+  upgradeName: Strength Common Upgrade
 --- !u!1 &2905787322727577133
 GameObject:
   m_ObjectHideFlags: 0
@@ -464,7 +464,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a1da33fa00969242a36f39a76df039a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upgradeindex: 10
+  upgradeName: Armor Common Upgrade
 --- !u!1 &4385611722484564660
 GameObject:
   m_ObjectHideFlags: 0
@@ -553,7 +553,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a1da33fa00969242a36f39a76df039a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upgradeindex: 11
+  upgradeName: Armor Rare Upgrade
 --- !u!1 &4430753700525961116
 GameObject:
   m_ObjectHideFlags: 0
@@ -642,7 +642,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a1da33fa00969242a36f39a76df039a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upgradeindex: 16
+  upgradeName: Armor Common Downgrade
 --- !u!1 &5035654339138583866
 GameObject:
   m_ObjectHideFlags: 0
@@ -817,7 +817,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a1da33fa00969242a36f39a76df039a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upgradeindex: 6
+  upgradeName: Strength Rare Upgrade
 --- !u!1 &7707160928576477839
 GameObject:
   m_ObjectHideFlags: 0
@@ -906,7 +906,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a1da33fa00969242a36f39a76df039a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upgradeindex: 15
+  upgradeName: Strength Common Downgrade
 --- !u!1001 &4894772689681933137
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -994,9 +994,6 @@ PrefabInstance:
       addedObject: {fileID: 5059525913828845265}
     - targetCorrespondingSourceObject: {fileID: 8164078558771037576, guid: 661fcae53119fd6469bd0a494d0ffa20, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 6720917594220753509}
-    - targetCorrespondingSourceObject: {fileID: 8164078558771037576, guid: 661fcae53119fd6469bd0a494d0ffa20, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 5594784526319011067}
   m_SourcePrefab: {fileID: 100100000, guid: 661fcae53119fd6469bd0a494d0ffa20, type: 3}
 --- !u!1 &3648227831917848281 stripped
@@ -1026,33 +1023,6 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -2432090755550338912, guid: 661fcae53119fd6469bd0a494d0ffa20, type: 3}
---- !u!54 &6720917594220753509
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3648227831917848281}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!114 &5594784526319011067
 MonoBehaviour:
   m_ObjectHideFlags: 0
