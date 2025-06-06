@@ -9,13 +9,20 @@ public class MenuManager : MonoBehaviour
 	int Width = 1920, Height = 1080;
 	FullScreenMode fullScreenMode = FullScreenMode.ExclusiveFullScreen;
 
+    private void Start()
+    {
+        AudioManager.Instance.PlayOst(0);
+    }
+
     public void StartMenu()
     {
+        AudioManager.Instance.PlayOst(0);
         SceneManager.LoadScene("StartMenu");
     }
 
     public void StartGame()
     {
+        AudioManager.Instance.PlayOst(1);
         SceneManager.LoadScene("RoomTest");
     }
 

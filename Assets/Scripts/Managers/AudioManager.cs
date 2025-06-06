@@ -1,32 +1,73 @@
 using System;
+using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
 
 public class AudioManager : MenuManager
 {
-    [SerializeField] private AudioSource currenctAudioSource;
-    [SerializeField] private AudioSource[] audioSourceArray;
-    public TextMeshProUGUI TextMeshProUGUI;
+    public static AudioManager Instance;
 
-    public void Awake()
+    [Header("Audio Sources")]
+    [SerializeField] private AudioClip[] OstsClips;
+    [SerializeField] private AudioClip[] SfxsClips;
+
+    [SerializeField] private AudioSource[] OstsSource;
+    [SerializeField] private AudioSource[] SfxsSource;
+
+    [SerializeField] private AudioSource currentOsts;
+    [SerializeField] private AudioSource currentSfxs;
+
+    private void Awake()
     {
-        currenctAudioSource = (audioSourceArray[0]);
-        SetCurrenctAudioSource(audioSourceArray[1]);
-        TextMeshProUGUI.text = (currenctAudioSource.volume * 100).ToString("000");
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+
     }
 
-    public void OnValueChangedAudioSlider(float value)
+    private void Start()
     {
-        currenctAudioSource.volume = (float)Math.Round(value, 2);
-        TextMeshProUGUI.text = (currenctAudioSource.volume * 100).ToString("000");
+        OstsClips = Resources.LoadAll<AudioClip>("Ost");
+        SfxsClips = Resources.LoadAll<AudioClip>("Sfx");
+
+        OstsSource = new AudioSource[OstsClips.Length];
+        SfxsSource = new AudioSource[SfxsClips.Length];
+
+        for (int i = 0; i < OstsClips.Length; i++)
+        {
+            OstsSource[i] = gameObject.AddComponent<AudioSource>();
+            OstsSource[i].clip = OstsClips[i];
+            OstsSource[i].loop = true;
+        }
+        for (int i = 0; i < SfxsClips.Length; i++)
+        {
+            SfxsSource[i] = gameObject.AddComponent<AudioSource>();
+            SfxsSource[i].clip = SfxsClips[i];
+            SfxsSource[i].loop = false;
+        }
     }
 
-    public void SetCurrenctAudioSource(AudioSource audioSource)
+    public void PlayOst(int index)
     {
-        float audioVolume = (audioSource != null) ? currenctAudioSource.volume : 1;
-        currenctAudioSource = audioSource;
-        audioSource.volume = audioVolume;
+        if (currentOsts && currentOsts.isPlaying)
+            currentOsts?.Stop();
+        currentOsts = OstsSource[index];
+        currentOsts.Play();
+        Debug.Log($"Playing OST: {currentOsts.name}");
+    }
 
-        currenctAudioSource.Play();
+    public void PlaySfx(int index)
+    {
+        if (currentSfxs && currentSfxs.isPlaying)
+            currentSfxs?.Stop();
+        currentSfxs = SfxsSource[index];
+        currentSfxs.Play();
+        Debug.Log($"Playing SFX: {currentSfxs.name}");
     }
 }
