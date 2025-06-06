@@ -152,12 +152,12 @@ public class Enemies : MonoBehaviour
             else if (enemy.Name.StartsWith("Orc"))
             {
                 newEnemy = Instantiate(orc, spawnPos, spawnRot);
-                newEnemy.Initialize("Orc", 100 + 20 * playerLevel, 5 + 1 * playerLevel, 3 + 1 * playerLevel, playerLevel + 2, 30, 0);
+                newEnemy.Initialize("Orc", 40 + 8 * playerLevel, 10 + 1 * playerLevel, 3 + 1 * playerLevel, playerLevel + 2, 30, 0);
             }
             else if (enemy.Name.StartsWith("Dragon"))
             {
                 newEnemy = Instantiate(dragon, spawnPos, spawnRot);
-                newEnemy.Initialize("Dragon", 20 + 4 * playerLevel, 20 + 2 * playerLevel, 1 * playerLevel, playerLevel + 5, 500, 0);
+                newEnemy.Initialize("Dragon", 60 + 12 * playerLevel, 30 + 3 * playerLevel, 3 + 2 * playerLevel, playerLevel + 3, 500, 0);
             }
 
             if (newEnemy != null)
