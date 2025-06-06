@@ -254,6 +254,7 @@ MonoBehaviour:
   inventoryText: {fileID: 836335290}
   changeItemPanel: {fileID: 334154022}
   isPaused: 0
+  loadingPrefab: {fileID: 411043387669033973, guid: 4a062b5b19db47e45a9671427ae05d46, type: 3}
 --- !u!4 &635379993
 Transform:
   m_ObjectHideFlags: 0

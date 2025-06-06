@@ -8,53 +8,26 @@ public class MenuManager : MonoBehaviour
 {
 	int Width = 1920, Height = 1080;
 	FullScreenMode fullScreenMode = FullScreenMode.ExclusiveFullScreen;
-    [SerializeField] private GameObject loadingPrefab;
 
-    private GameObject loadingPanel;
-
-	void Awake()
+    public void StartMenu()
     {
-        loadingPanel = Instantiate(loadingPrefab, transform);
-	}
-
-    public async void StartMenu()
-    {
-        await SceneChanger("StartMenu");
+        SceneManager.LoadScene("StartMenu");
     }
 
-    public async void StartGame()
+    public void StartGame()
     {
-        await SceneChanger("RoomTest");
+        SceneManager.LoadScene("RoomTest");
     }
 
-    public async void CallOptionsMenu()
+    public void CallOptionsMenu()
     {
-        await SceneChanger("OptionsMenu");
+        SceneManager.LoadScene("OptionsMenu");
     }
 
     public void ExitGame()
 	{
 		Application.Quit();
 	}
-
-    private async Task SceneChanger(string scene)
-    {
-        Animator anim = loadingPanel.GetComponent<Animator>();
-
-        // Play the loading animation
-        anim.Play("LoadingAnimation");
-
-        // Wait until the state is actually active
-        while (!anim.GetCurrentAnimatorStateInfo(0).IsName("LoadingAnimation"))
-            await Task.Yield();
-
-        // Wait until animation has completed one full cycle
-        while (anim.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f)
-            await Task.Yield();
-
-        // Now change the scene
-        SceneManager.LoadScene(scene);
-    }
 
     public void OnValueChangedResolutionDropdown(int value)
     {
