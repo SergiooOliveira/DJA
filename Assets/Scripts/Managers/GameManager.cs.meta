@@ -3,7 +3,24 @@ guid: 8a72cdd8218b96b4c953a0d79173990b
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - gameOverCanvas: {instanceID: 0}
+  - skillPointsText: {instanceID: 0}
+  - icons: {instanceID: 0}
+  - upgradeObject: {instanceID: 0}
+  - powerUps: {instanceID: 0}
+  - commonPowerUpObject: {instanceID: 0}
+  - level: {instanceID: 0}
+  - xp: {instanceID: 0}
+  - xpMax: {instanceID: 0}
+  - xpSlider: {instanceID: 0}
+  - PlayerHP: {instanceID: 0}
+  - PlayerStrenght: {instanceID: 0}
+  - PlayerArmor: {instanceID: 0}
+  - inventoryPanel: {instanceID: 0}
+  - inventoryText: {instanceID: 0}
+  - changeItemPanel: {instanceID: 0}
+  - loadingPrefab: {fileID: 411043387669033973, guid: 4a062b5b19db47e45a9671427ae05d46, type: 3}
   executionOrder: 200
   icon: {instanceID: 0}
   userData: 
