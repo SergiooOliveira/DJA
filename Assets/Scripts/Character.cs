@@ -117,8 +117,8 @@ public class Character : MonoBehaviour
         canvasGameObject.transform.SetParent(transform, true);
 
         Canvas dmgCanvas = canvasGameObject.AddComponent<Canvas>();
-        CanvasScaler canvasScaler = canvasGameObject.AddComponent<CanvasScaler>();
-        GraphicRaycaster graphicRaycaster = canvasGameObject.AddComponent<GraphicRaycaster>();
+        canvasGameObject.AddComponent<CanvasScaler>();
+        canvasGameObject.AddComponent<GraphicRaycaster>();
 
         dmgCanvas.renderMode = RenderMode.WorldSpace;
         dmgCanvas.worldCamera = Camera.main;
@@ -128,8 +128,8 @@ public class Character : MonoBehaviour
 
         dmgText.transform.SetParent(dmgCanvas.transform, false);
 
-        RectTransform textRect = dmgText.AddComponent<RectTransform>();
-        MeshRenderer textRenderer = dmgText.AddComponent<MeshRenderer>();
+        dmgText.AddComponent<RectTransform>();
+        dmgText.AddComponent<MeshRenderer>();
         TextMeshPro textMeshPro = dmgText.AddComponent<TextMeshPro>();
 
         textMeshPro.text = $"-{actualDamage}";

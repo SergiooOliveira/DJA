@@ -68,6 +68,5 @@ public class AudioManager : MenuManager
             currentSfxs?.Stop();
         currentSfxs = SfxsSource[index];
         currentSfxs.Play();
-        Debug.Log($"Playing SFX: {currentSfxs.clip.name}");
     }
 }

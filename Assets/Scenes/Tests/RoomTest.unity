@@ -197,6 +197,7 @@ MonoBehaviour:
   goblin: {fileID: -6724554534600337875, guid: 7e4bf0d89d8e4b1478cdbb0c5d5ac65e, type: 3}
   orc: {fileID: 4537635414907389767, guid: d270fd084bd1d114b80ca44a364eafe8, type: 3}
   dragon: {fileID: 518261770996959124, guid: 69f34fbba8d47cd4485c35bb273343f6, type: 3}
+  fortuneWheelPrefab: {fileID: 5705163535060524544, guid: 19752e3a000b2eb4fb601aedff8d11d4, type: 3}
 --- !u!114 &635379990
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -964,12 +965,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 513877cfe7b209b49b9caca43fb2612a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OstsClips: []
-  SfxsClips: []
-  OstsSource: []
-  SfxsSource: []
-  currentOsts: {fileID: 0}
-  currentSfxs: {fileID: 0}
 --- !u!4 &1015698596
 Transform:
   m_ObjectHideFlags: 0
