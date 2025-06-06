@@ -181,16 +181,31 @@ public class Character : MonoBehaviour
 
     public void OnDeath()
     {
-        Debug.Log($"{this.Name} died");
-        Player.Instance.GainXp(50 +level *3);
-        Destroy(gameObject);
-        Enemies.Instance.enemyCounter--;
-
-        if (Enemies.Instance.enemyCounter == 0)
+        // In case Player kills
+        if (!gameObject.CompareTag("Player"))
         {
-            Debug.Log("Starting new wave");
-            Enemies.Instance.waveCounter++;
-            Enemies.Instance.CreateWave();
+            Player.Instance.GainXp(50 + level * 3);
+            Destroy(gameObject);
+            Enemies.Instance.enemyCounter--;
+
+            if (Enemies.Instance.enemyCounter == 0)
+            {
+                Debug.Log("Starting new wave");
+                Enemies.Instance.waveCounter++;
+                Enemies.Instance.CreateWave();
+            }
         }
+        else if (gameObject.CompareTag("Player"))
+        {            
+            // GameOver screen
+            GameManager.Instance.GameOver();
+
+            Invoke("InvokePause", 0.8f);
+        }        
+    }
+
+    private void InvokePause()
+    {
+        GameManager.Instance.TogglePause();
     }
 }

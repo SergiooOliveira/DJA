@@ -294,12 +294,12 @@ public class Player : Character
             if (SkillTreeManager.Instance.Canvas.activeSelf)
             {
                 SkillTreeManager.Instance.Canvas.SetActive(false);
-                GameManager.Instance.TogglePause(false);
+                GameManager.Instance.TogglePause();
             }
             else
             {
                 SkillTreeManager.Instance.Canvas.SetActive(true);
-                GameManager.Instance.TogglePause(true);
+                GameManager.Instance.TogglePause();
             }
         }
     }

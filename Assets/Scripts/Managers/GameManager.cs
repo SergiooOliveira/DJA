@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -8,6 +9,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance; // Singleton
 
     private GameObject canvas; // Main Canvas object
+    public GameObject gameOverCanvas;
     public TMP_Text skillPointsText;
 
     [Header("Upgrade Icons UI")]
@@ -61,7 +63,8 @@ public class GameManager : MonoBehaviour
         UpdatePlayerStats();
 
         canvas = powerUps.transform.parent.gameObject;
-        isPaused = false;
+        isPaused = true;
+        TogglePause();
 
         // Enemies.Instance.StartWave();
     }
@@ -118,12 +121,45 @@ public class GameManager : MonoBehaviour
     /// Call this method to pause the game
     /// </summary>
     /// <param name="pause"></param>
-    public void TogglePause(bool pause)
+    public void TogglePause()
     {
-        isPaused = pause;
+        isPaused = !isPaused;
         Time.timeScale = isPaused ? 0 : 1;
         Cursor.lockState = isPaused ? CursorLockMode.None : CursorLockMode.Locked;
         Cursor.visible = isPaused;
+    }
+
+    /// <summary>
+    /// Call this method to make the gameOver canvas appear
+    /// </summary>
+    public void GameOver()
+    {
+        gameOverCanvas.SetActive(true);
+
+        Animator animator = gameOverCanvas.GetComponent<Animator>();
+        animator.SetBool("playerDied", true);
+
+        animator.Play("GameOver");
+
+        animator.SetBool("animationPlayed", true);
+    }
+
+    /// <summary>
+    /// Call this method to retry the run again
+    /// </summary>
+    public void Retry()
+    {
+        // Restart the run
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
+    }
+
+    /// <summary>
+    /// Call this method to go back to main menu
+    /// </summary>
+    public void GoBack()
+    {
+        // Call main menu
+        SceneManager.LoadScene("StartMenu", LoadSceneMode.Single);
     }
     #endregion
 
