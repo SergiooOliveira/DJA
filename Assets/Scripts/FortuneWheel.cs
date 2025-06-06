@@ -11,9 +11,9 @@ public class FortuneWheel : MonoBehaviour
     [SerializeField] private Transform topPointer;
 
     [Header("Fortune Wheel Settings")]
-    private float fortuneWheeMinSpeed = 7500f;
-    private float fortuneWheelMaxSpeed = 20000f;
-    private float fortuneWheelDeceleration = 0.002f;
+    private float fortuneWheeMinSpeed = 500f;
+    private float fortuneWheelMaxSpeed = 1500f;
+    private float fortuneWheelDeceleration = 0.005f;
 
     private bool fortuneWheelStopSpinning = false;
     private bool fortuneWheelSpinned = false;
@@ -38,7 +38,7 @@ public class FortuneWheel : MonoBehaviour
             // Rotate the wheel
             transform.Rotate(0, fortuneWheelCurrentSpeed * Time.deltaTime, 0);
             // Stop the wheel if speed is low enough
-            if (fortuneWheelCurrentSpeed < 2f)
+            if (fortuneWheelCurrentSpeed < 5f)
             {
                 fortuneWheelCurrentSpeed = 0f;
                 fortuneWheelCurrentDeceleration = 0f;
