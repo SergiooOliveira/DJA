@@ -20,7 +20,7 @@ public class Enemies : MonoBehaviour
     public Enemy orc;
     public Enemy dragon;
 
-    public GameObject fortuneWheelPrefab;
+    [SerializeField] private GameObject fortuneWheelPrefab;
 
     int playerLevel;
 
@@ -84,8 +84,10 @@ public class Enemies : MonoBehaviour
                 AddToWave(dragon, 1);
                 break;
             case 3:
-                Instantiate(fortuneWheelPrefab);
-                Debug.LogWarning("Fortune Wheel spawned!");
+                GameObject fortuneWheelClone = Instantiate(fortuneWheelPrefab, SP[0].transform);
+                // fortuneWheelClone.transform.parent = SP[0].transform;
+                fortuneWheelClone.transform.position = new Vector3(0, 1, 0);
+                Debug.Log("Fortune Wheel spawned!");
                 break;
         }
 
