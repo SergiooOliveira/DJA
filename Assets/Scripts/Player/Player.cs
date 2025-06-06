@@ -164,7 +164,8 @@ public class Player : Character
                 {
                     if (hit.collider.CompareTag(tag: doorTag))
                     {
-                        hit.transform.rotation = new Quaternion(x: 0, y: 120, z: 0, w: 0);
+                        hit.collider.gameObject.GetComponent<Animator>()?.SetTrigger("OpenDoor");
+                        hit.collider.tag = "Untagged"; // Change tag to avoid multiple interactions
                         hit.collider.gameObject.GetComponent<MeshRenderer>().material.SetColor(name: "_Color", value: Color.black);
                         AudioManager.Instance.PlaySfx(0);
                     }

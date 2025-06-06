@@ -20,6 +20,8 @@ public class Enemies : MonoBehaviour
     public Enemy orc;
     public Enemy dragon;
 
+    public GameObject fortuneWheelPrefab;
+
     int playerLevel;
 
     private void Awake()
@@ -80,6 +82,10 @@ public class Enemies : MonoBehaviour
                 break;
             case 2:
                 AddToWave(dragon, 1);
+                break;
+            case 3:
+                Instantiate(fortuneWheelPrefab);
+                Debug.LogWarning("Fortune Wheel spawned!");
                 break;
         }
 
