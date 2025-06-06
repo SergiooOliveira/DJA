@@ -6946,6 +6946,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5594784526319011067, guid: 19752e3a000b2eb4fb601aedff8d11d4, type: 3}
+      propertyPath: powerUpsCanvas
+      value: 
+      objectReference: {fileID: 7462786857825331810}
     - target: {fileID: 5705163535060524544, guid: 19752e3a000b2eb4fb601aedff8d11d4, type: 3}
       propertyPath: m_Name
       value: fortuneWheel
@@ -6958,6 +6962,11 @@ PrefabInstance:
 --- !u!4 &2984029207179435321 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4928909067163468986, guid: 19752e3a000b2eb4fb601aedff8d11d4, type: 3}
+  m_PrefabInstance: {fileID: 7858331024104167811}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7462786857825331810 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 765404635426517985, guid: 19752e3a000b2eb4fb601aedff8d11d4, type: 3}
   m_PrefabInstance: {fileID: 7858331024104167811}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8018542879763440218

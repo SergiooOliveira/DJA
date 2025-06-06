@@ -80,8 +80,7 @@ public class SkillTreeManager : MonoBehaviour
         if (upgrade1 != null)
         {
             Debug.Log(upgrade1.ToString());
-            Upgrades.Instance.playerUpgrades.Add(upgrade1);
-            GameManager.Instance.AddStats(upgrade1);
+            GameManager.Instance.AddUpgrade(upgrade1);
             upgradeSuccessful = true;
         }
 
@@ -89,8 +88,7 @@ public class SkillTreeManager : MonoBehaviour
         if (upgrade2 != null)
         {
             Debug.Log(upgrade2.ToString());
-            Upgrades.Instance.playerUpgrades.Add(upgrade2);
-            GameManager.Instance.AddStats(upgrade2);
+            GameManager.Instance.AddUpgrade(upgrade2);
         }
 
         // Case everything was successful deduct Player skill points and update UI

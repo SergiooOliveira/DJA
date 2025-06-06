@@ -83,8 +83,10 @@ public class GameManager : MonoBehaviour
     ///  Call this method to add an upgrade to Player
     /// </summary>
     /// <param name="upgrade">Upgrade object</param>
-    public void AddStats(Upgrade upgrade)
+    public void AddUpgrade(Upgrade upgrade)
     {
+        Upgrades.Instance.playerUpgrades.Add(upgrade);
+
         switch (upgrade.BuffPower.Buff)
         {
             case "Health":

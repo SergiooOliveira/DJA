@@ -34,11 +34,8 @@ public class GamblingManager : MonoBehaviour
         // Get a random Upgrade
         Upgrade randomUpgrade = Upgrades.Instance.GetRandomUpgrade();
 
-        // Add upgrade on playerUpgrades List (Only for visual purposes right now)
-        Upgrades.Instance.playerUpgrades.Add(randomUpgrade);
-
         // Add stats to the player
-        GameManager.Instance.AddStats(randomUpgrade);
+        GameManager.Instance.AddUpgrade(randomUpgrade);
 
         // Show Player Upgrades UI
         GameManager.Instance.UpdateUpgradesUI();

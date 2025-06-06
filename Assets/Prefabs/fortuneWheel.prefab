@@ -197,7 +197,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a1da33fa00969242a36f39a76df039a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upgradeName: Health Common Upgrade
 --- !u!1 &944776667293066859
 GameObject:
   m_ObjectHideFlags: 0
@@ -286,7 +285,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a1da33fa00969242a36f39a76df039a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upgradeName: Health Rare Upgrade
 --- !u!1 &1381651342435494987
 GameObject:
   m_ObjectHideFlags: 0
@@ -375,7 +373,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a1da33fa00969242a36f39a76df039a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upgradeName: Strength Common Upgrade
 --- !u!1 &2905787322727577133
 GameObject:
   m_ObjectHideFlags: 0
@@ -464,7 +461,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a1da33fa00969242a36f39a76df039a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upgradeName: Armor Common Upgrade
 --- !u!1 &4385611722484564660
 GameObject:
   m_ObjectHideFlags: 0
@@ -553,7 +549,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a1da33fa00969242a36f39a76df039a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upgradeName: Armor Rare Upgrade
 --- !u!1 &4430753700525961116
 GameObject:
   m_ObjectHideFlags: 0
@@ -642,7 +637,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a1da33fa00969242a36f39a76df039a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upgradeName: Armor Common Downgrade
 --- !u!1 &5035654339138583866
 GameObject:
   m_ObjectHideFlags: 0
@@ -817,7 +811,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a1da33fa00969242a36f39a76df039a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upgradeName: Strength Rare Upgrade
 --- !u!1 &7707160928576477839
 GameObject:
   m_ObjectHideFlags: 0
@@ -906,7 +899,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a1da33fa00969242a36f39a76df039a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upgradeName: Strength Common Downgrade
 --- !u!1001 &4894772689681933137
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -921,19 +913,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 661fcae53119fd6469bd0a494d0ffa20, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 661fcae53119fd6469bd0a494d0ffa20, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 661fcae53119fd6469bd0a494d0ffa20, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7071068
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 661fcae53119fd6469bd0a494d0ffa20, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.7071068
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 661fcae53119fd6469bd0a494d0ffa20, type: 3}
       propertyPath: m_LocalRotation.y
@@ -945,7 +937,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 661fcae53119fd6469bd0a494d0ffa20, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: -90
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 661fcae53119fd6469bd0a494d0ffa20, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
@@ -1035,15 +1027,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e335845f048cfe499d1bc2af5e30807, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fortuneWheelUpgradeList:
-  - {fileID: 6390996675154064688}
-  - {fileID: 3983881535842888521}
-  - {fileID: 7514564088664480565}
-  - {fileID: 8163792390557310447}
-  - {fileID: 5988902813609605957}
-  - {fileID: 8250869005029263871}
-  - {fileID: 1188618133196178236}
-  - {fileID: 8613027768743486241}
+  powerUpsCanvas: {fileID: 765404635426517985}
+  topPointer: {fileID: 1794391872462451200}
 --- !u!4 &4928909067163468986 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 661fcae53119fd6469bd0a494d0ffa20, type: 3}

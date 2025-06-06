@@ -103,23 +103,19 @@ public class Upgrades : MonoBehaviour
     /// </summary>
     public Upgrade GetRandomUpgrade()
     {
-        var filteredUpgrades = upgradeList.Where(u => u.UpgradeType != "Downgrade").ToList();
-
-        float totalWeight = filteredUpgrades.Sum(u => u.Weight);
+        float totalWeight = upgradeList.Sum(u => u.Weight);
         float randomValue = Random.Range(0, totalWeight);
 
         float cumulativeWeight = 0f;
-        foreach (var upgrade in filteredUpgrades)
+        foreach (Upgrade upgrade in upgradeList)
         {
             cumulativeWeight += upgrade.Weight;
             if (randomValue < cumulativeWeight)
                 return upgrade;
         }
 
-        return filteredUpgrades[0]; // Fallback
+        return upgradeList[0]; // Fallback
     }
-
-
     #endregion
 
     #region PowerUps Methods
