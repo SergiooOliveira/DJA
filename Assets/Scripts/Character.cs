@@ -20,16 +20,6 @@ public class Character : MonoBehaviour
     private int xp;
     private int maxXp;
 
-    // Sounds Effects
-    [Header("Sound Effects")]
-    public GameObject click;
-    public GameObject hitHurt;
-    public GameObject powerUp;
-
-    public AudioSource clickSource;
-    public AudioSource hitHurtSource;
-    public AudioSource powerUpSource;
-
     // Variables
     public string Name {
         get => characterName; 
@@ -78,26 +68,6 @@ public class Character : MonoBehaviour
         this.Level = level;
         this.Xp = xp;
         this.MaxXp = maxXp;
-
-        click = new GameObject("ClickSound");
-        hitHurt = new GameObject("HitHurtSound");
-        powerUp = new GameObject("PowerUpSound");
-
-        click.transform.SetParent(this.transform);
-        hitHurt.transform.SetParent(this.transform);
-        powerUp.transform.SetParent(this.transform);
-
-        clickSource = click.AddComponent<AudioSource>();
-        hitHurtSource = hitHurt.AddComponent<AudioSource>();
-        powerUpSource = powerUp.AddComponent<AudioSource>();
-
-        clickSource.clip = Resources.Load<AudioClip>("Sfx/click");
-        hitHurtSource.clip = Resources.Load<AudioClip>("Sfx/hitHurt");
-        powerUpSource.clip = Resources.Load<AudioClip>("Sfx/powerUp");
-
-        clickSource.playOnAwake = false;
-        hitHurtSource.playOnAwake = false;
-        powerUpSource.playOnAwake = false;
     }
 
     /// <summary>
@@ -122,7 +92,7 @@ public class Character : MonoBehaviour
                     Enemy rayCharacter = hitted.GetComponent<Enemy>();
                     Debug.Log($"rayCharacter: {rayCharacter.tag}");
                     rayCharacter.TakeDamage(Player.Instance.Strength);
-                    hitHurtSource.Play();
+                    AudioManager.Instance.PlaySfx(0); // Assuming 0 is the index for attack sound
                 }
                 else
                 {
@@ -140,7 +110,7 @@ public class Character : MonoBehaviour
 
         Health -= actualDamage;
         Debug.Log($"{Name} took {actualDamage} damage. Current health: {Health}");
-        hitHurtSource.Play();
+        AudioManager.Instance.PlaySfx(1);
 
         GameObject canvasGameObject = new GameObject("DamageTextCanvas");
 
