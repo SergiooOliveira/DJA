@@ -126,19 +126,13 @@ MonoBehaviour:
   OpenItemPanel:
     m_PersistentCalls:
       m_Calls: []
-  click: {fileID: 0}
-  hitHurt: {fileID: 0}
-  powerUp: {fileID: 0}
-  clickSource: {fileID: 0}
-  hitHurtSource: {fileID: 0}
-  powerUpSource: {fileID: 0}
   agent: {fileID: 0}
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   whatIsPlayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   walkPoint: {x: 0, y: 0, z: 0}
   walkPointRange: 0
   timeBetweenAttacks: 0

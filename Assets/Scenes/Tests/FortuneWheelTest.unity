@@ -157,6 +157,7 @@ MonoBehaviour:
   goblin: {fileID: -6724554534600337875, guid: 7e4bf0d89d8e4b1478cdbb0c5d5ac65e, type: 3}
   orc: {fileID: -6724554534600337875, guid: 7e4bf0d89d8e4b1478cdbb0c5d5ac65e, type: 3}
   dragon: {fileID: -6724554534600337875, guid: 7e4bf0d89d8e4b1478cdbb0c5d5ac65e, type: 3}
+  fortuneWheelPrefab: {fileID: 0}
 --- !u!114 &159105057
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -197,6 +198,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a72cdd8218b96b4c953a0d79173990b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameOverCanvas: {fileID: 0}
+  skillPointsText: {fileID: 0}
   icons: {fileID: 0}
   upgradeObject: {fileID: 8453266158104590310, guid: 5fde52521bf7e014f85c03aab6625d97, type: 3}
   powerUps: {fileID: 0}
@@ -285,6 +288,7 @@ GameObject:
   m_Component:
   - component: {fileID: 999910586}
   - component: {fileID: 999910585}
+  - component: {fileID: 999910587}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -372,6 +376,29 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &999910587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 999910584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_RenderingLayers: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_ShadowRenderingLayers: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
 --- !u!1001 &1364092800
 PrefabInstance:
   m_ObjectHideFlags: 0

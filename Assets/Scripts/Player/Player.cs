@@ -134,7 +134,7 @@ public class Player : Character
             Enemy enemy = other.transform.root.gameObject.GetComponent<Enemy>();
 
             // Player takes damage
-            TakeDamage(enemy.Strength);
+            TakeDamage(enemy.Strength, "");
 
             // Update UI
             GameManager.Instance.UpdatePlayerStats();

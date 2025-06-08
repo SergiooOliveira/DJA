@@ -80,13 +80,16 @@ public class FortuneWheel : MonoBehaviour
 
         Transform topSegment = null;
         float maxDot = float.MinValue;
+		float mindistance = float.MaxValue;
 
         foreach (Transform segment in powerUpsCanvas.transform)
         {
             Vector3 dirToSegment = (segment.position - canvasCenter).normalized;
             float dot = Vector3.Dot(topDirection.normalized, dirToSegment);
+			float distance = Mathf.Abs(Mathf.Abs(segment.transform.position.x) - Mathf.Abs(topPointer.position.x));
+            Debug.Log($"Segment: {segment.GetComponent<FortuneWheelUpgrade>().name}, x: {segment.transform.position.x})");
 
-            if (dot > maxDot)
+            if (dot > maxDot && distance < mindistance)
             {
                 maxDot = dot;
                 topSegment = segment;

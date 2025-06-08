@@ -91,7 +91,8 @@ public class Character : MonoBehaviour
                 {
                     Enemy rayCharacter = hitted.GetComponent<Enemy>();
                     Debug.Log($"rayCharacter: {rayCharacter.tag}");
-                    rayCharacter.TakeDamage(Player.Instance.Strength);
+                    Debug.Log($"rayCharacter: {rayCharacter.name}");
+                    rayCharacter.TakeDamage(Player.Instance.Strength, rayCharacter.name);
                     AudioManager.Instance.PlaySfx(0); // Assuming 0 is the index for attack sound
                 }
                 else
@@ -102,7 +103,7 @@ public class Character : MonoBehaviour
         }
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, string enemytype)
     {
         int actualDamage = damage - Armor;
 
@@ -113,7 +114,6 @@ public class Character : MonoBehaviour
         AudioManager.Instance.PlaySfx(1);
 
         GameObject canvasGameObject = new GameObject("DamageTextCanvas");
-
         canvasGameObject.transform.SetParent(transform, true);
 
         Canvas dmgCanvas = canvasGameObject.AddComponent<Canvas>();
@@ -122,7 +122,12 @@ public class Character : MonoBehaviour
 
         dmgCanvas.renderMode = RenderMode.WorldSpace;
         dmgCanvas.worldCamera = Camera.main;
-        dmgCanvas.transform.SetPositionAndRotation(transform.position + new Vector3(0, 1.25f, 0), Quaternion.LookRotation(Camera.main.transform.forward, Vector3.up));
+
+        float position = 1.25f;
+        if(enemytype.Contains("Orc"))
+            position = 2.25f;
+
+        dmgCanvas.transform.SetPositionAndRotation(transform.position + new Vector3(0, position, 0), Quaternion.LookRotation(Camera.main.transform.forward, Vector3.up));
 
         GameObject dmgText = new GameObject("DamageText");
 
@@ -130,6 +135,7 @@ public class Character : MonoBehaviour
 
         dmgText.AddComponent<RectTransform>();
         dmgText.AddComponent<MeshRenderer>();
+
         TextMeshPro textMeshPro = dmgText.AddComponent<TextMeshPro>();
 
         textMeshPro.text = $"-{actualDamage}";
